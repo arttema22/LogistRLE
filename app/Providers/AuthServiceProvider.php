@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('is-driver', function () {
-            return Auth::user()->role_id === 2;
+            return Auth::user()->role_id == 2;
         });
     }
 }
