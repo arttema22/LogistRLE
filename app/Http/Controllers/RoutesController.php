@@ -82,7 +82,6 @@ class RoutesController extends Controller
                 'date-route' => 'required|date',
                 'type-truck' => 'required|numeric|not_in:0',
                 'cargo' => 'required|numeric|min:0|not_in:0',
-                'payer' => 'required|numeric|min:0|not_in:0',
                 'number-trips' => 'required|numeric',
             ]);
         } else {
@@ -91,11 +90,34 @@ class RoutesController extends Controller
                 'driver-id' => 'required|numeric|min:0|not_in:0',
                 'type-truck' => 'required|numeric|not_in:0',
                 'cargo' => 'required|numeric|min:0|not_in:0',
-                'payer' => 'required|numeric|min:0|not_in:0',
                 'number-trips' => 'required|numeric',
             ]);
         }
-
+        if ($request->input('new-payer') != null) {
+            $valid = $request->validate(['new-payer' => 'unique:dir_payers,title']);
+            $Payer = new DirPayers();
+            $Payer->title = $request->input('new-payer');
+            $Payer->save();
+            $valPayer = $Payer->id;
+        } else {
+            $valid = $request->validate(['payer' => 'required|numeric|min:0|not_in:0']);
+            $valPayer = $request->input('payer');
+        }
+        if ($request->input('address-loading') != null) {
+            $valid = $request->validate([
+                'address-loading' => 'required',
+                'address-unloading' => 'required',
+                'route-length' => 'required',
+            ]);
+            // Записываем новый маршрут
+            $RouteBill = new RouteBilling();
+            $RouteBill->start = $request->input('address-loading');
+            $RouteBill->finish = $request->input('address-unloading');
+            $RouteBill->length = $request->input('route-length');
+            $RouteBill->save();
+        } else {
+            $valid = $request->validate(['route-billing' => 'required|numeric|min:0|not_in:0']);
+        }
         // создание модели данных
         $Route = new Routes();
         // заполнение модели данными из формы
@@ -108,33 +130,23 @@ class RoutesController extends Controller
         /* возможно получение отрицательного значения
          * перевод отрицательного значения в положительное
          */
-        $val = $request->input('type-truck');
-        if ($val < 0) {
-            $val = gmp_strval(gmp_neg($val));
+        $val_type_truck = $request->input('type-truck');
+        if ($val_type_truck < 0) {
+            $val_type_truck = gmp_strval(gmp_neg($val_type_truck));
         }
-        $Route->dir_type_trucks_id = $val;
+        $Route->dir_type_trucks_id = $val_type_truck;
         $Route->cargo_id = $request->input('cargo');
-        $Route->payer_id = $request->input('payer');
-        // определяем стандартный маршрут или кастомный
+        $Route->payer_id = $valPayer;
+
         $route_type = intval($request->input('route-billing'));
-        if ($route_type < 0) {
-            $Route->address_loading = $request->input('address-loading');
-            $Route->address_unloading = $request->input('address-unloading');
-            $Route->route_length = $request->input('route-length');
-            // Записываем новый маршрут
-            $RouteBill = new RouteBilling();
-            $RouteBill->start = $request->input('address-loading');
-            $RouteBill->finish = $request->input('address-unloading');
-            $RouteBill->length = $request->input('route-length');
-            $RouteBill->save();
-        } else {
-            $RouteBill = RouteBilling::find($route_type);
-            $Route->address_loading = $RouteBill->start;
-            $Route->address_unloading = $RouteBill->finish;
-            $Route->route_length = $RouteBill->length;
-        }
+        $RouteBill = RouteBilling::find($route_type);
+        $Route->address_loading = $RouteBill->start;
+        $Route->address_unloading = $RouteBill->finish;
+        $Route->route_length = $RouteBill->length;
+
         $Route->date_route = $request->input('date-route');
         $Route->number_trips = $request->input('number-trips');
+
         // расчет цены маршрута
         $Distance = DistanceBilling::find($Route->dir_type_trucks_id);
         if ($Route->route_length >= 300) {
@@ -157,10 +169,18 @@ class RoutesController extends Controller
         if ($request->filled('unexpected-expenses')) {
             $Route->unexpected_expenses = $request->input('unexpected-expenses');
         }
-        $Route->summ_route = $Route->price_route / 2 + $Route->unexpected_expenses;
+
+        // расчет суммы маршрута
+        if ($request->input('type-truck') < 0) {
+            $Route->summ_route = ($Route->price_route / 100) * 18 + $Route->unexpected_expenses;
+        } else {
+            $Route->summ_route = $Route->price_route / 2 + $Route->unexpected_expenses;
+        }
+
         $Route->comment = $request->input('comment');
         // сохранение данных в базе
         $Route->save();
+
         /* Запись дополнительных услуг */
         if ($request->input('service-id-1') > 0) {
             $Service = new Services();
