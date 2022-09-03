@@ -20,6 +20,7 @@ class CreateRouteBillingsTable extends Migration
             $table->string('start');
             $table->string('finish');
             $table->Integer('length');
+            $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
         });
     }

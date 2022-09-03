@@ -4,9 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRefillingsTable extends Migration {
+class CreateRefillingsTable extends Migration
+{
 
-    public function up() {
+    public function up()
+    {
         Schema::create('refillings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -21,12 +23,13 @@ class CreateRefillingsTable extends Migration {
             $table->float('price_car_refueling', 8, 2);
             $table->float('cost_car_refueling', 8, 2);
             $table->BigInteger('profit_id')->unsigned()->default(0);
+            $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
         });
     }
 
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('refillings');
     }
-
 }

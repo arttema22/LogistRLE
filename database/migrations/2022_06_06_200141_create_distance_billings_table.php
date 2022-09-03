@@ -4,14 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDistanceBillingsTable extends Migration {
+class CreateDistanceBillingsTable extends Migration
+{
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('distance_billings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -22,6 +24,7 @@ class CreateDistanceBillingsTable extends Migration {
             $table->float('up_60_km', 8, 2)->default(0);
             $table->float('more_60_km', 8, 2)->default(0);
             $table->float('more_300_km', 8, 2)->default(0);
+            $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
         });
     }
@@ -31,8 +34,8 @@ class CreateDistanceBillingsTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('distance_billings');
     }
-
 }

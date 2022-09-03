@@ -24,6 +24,7 @@ class CreateProfilesTable extends Migration
             $table->string('first_name');
             $table->string('sec_name')->nullable();
             $table->bigInteger('phone')->nullable();
+            $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
         });
     }
