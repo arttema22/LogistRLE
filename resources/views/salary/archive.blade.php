@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-Выплаты
-@endsection
+@section('title')Архив выплат@endsection
 
 @section('content')
 <link rel="stylesheet" href="/css/tablesort.css">
@@ -10,7 +8,7 @@
 @if (count($Salaries))
 <nav class="navbar">
     <div class="container-fluid">
-        <h1>Выплаты</h1>
+        <h1>Архив выплат</h1>
         @cannot('is-driver')
         <form class="d-flex" method="get">
             <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
@@ -51,7 +49,8 @@
                 <td>{{ $Salary->salary }} руб.</td>
                 <td>
                     <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button" data-toggle="popover"
-                        data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="Создана: {{ $Salary->created_at }}
+                        data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="{{ $Salary->comment }}
+                        Создана: {{ $Salary->created_at }}
                         Изменена: {{ $Salary->updated_at }}
                         Владелец: {{ $Salary->owner->profile->FullName }}">i
                     </a>
@@ -82,12 +81,12 @@
 </script>
 @else
 <div class="px-4 py-5 my-5 text-center">
-    <h1 class="display-5 fw-bold">Выплат нет</h1>
+    <h1 class="display-5 fw-bold">Архив выплат</h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Не совершено ни одной выплаты. Необходимо сделать начисления и произвести рассчет.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ route('salary.create') }}" role="button">Новое
-                начисление</a>
+            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ route('salary.create') }}" role="button">Новая
+                выплата</a>
             <a class="btn btn-outline-secondary btn-lg px-4" href="{{ route('salary.archive') }}"
                 role="button">Выплаты</a>
         </div>

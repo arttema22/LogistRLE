@@ -66,6 +66,7 @@ class SalaryController extends Controller
         }
         $Salary->date = $request->input('date-salary');
         $Salary->salary = $request->input('salary');
+        $Salary->comment = $request->input('comment');
         // сохранение данных в базе
         $Salary->save();
         //$Telegram = new TelegramController();
@@ -92,6 +93,7 @@ class SalaryController extends Controller
         // заполнение модели данными из формы
         $Salary->date = $request->input('date-salary');
         $Salary->salary = $request->input('salary');
+        $Salary->comment = $request->input('comment');
         // сохранение данных в базе
         $Salary->save();
         // переход к странице списка

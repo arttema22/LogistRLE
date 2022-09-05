@@ -16,12 +16,12 @@ class PetrolStationsSeeder extends Seeder
     public function run()
     {
         DB::table('dir_petrol_stations')->insert([
-            'title' => 'СургутНефтеГаз',
+            'title' => 'Газпромнефть',
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
         ]);
         DB::table('dir_petrol_stations')->insert([
-            'title' => 'Газпромнефть',
+            'title' => 'СургутНефтеГаз',
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
         ]);

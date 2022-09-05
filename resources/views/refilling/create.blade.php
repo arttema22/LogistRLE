@@ -44,7 +44,6 @@
         @if(count($PetrolStations))
         <select name="petrol-stations-id" id="petrol-stations-id" class="form-select form-select-lg mb-3"
             aria-label="Название АЗС">
-            <option value="0" selected>Название АЗС</option>
             @foreach($PetrolStations as $PetrolStation)
             <option value="{{$PetrolStation->id}}">{{$PetrolStation->title}}</option>
             @endforeach

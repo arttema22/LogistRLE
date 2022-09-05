@@ -35,6 +35,13 @@
                         <label for="salary">Размер выплаты</label>
                     </div>
                     <!-- Размер выплаты конец -->
+                    <!-- Комментарий -->
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" name="comment" id="comment"
+                            rows="3">{{$Salary->comment}}</textarea>
+                        <label for="comment" class="form-label">Комментарий</label>
+                    </div>
+                    <!-- Комментарий конец -->
                 </div>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">

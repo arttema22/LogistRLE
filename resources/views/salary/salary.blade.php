@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title')Начисления@endsection
+@section('title')Выплаты@endsection
 
 @section('content')
 @if (count($Salaries))
 <nav class="navbar">
     <div class="container-fluid">
-        <h1>Начисления</h1>
+        <h1>Выплаты</h1>
         @cannot('is-driver')
         <form class="d-flex" method="get">
             <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
@@ -38,6 +38,7 @@
                                 Владелец: {{ $Salary->owner->profile->FullName }}">i
             </a>
         </p>
+        <p class="card-text">{{ $Salary->comment }}</p>
     </div>
     <div class="card-footer text-muted">
         <a href="{{ route('salary.edit', $Salary->id) }}" class="btn btn-outline-primary btn-sm">Изменить</a>
@@ -63,13 +64,13 @@
 </script>
 @else
 <div class="px-4 py-5 my-5 text-center">
-    <h1 class="display-5 fw-bold">Начислений нет</h1>
+    <h1 class="display-5 fw-bold">Выплаты</h1>
     <div class="col-lg-6 mx-auto">
-        <p class="lead mb-4">Не совершено ни одного начисления. Необходимо создать новое начисление или перейти к
+        <p class="lead mb-4">Не совершено ни одной выплаты. Необходимо создать новую выплату или перейти к
             просмотру архива.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ route('salary.create') }}" role="button">Новое
-                начисление</a>
+            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ route('salary.create') }}" role="button">Новая
+                выплата</a>
             <a class="btn btn-outline-secondary btn-lg px-4" href="{{ route('salary.archive') }}"
                 role="button">Выплаты</a>
         </div>

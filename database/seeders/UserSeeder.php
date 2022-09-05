@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'name' => '060',
-            'email' => 'xaziyllin@mail.ru',
+            'email' => 'haziullin.andrei@mail.ru',
             'role_id' => 2,
             'password' => Hash::make('radswad0'),
             'created_at' => '2022-09-01 09:00:00',
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'name' => '185',
-            'email' => 'molchanov@inbox.ru',
+            'email' => 'sachamol75@gmail.com',
             'role_id' => 2,
             'password' => Hash::make('radswad0'),
             'created_at' => '2022-09-01 09:00:00',
@@ -98,7 +98,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'name' => '294',
-            'email' => 'mayorov@inbox.ru',
+            'email' => 'maiorov.ivan1986@mail.ru',
             'role_id' => 2,
             'password' => Hash::make('radswad0'),
             'created_at' => '2022-09-01 09:00:00',
@@ -130,7 +130,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'name' => '280',
-            'email' => 'dymcev@inbox.ru',
+            'email' => 'dumtsev.igor@bk.ru',
             'role_id' => 2,
             'password' => Hash::make('radswad0'),
             'created_at' => '2022-09-01 09:00:00',

@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
-@section('title')Новое начисление@endsection
+@section('title')Новая выплата@endsection
 
 @section('content')
 <div class="container px-4 py-5">
-    <h1>Новое начисление</h1>
-
+    <h1>Новая выплата</h1>
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -55,6 +54,12 @@
                         <label for="salary">Размер выплаты</label>
                     </div>
                     <!-- Размер выплаты конец -->
+                    <!-- Комментарий -->
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+                        <label for="comment" class="form-label">Комментарий</label>
+                    </div>
+                    <!-- Комментарий конец -->
                 </div>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">

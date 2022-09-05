@@ -13,7 +13,8 @@
             <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
                 <option value="0">Водитель</option>
                 @foreach($Users as $User)
-                <option value="{{$User->id}}" @if(isset($_GET['driver-id'])) @if($_GET['driver-id'] == $User->id) selected @endif @endif>{{$User->profile->FullName}}</option>
+                <option value="{{$User->id}}" @if(isset($_GET['driver-id'])) @if($_GET['driver-id']==$User->id) selected
+                    @endif @endif>{{$User->profile->FullName}}</option>
                 @endforeach
             </select>
             <button type="submit" class="btn btn-primary me-2">Фильтр</button>
@@ -26,7 +27,9 @@
     @foreach($Routes as $Route)
     <div class="accordion-item">
         <h2 class="accordion-header" id="flush-heading{{$Route->id}}">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{$Route->id}}" aria-expanded="false" aria-controls="flush-collapse{{$Route->id}}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse{{$Route->id}}" aria-expanded="false"
+                aria-controls="flush-collapse{{$Route->id}}">
                 <div class="container">
                     <div class="row">
                         <div class="col-2">{{$Route->date_route}}</div>
@@ -39,7 +42,8 @@
                 </div>
             </button>
         </h2>
-        <div id="flush-collapse{{$Route->id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$Route->id}}" data-bs-parent="#accordionFlushRoutes">
+        <div id="flush-collapse{{$Route->id}}" class="accordion-collapse collapse"
+            aria-labelledby="flush-heading{{$Route->id}}" data-bs-parent="#accordionFlushRoutes">
             <div class="accordion-body">
                 <div class="table-responsive">
                     <table class="table table-hover" id="sort-table">
@@ -58,7 +62,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td> {{$Route->address_loading}} - {{$Route->address_unloading}} {{$Route->route_length}} км.
+                                <td> {{$Route->address_loading}} - {{$Route->address_unloading}}
+                                    {{$Route->route_length}} км.
                                 </td>
                                 <td>{{$Route->number_trips}}</td>
                                 <td>{{$Route->cargo->title}}</td>
@@ -124,11 +129,12 @@
 </nav>
 @else
 <div class="px-4 py-5 my-5 text-center">
-    <h1 class="display-5 fw-bold">Маршруты</h1>
+    <h1 class="display-5 fw-bold">Архивные маршруты</h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Архивных маршрутов нет. Необходимо создать новый маршрут или перейти к рассчетам.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{route('routes.create')}}" role="button">Новый маршрут</a>
+            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{route('routes.create')}}" role="button">Новый
+                маршрут</a>
             <a class="btn btn-outline-secondary btn-lg px-4" href="{{route('profit.list')}}" role="button">Расчеты</a>
         </div>
     </div>
