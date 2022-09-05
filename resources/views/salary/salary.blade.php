@@ -31,7 +31,15 @@
     </div>
     @endcan
     <div class="card-body">
-        <p class="card-text">{{ $Salary->date }} - {{ $Salary->salary }} руб.</p>
+        <p class="card-text">{{ $Salary->date }} - {{ $Salary->salary }} руб.
+            <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button" data-toggle="popover"
+                data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="Создана: {{ $Salary->created_at }}
+                                Изменена: {{ $Salary->updated_at }}
+                                Владелец: {{ $Salary->owner->profile->FullName }}">i
+            </a>
+        </p>
+    </div>
+    <div class="card-footer text-muted">
         <a href="{{ route('salary.edit', $Salary->id) }}" class="btn btn-outline-primary btn-sm">Изменить</a>
         <!-- Кнопка удаления записи -->
         <!-- Обязательно подключение include('inc.modal-delete') -->
@@ -40,19 +48,19 @@
             data-bs-url="{{ route('salary.destroy', $Salary->id) }}" data-bs-type="начисления" data-bs-toggle="modal"
             data-bs-target="#staticBackdrop">Удалить</button>
     </div>
-    <div class="card-footer text-muted">
-        <small>
-            Создано: {{$Salary->created_at}}
-            Изменено: {{$Salary->updated_at}}
-            Владелец: {{$Salary->owner->profile->FullName}}
-        </small>
-    </div>
 </div>
 @endforeach
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новое начисление</a>
 </div>
 @include('inc.modal-delete')
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover({
+            placement : 'left'
+        });
+    });
+</script>
 @else
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold">Начислений нет</h1>
