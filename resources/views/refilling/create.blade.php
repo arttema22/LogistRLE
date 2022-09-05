@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container px-4 py-5">
-    <h1 class="mt-5">Новая заправка</h1>
+    <h1>Новая заправка</h1>
 
     @if($errors->any())
     <div class="alert alert-danger">
@@ -18,6 +18,11 @@
 
     <form method="post" action="{{route('refilling.store')}}">
         @csrf
+        <div class="form-floating mb-3">
+            <input type="date" name="date-car-refueling" id="date-car-refueling" placeholder="Дата заправки"
+                class="form-control form-control-lg" value="{{ date('Y-m-d') }}">
+            <label for="date-car-refueling">Дата заправки</label>
+        </div>
         <!-- Список пользователей -->
         @cannot('is-driver')
         @if(count($Users))
@@ -29,14 +34,16 @@
         </select>
         @else
         <div class="alert alert-danger" role="alert">
-            В системе нет пользователя. Для начала работы необходимо <a href="#" class="alert-link">завести пользователя</a>.
+            В системе нет пользователя. Для начала работы необходимо <a href="#" class="alert-link">завести
+                пользователя</a>.
         </div>
         @endif
         @endcan
         <!-- Список пользователей конец -->
         <!-- Список АЗС -->
         @if(count($PetrolStations))
-        <select name="petrol-stations-id" id="petrol-stations-id" class="form-select form-select-lg mb-3" aria-label="Название АЗС">
+        <select name="petrol-stations-id" id="petrol-stations-id" class="form-select form-select-lg mb-3"
+            aria-label="Название АЗС">
             <option value="0" selected>Название АЗС</option>
             @foreach($PetrolStations as $PetrolStation)
             <option value="{{$PetrolStation->id}}">{{$PetrolStation->title}}</option>
@@ -44,24 +51,27 @@
         </select>
         @else
         <div class="alert alert-danger" role="alert">
-            В системе нет АЗС. Для начала работы необходимо <a href="{{route('directory.petrol-stations-new')}}" class="alert-link">завести АЗС</a>.
+            В системе нет АЗС. Для начала работы необходимо <a href="{{route('directory.petrol-stations-new')}}"
+                class="alert-link">завести АЗС</a>.
         </div>
         @endif
         <!-- Список АЗС конец -->
+
         <div class="form-floating mb-3">
-            <input type="date" name="date-car-refueling" id="date-car-refueling" placeholder="Дата заправки" class="form-control form-control-lg" value="{{old('date-car-refueling')}}">
-            <label for="date-car-refueling">Дата заправки</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="number" min="10" max="500" name="num-liters-car-refueling" id="num-liters-car-refueling" placeholder="Количество литров" class="form-control form-control-lg" value="{{old('num-liters-car-refueling')}}">
+            <input type="number" min="10" max="500" name="num-liters-car-refueling" id="num-liters-car-refueling"
+                placeholder="Количество литров" class="form-control form-control-lg"
+                value="{{old('num-liters-car-refueling')}}">
             <label for="num-liters-car-refueling">Количество литров</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="number" step="any" name="price-car-refueling" id="price-car-refueling" placeholder="Цена за 1 литр" class="form-control form-control-lg" value="{{old('price-car-refueling')}}">
+            <input type="number" step="any" name="price-car-refueling" id="price-car-refueling"
+                placeholder="Цена за 1 литр" class="form-control form-control-lg"
+                value="{{old('price-car-refueling')}}">
             <label for="price-car-refueling">Цена за 1 литр</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" name="cost-car-refueling" id="cost-car-refueling" placeholder="Стоимость заправки" class="form-control form-control-lg" value="0" disabled>
+            <input type="text" name="cost-car-refueling" id="cost-car-refueling" placeholder="Стоимость заправки"
+                class="form-control form-control-lg" value="0" disabled>
             <label for="cost-car-refueling">Стоимость заправки</label>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -71,10 +81,17 @@
     </form>
 </div>
 <script>
-    $(".form-control").change(function () {
-        num_lters = $("input[name=num-liters-car-refueling]").val();
-        price_1l = $("input[name=price-car-refueling]").val();
-        $("input[name=cost-car-refueling]").val(num_lters * price_1l);
+    $(document).ready(function() {
+        $('input[name=num-liters-car-refueling]').on('input keyup', function() {
+            num_lters = $('input[name=num-liters-car-refueling]').val();
+            price_1l = $('input[name=price-car-refueling]').val();
+            $('input[name=cost-car-refueling]').val(num_lters * price_1l);
+        });
+        $('input[name=price-car-refueling]').on('input keyup', function() {
+                num_lters = $('input[name=num-liters-car-refueling]').val();
+                price_1l = $('input[name=price-car-refueling]').val();
+                $('input[name=cost-car-refueling]').val(num_lters * price_1l);
+                });
     });
 </script>
 @endsection

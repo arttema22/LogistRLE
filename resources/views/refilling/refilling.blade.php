@@ -22,81 +22,38 @@
         @endcan
     </div>
 </nav>
-<div class="table-responsive">
-    <table class="table table-hover" id="sort-table">
-        <thead class="table-primary">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Дата</th>
-                @cannot('is-driver')
-                <th scope="col">Водитель</th>
-                @endcan
-                <th scope="col">АЗС</th>
-                <th scope="col">Литры</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Стоимость</th>
-                <th scope="col" data-sort-method='none'>Управление</th>
-                <th scope="col" data-sort-method='none'>Запись о заправке</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($Refillings as $Refilling)
-            <tr>
-                <th scope="row">{{$loop->iteration}}</th>
-                <td>{{$Refilling->date_car_refueling}}</td>
-                @cannot('is-driver')
-                <td>{{$Refilling->driver->profile->FullName}}</td>
-                @endcan
-                <td>{{$Refilling->petrolStation->title}}</td>
-                <td>{{$Refilling->num_liters_car_refueling}}</td>
-                <td>{{$Refilling->price_car_refueling}}</td>
-                <td>
-                    <h6>{{$Refilling->cost_car_refueling}} руб.</h6>
-                </td>
-                <td><a href="{{ route('refilling.edit', $Refilling->id) }}"
-                        class="btn btn-outline-primary btn-sm">Изменить</a>
-                    <!-- Кнопка удаления записи -->
-                    <!-- Обязательно подключение include('inc.modal-delete') -->
-                    <!-- data-bs-url - содержит ссылку на удаление -->
-                    <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
-                        data-bs-url="{{ route('refilling.destroy', $Refilling->id) }}" data-bs-type="заправки"
-                        data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
-                </td>
-                <td>
-                    <small class="text-muted">
-                        Создана: {{$Refilling->created_at}}<br>
-                        Изменена: {{$Refilling->updated_at}}<br>
-                        Владелец: {{$Refilling->owner->profile->FullName}}
-                    </small>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        {{$Refillings->withQueryString()->links()}}
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            </ul>
-            <a class="btn btn-primary btn-lg" href="{{route('refilling.create')}}" role="button">Новая заправка</a>
-        </div>
+@foreach ($Refillings as $Refilling)
+<div class="card mb-3">
+    @cannot('is-driver')
+    <div class="card-header">
+        {{ $Refilling->driver->profile->FullName }}
     </div>
-</nav>
+    @endcan
+    <div class="card-body">
+        <p class="card-text">{{$Refilling->date_car_refueling}} - {{$Refilling->cost_car_refueling}} руб.</p>
+        <p class="card-text">АЗС - {{$Refilling->petrolStation->title}} 1 литр - {{$Refilling->price_car_refueling}}
+            руб. Заправлено {{$Refilling->num_liters_car_refueling}} л.</p>
+        <a href="{{ route('refilling.edit', $Refilling->id) }}" class="btn btn-outline-primary btn-sm">Изменить</a>
+        <!-- Кнопка удаления записи -->
+        <!-- Обязательно подключение include('inc.modal-delete') -->
+        <!-- data-bs-url - содержит ссылку на удаление -->
+        <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
+            data-bs-url="{{ route('refilling.destroy', $Refilling->id) }}" data-bs-type="заправки"
+            data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
+    </div>
+    <div class="card-footer text-muted">
+        <small>
+            Создана: {{$Refilling->created_at}}
+            Изменена: {{$Refilling->updated_at}}
+            Владелец: {{$Refilling->owner->profile->FullName}}
+        </small>
+    </div>
+</div>
+@endforeach
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-primary btn-lg" href="{{route('refilling.create')}}" role="button">Новая заправка</a>
+</div>
 @include('inc.modal-delete')
-<script>
-    $('#sort-table').DataTable({
-        searching: false,
-        paging: false,
-        ordering: true,
-        // dom: 'Bfrtip',
-        // buttons: [
-        //     'excel'
-        //     ],
-        //language: {url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/ru.json'},
-    });
-</script>
 @else
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold">Заправок нет</h1>

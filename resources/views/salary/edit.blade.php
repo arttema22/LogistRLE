@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="container px-4 py-5">
-    <h1 class="mt-5">Изменение начисления</h1>
+    <h1>Изменение начисления</h1>
 
-    @if($errors->any())
+    @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach($errors->all() as $error)
@@ -23,13 +23,15 @@
                 <div class="col">
                     <!-- Дата выплаты -->
                     <div class="form-floating mb-3">
-                        <input type="date" name="date-salary" id="date-salary" placeholder="Дата выплаты" class="form-control form-control-lg" value="{{$Salary->dateEdit}}">
+                        <input type="date" name="date-salary" id="date-salary" placeholder="Дата выплаты"
+                            class="form-control form-control-lg" value="{{$Salary->dateEdit}}">
                         <label for="date-salary">Дата выплаты</label>
                     </div>
                     <!-- Дата выплаты конец -->
                     <!-- Размер выплаты -->
                     <div class="form-floating mb-3">
-                        <input type="number" step="any" name="salary" id="salary" placeholder="Размер выплаты" class="form-control form-control-lg" value="{{$Salary->salary}}">
+                        <input type="number" step="any" name="salary" id="salary" placeholder="Размер выплаты"
+                            class="form-control form-control-lg" value="{{$Salary->salary}}">
                         <label for="salary">Размер выплаты</label>
                     </div>
                     <!-- Размер выплаты конец -->

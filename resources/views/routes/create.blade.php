@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-Новый маршрут
-@endsection
+@section('title')Новый маршрут@endsection
 
 @section('content')
 <div class="container px-4 py-5">
-    <h1 class="mt-5">Новый маршрут</h1>
+    <h1>Новый маршрут</h1>
 
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -18,9 +16,9 @@
     </div>
     @endif
 
-    <div class="container">
-        <form method="post" action="{{ route('routes.store') }}">
-            @csrf
+    <form method="post" action="{{ route('routes.store') }}">
+        @csrf
+        <div class="container">
             <div class="row">
                 <div class="col">
                     <!-- Дата маршрута -->
@@ -117,7 +115,7 @@
                                 <div class="form-floating mb-3">
                                     @if (count($Payers))
                                     <select name="payer" id="payer" class="form-select form-select-lg mb-3">
-                                        <option value="0" selected>Плательщик</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($Payers as $Payer)
                                         <option value="{{ $Payer->id }}">{{ $Payer->title }}</option>
                                         @endforeach
@@ -161,8 +159,7 @@
                                     @if (count($RoutesBilling))
                                     <select name="route-billing" id="route-billing"
                                         class="form-select form-select-lg mb-3">
-                                        <option value="-1">Уникальный маршрут</option>
-                                        <option value="0" selected>Стандартный маршрут</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($RoutesBilling as $RouteBilling)
                                         <option value="{{ $RouteBilling->id }}">{{ $RouteBilling->start }} -
                                             {{ $RouteBilling->finish }} ({{ $RouteBilling->length }} км.)</option>
@@ -246,12 +243,12 @@
                     <div class="card-body">
                         <div class="row">
                             <!-- Список услуг -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     @if (count($Services))
                                     <select name="service-id-1" id="service-id-1"
                                         class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>Надо выбрать</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($Services as $Service)
                                         <option value="{{ $Service->id }}">{{ $Service->title }}</option>
                                         @endforeach
@@ -268,7 +265,7 @@
                             </div>
                             <!-- Список услуг конец -->
                             <!-- Количество операций -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <input type="number" min="1" max="8" name="number-operations-1"
                                         id="number-operations-1" placeholder="Количество операций"
@@ -278,7 +275,7 @@
                             </div>
                             <!-- Количество операций конец -->
                             <!-- Комментарий -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="service-comment-1" id="service-comment-1"
                                         rows="3"></textarea>
@@ -289,12 +286,12 @@
                         </div>
                         <div class="row one-service-2">
                             <!-- Список услуг -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     @if (count($Services))
                                     <select name="service-id-2" id="service-id-2"
                                         class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>Надо выбрать</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($Services as $Service)
                                         <option value="{{ $Service->id }}">{{ $Service->title }}</option>
                                         @endforeach
@@ -311,7 +308,7 @@
                             </div>
                             <!-- Список услуг конец -->
                             <!-- Количество операций -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <input type="number" min="1" max="8" name="number-operations-2"
                                         id="number-operations-2" placeholder="Количество операций"
@@ -321,7 +318,7 @@
                             </div>
                             <!-- Количество операций конец -->
                             <!-- Комментарий -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="service-comment-2" id="service-comment-2"
                                         rows="3"></textarea>
@@ -332,12 +329,12 @@
                         </div>
                         <div class="row one-service-3">
                             <!-- Список услуг -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     @if (count($Services))
                                     <select name="service-id-3" id="service-id-3"
                                         class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>Надо выбрать</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($Services as $Service)
                                         <option value="{{ $Service->id }}">{{ $Service->title }}</option>
                                         @endforeach
@@ -354,7 +351,7 @@
                             </div>
                             <!-- Список услуг конец -->
                             <!-- Количество операций -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <input type="number" min="1" max="8" name="number-operations-3"
                                         id="number-operations-3" placeholder="Количество операций"
@@ -364,7 +361,7 @@
                             </div>
                             <!-- Количество операций конец -->
                             <!-- Комментарий -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="service-comment-3" id="service-comment-3"
                                         rows="3"></textarea>
@@ -375,12 +372,12 @@
                         </div>
                         <div class="row one-service-4">
                             <!-- Список услуг -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     @if (count($Services))
                                     <select name="service-id-4" id="service-id-4"
                                         class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>Надо выбрать</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($Services as $Service)
                                         <option value="{{ $Service->id }}">{{ $Service->title }}</option>
                                         @endforeach
@@ -397,7 +394,7 @@
                             </div>
                             <!-- Список услуг конец -->
                             <!-- Количество операций -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <input type="number" min="1" max="8" name="number-operations-4"
                                         id="number-operations-4" placeholder="Количество операций"
@@ -407,7 +404,7 @@
                             </div>
                             <!-- Количество операций конец -->
                             <!-- Комментарий -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="service-comment-4" id="service-comment-4"
                                         rows="3"></textarea>
@@ -418,12 +415,12 @@
                         </div>
                         <div class="row one-service-5">
                             <!-- Список услуг -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     @if (count($Services))
                                     <select name="service-id-5" id="service-id-5"
                                         class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>Надо выбрать</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($Services as $Service)
                                         <option value="{{ $Service->id }}">{{ $Service->title }}</option>
                                         @endforeach
@@ -440,7 +437,7 @@
                             </div>
                             <!-- Список услуг конец -->
                             <!-- Количество операций -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <input type="number" min="1" max="8" name="number-operations-5"
                                         id="number-operations-5" placeholder="Количество операций"
@@ -450,7 +447,7 @@
                             </div>
                             <!-- Количество операций конец -->
                             <!-- Комментарий -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="service-comment-5" id="service-comment-5"
                                         rows="3"></textarea>
@@ -461,12 +458,12 @@
                         </div>
                         <div class="row one-service-6">
                             <!-- Список услуг -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     @if (count($Services))
                                     <select name="service-id-6" id="service-id-6"
                                         class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>Надо выбрать</option>
+                                        <option value="0" selected>выбрать</option>
                                         @foreach ($Services as $Service)
                                         <option value="{{ $Service->id }}">{{ $Service->title }}</option>
                                         @endforeach
@@ -483,7 +480,7 @@
                             </div>
                             <!-- Список услуг конец -->
                             <!-- Количество операций -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <input type="number" min="1" max="8" name="number-operations-6"
                                         id="number-operations-6" placeholder="Количество операций"
@@ -493,7 +490,7 @@
                             </div>
                             <!-- Количество операций конец -->
                             <!-- Комментарий -->
-                            <div class="col">
+                            <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" name="service-comment-6" id="service-comment-6"
                                         rows="3"></textarea>
@@ -506,11 +503,11 @@
                 </div>
             </div>
             <!-- Дополнительные услуги конец -->
-    </div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
-        <a class="btn btn-outline-secondary btn-lg" href="{{ route('routes.list') }}" role="button">Отмена</a>
-    </div>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
+            <a class="btn btn-outline-secondary btn-lg" href="{{ route('routes.list') }}" role="button">Отмена</a>
+        </div>
     </form>
 </div>
 </div>
@@ -522,19 +519,6 @@
                 });
             } else {
                 $(".additional-servis").css({
-                    'display': 'none'
-                });
-            }
-        });
-</script>
-<script>
-    $("#route-billing").change(function() {
-            if (this.value < 0) {
-                $(".custom-route").css({
-                    'display': 'block'
-                });
-            } else {
-                $(".custom-route").css({
                     'display': 'none'
                 });
             }
@@ -559,5 +543,4 @@
             });
         });
 </script>
-
 @endsection

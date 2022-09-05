@@ -1,27 +1,25 @@
 @extends('layouts.app')
 
-@section('title')
-Данные для расчета
-@endsection
+@section('title')Данные для расчета@endsection
 
 @section('content')
 @if (count($Salaries) or count($Routes) or count($Refillings))
 <form action="{{ route('profit.store') }}" method="post">
     @csrf
-    <h1 class="mt-5">Данные для расчета</h1>
+    <h1>Данные для расчета</h1>
     <!-- Карточка с начислениями -->
     @if (count($Salaries))
-    <h4 class="mt-5">Начисления</h4>
+    <h4>Начисления</h4>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
                     <th scope="col" style="width: 1%">#</th>
-                    <th scope="col">Дата</th>
+                    <th scope="col" style="width: 1%">Дата</th>
                     @cannot('is-driver')
                     <th scope="col">Водитель</th>
                     @endcan
-                    <th scope="col">Сумма</th>
+                    <th scope="col" style="width: 1%">Сумма</th>
                     <th scope="col" style="width: 1%">Согласие</th>
                 </tr>
             </thead>
@@ -60,27 +58,24 @@
         </table>
     </div>
     @else
-    <h4 class="mt-5">Начислений нет
-        @cannot('is-driver')
-        <a href="{{ route('salary.create') }}" class="btn btn-link">Новое начисление</a>
-        @endcan
+    <h4 class="mt-5">Начислений нет <a href="{{ route('salary.create') }}" class="btn btn-link">Новое начисление</a>
     </h4>
     @endif
 
     <!-- Карточка с маршрутами -->
     @if (count($Routes))
-    <h4 class="mt-5">Маршруты</h4>
+    <h4>Маршруты</h4>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
                     <th scope="col" style="width: 1%">#</th>
-                    <th scope="col">Дата</th>
+                    <th scope="col" style="width: 1%">Дата</th>
                     @cannot('is-driver')
                     <th scope="col">Водитель</th>
                     @endcan
                     <th scope="col">Маршрут</th>
-                    <th scope="col">Сумма</th>
+                    <th scope="col" style="width: 1%">Сумма</th>
                     @cannot('is-driver')
                     <th scope="col" style="width: 1%">Согласие</th>
                     @endcan
@@ -109,13 +104,12 @@
                 @foreach ($Route->services as $Service)
                 <tr>
                     <td></td>
-                    <td>{{ $Service->service->title }}:
+                    <td colspan="5">{{ $Service->service->title }}:
                         {{ $Service->price }}x{{ $Service->number_operations }} =
                         {{ $Service->sum }}
                         руб.<br>
                         {{ $Service->comment }}
                     </td>
-                    <td></td>
                 </tr>
                 @endforeach
                 @endif
@@ -128,11 +122,23 @@
                         @else
                     <td colspan="4">
                         @endcan
-                        Всего начислений: {{ $Routes->count() }}
+                        Всего за маршруты: {{ $Routes->count() }}
                     </td>
                     <td>
                         <h6>{{ $Routes->sum('summ_route') }} руб.</h6>
                     </td>
+                <tr>
+                    @can('is-driver')
+                    <td colspan="3">
+                        @else
+                    <td colspan="4">
+                        @endcan
+                        Всего за услуги: {{ $Route->services->count() }}
+                    </td>
+                    <td>
+                        <h6>{{ $Route->services->sum('sum') }} руб.</h6>
+                    </td>
+                </tr>
                 </tr>
             </tfoot>
         </table>
@@ -145,19 +151,19 @@
 
     <!-- Карточка с заправками -->
     @if (count($Refillings))
-    <h4 class="mt-5">Заправки</h4>
+    <h4>Заправки</h4>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
                     <th scope="col" style="width: 1%">#</th>
-                    <th scope="col">Дата</th>
+                    <th scope="col" style="width: 1%">Дата</th>
                     @cannot('is-driver')
                     <th scope="col">Водитель</th>
                     @endcan
-                    <th scope="col">Количество</th>
-                    <th scope="col">Цена</th>
-                    <th scope="col">Сумма</th>
+                    <th scope="col" style="width: 1%">Количество</th>
+                    <th scope="col" style="width: 1%">Цена</th>
+                    <th scope="col" style="width: 1%">Сумма</th>
                     <th scope="col" style="width: 1%">Согласие</th>
                 </tr>
             </thead>

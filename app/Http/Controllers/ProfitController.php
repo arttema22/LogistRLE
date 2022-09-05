@@ -84,10 +84,17 @@ class ProfitController extends Controller
 
             $ProfitData->sum_total = $ProfitData->sum_salary + $ProfitData->sum_refuelings + $ProfitData->sum_routes + $ProfitData->sum_services;
             $ProfitData->save();
-            //Salary::whereIn('id', $salary)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            //Refilling::whereIn('id', $refilling)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            //Routes::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            //Services::where('status', 1)->where('route_id', $Routes->id)->update(['status' => 0]);
+
+            if ($salary != null) {
+                Salary::whereIn('id', $salary)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+            }
+            if ($refilling != null) {
+                Refilling::whereIn('id', $refilling)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+            }
+            if ($route != null) {
+                Routes::whereIn('id', $route)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+                Services::whereIn('route_id', $route)->where('status', 1)->update(['status' => 0]);
+            }
         }
         //$Telegram = new TelegramController();
         //$Telegram->sendMessage('Произведено новое начисление.');

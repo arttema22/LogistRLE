@@ -23,76 +23,36 @@
         @endcan
     </div>
 </nav>
-<div class="table-responsive">
-    <table class="table table-hover" id="sort-table">
-        <thead class="table-primary">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Дата</th>
-                @cannot('is-driver')
-                <th scope="col">Водитель</th>
-                @endcan
-                <th scope="col">Сумма</th>
-                <th scope="col" data-sort-method='none'>Управление</th>
-                <th scope="col" data-sort-method='none'>Примечание</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($Salaries as $Salary)
-            <tr>
-                <th scope="row">{{ $loop->iteration }}</th>
-                <td>{{ $Salary->date }}</td>
-                @cannot('is-driver')
-                <td>{{ $Salary->driver->profile->FullName }}</td>
-                @endcan
-                <td>
-                    <h6>{{ $Salary->salary }} руб.</h6>
-                </td>
-                <td><a href="{{ route('salary.edit', $Salary->id) }}"
-                        class="btn btn-outline-primary btn-sm">Изменить</a>
-                    <!-- Кнопка удаления записи -->
-                    <!-- Обязательно подключение include('inc.modal-delete') -->
-                    <!-- data-bs-url - содержит ссылку на удаление -->
-                    <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
-                        data-bs-url="{{ route('salary.destroy', $Salary->id) }}" data-bs-type="начисления"
-                        data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
-                </td>
-                <td>
-                    <small class="text-muted">
-                        Создано: {{ $Salary->created_at }}<br>
-                        Изменено: {{ $Salary->updated_at }}<br>
-                        Владелец: {{ $Salary->owner->profile->FullName }}<br>
-                    </small>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        {{ $Salaries->withQueryString()->links() }}
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            </ul>
-            <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новое
-                начисление</a>
-        </div>
+@foreach ($Salaries as $Salary)
+<div class="card mb-3">
+    @cannot('is-driver')
+    <div class="card-header">
+        {{ $Salary->driver->profile->FullName }}
     </div>
-</nav>
+    @endcan
+    <div class="card-body">
+        <p class="card-text">{{ $Salary->date }} - {{ $Salary->salary }} руб.</p>
+        <a href="{{ route('salary.edit', $Salary->id) }}" class="btn btn-outline-primary btn-sm">Изменить</a>
+        <!-- Кнопка удаления записи -->
+        <!-- Обязательно подключение include('inc.modal-delete') -->
+        <!-- data-bs-url - содержит ссылку на удаление -->
+        <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
+            data-bs-url="{{ route('salary.destroy', $Salary->id) }}" data-bs-type="начисления" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">Удалить</button>
+    </div>
+    <div class="card-footer text-muted">
+        <small>
+            Создано: {{$Salary->created_at}}
+            Изменено: {{$Salary->updated_at}}
+            Владелец: {{$Salary->owner->profile->FullName}}
+        </small>
+    </div>
+</div>
+@endforeach
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новое начисление</a>
+</div>
 @include('inc.modal-delete')
-<script>
-    $('#sort-table').DataTable({
-        searching: false,
-        paging: false,
-        ordering: true,
-        // dom: 'Bfrtip',
-        // buttons: [
-        //     'excel'
-        //     ],
-        //language: {url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/ru.json'},
-    });
-</script>
 @else
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold">Начислений нет</h1>
