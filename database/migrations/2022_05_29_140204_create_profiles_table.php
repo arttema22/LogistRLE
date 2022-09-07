@@ -26,6 +26,7 @@ class CreateProfilesTable extends Migration
             $table->bigInteger('phone')->nullable();
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

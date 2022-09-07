@@ -23,6 +23,7 @@ class CreateTrucksTable extends Migration
             $table->string('truck_number')->unique();
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
 
             //$table->foreign('users_id')->references('id')->on('users');
             //$table->foreign('dir_type_trucks_id')->references('id')->on('dir_type_trucks');

@@ -24,6 +24,7 @@ class CreateDirAddressesTable extends Migration
             $table->boolean('unloading_point')->default(0);
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

@@ -26,6 +26,7 @@ class CreateDistanceBillingsTable extends Migration
             $table->float('more_300_km', 8, 2)->default(0);
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

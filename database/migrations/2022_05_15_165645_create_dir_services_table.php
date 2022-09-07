@@ -21,6 +21,7 @@ class CreateDirServicesTable extends Migration
             $table->float('price', 8, 2);
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

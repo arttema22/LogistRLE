@@ -4,9 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoutesTable extends Migration {
+class CreateRoutesTable extends Migration
+{
 
-    public function up() {
+    public function up()
+    {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -31,11 +33,12 @@ class CreateRoutesTable extends Migration {
             $table->text('comment')->nullable();
             $table->BigInteger('profit_id')->unsigned()->default(0);
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('routes');
     }
-
 }

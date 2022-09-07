@@ -28,6 +28,7 @@ class CreateProfitsDataTable extends Migration
             $table->float('sum_total', 8, 2);
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

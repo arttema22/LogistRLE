@@ -20,6 +20,7 @@ class CreateDirPayersTable extends Migration
             $table->string('title')->unique();
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

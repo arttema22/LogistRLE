@@ -23,6 +23,7 @@ class CreateRevisesTable extends Migration
             $table->date('date_end');
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

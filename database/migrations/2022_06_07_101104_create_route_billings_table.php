@@ -22,6 +22,7 @@ class CreateRouteBillingsTable extends Migration
             $table->Integer('length');
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

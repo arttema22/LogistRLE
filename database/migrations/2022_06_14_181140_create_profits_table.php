@@ -21,6 +21,7 @@ class CreateProfitsTable extends Migration
             $table->foreign('owner_id')->references('id')->on('users');
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 

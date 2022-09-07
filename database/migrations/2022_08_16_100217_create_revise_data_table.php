@@ -27,6 +27,7 @@ class CreateReviseDataTable extends Migration
             $table->float('balance_end', 8, 2);
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
         });
     }
 
