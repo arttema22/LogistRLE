@@ -187,16 +187,18 @@ class RoutesController extends Controller
         $number_operations = $request->number_operations;
         $service_comment = $request->service_comment;
 
-        for ($i = 0; $i < count($service_id); $i++) {
-            if ($service_id[$i] > 0) {
-                $Service = new Services();
-                $Service->route_id = $Route->id;
-                $Service->service_id = $service_id[$i];
-                $Service->price = $Service->service->price;
-                $Service->number_operations = $number_operations[$i];
-                $Service->sum = $Service->price * $Service->number_operations;
-                $Service->comment = $service_comment[$i];
-                $Service->save();
+        if (!empty($service_id)) {
+            for ($i = 0; $i < count($service_id); $i++) {
+                if ($service_id[$i] > 0) {
+                    $Service = new Services();
+                    $Service->route_id = $Route->id;
+                    $Service->service_id = $service_id[$i];
+                    $Service->price = $Service->service->price;
+                    $Service->number_operations = $number_operations[$i];
+                    $Service->sum = $Service->price * $Service->number_operations;
+                    $Service->comment = $service_comment[$i];
+                    $Service->save();
+                }
             }
         }
 
