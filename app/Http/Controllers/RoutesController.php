@@ -77,33 +77,31 @@ class RoutesController extends Controller
     public function store(Request $request)
     {
         // проверка введенных данных
-        if (Gate::allows('is-driver')) {
+        $valid = $request->validate([
+            'date-route' => 'required|date',
+            'type-truck' => 'required|numeric|not_in:0',
+            'cargo' => 'required|numeric|min:0|not_in:0',
+            'number-trips' => 'required|numeric',
+        ]);
+        if (Gate::denies('is-driver')) {
             $valid = $request->validate([
-                'date-route' => 'required|date',
-                'type-truck' => 'required|numeric|not_in:0',
-                'cargo' => 'required|numeric|min:0|not_in:0',
-                'number-trips' => 'required|numeric',
-            ]);
-        } else {
-            $valid = $request->validate([
-                'date-route' => 'required|date',
                 'driver-id' => 'required|numeric|min:0|not_in:0',
-                'type-truck' => 'required|numeric|not_in:0',
-                'cargo' => 'required|numeric|min:0|not_in:0',
-                'number-trips' => 'required|numeric',
             ]);
         }
-        if ($request->input('new-payer') != null) {
-            $valid = $request->validate(['new-payer' => 'unique:dir_payers,title']);
+
+        // проверка на нового плательщика
+        if ($request->input('collapse-new-payer')) {
+            $valid = $request->validate(['new-payer' => 'required|unique:dir_payers,title']);
             $Payer = new DirPayers();
             $Payer->title = $request->input('new-payer');
             $Payer->save();
-            $valPayer = $Payer->id;
+            $payer_id = $Payer->id;
         } else {
             $valid = $request->validate(['payer' => 'required|numeric|min:0|not_in:0']);
-            $valPayer = $request->input('payer');
+            $payer_id = $request->input('payer');
         }
-        if ($request->input('address-loading') != null) {
+        // проверка на новый маршрут
+        if ($request->input('collapse-new-route')) {
             $valid = $request->validate([
                 'address-loading' => 'required',
                 'address-unloading' => 'required',
@@ -115,8 +113,10 @@ class RoutesController extends Controller
             $RouteBill->finish = $request->input('address-unloading');
             $RouteBill->length = $request->input('route-length');
             $RouteBill->save();
+            $route_id = $RouteBill->id;
         } else {
             $valid = $request->validate(['route-billing' => 'required|numeric|min:0|not_in:0']);
+            $route_id = $request->input('route-billing');
         }
         // создание модели данных
         $Route = new Routes();
@@ -136,13 +136,14 @@ class RoutesController extends Controller
         }
         $Route->dir_type_trucks_id = $val_type_truck;
         $Route->cargo_id = $request->input('cargo');
-        $Route->payer_id = $valPayer;
 
-        $route_type = intval($request->input('route-billing'));
-        $RouteBill = RouteBilling::find($route_type);
-        $Route->address_loading = $RouteBill->start;
-        $Route->address_unloading = $RouteBill->finish;
-        $Route->route_length = $RouteBill->length;
+        $Payer_data = DirPayers::find($payer_id);
+        $Route->payer_id = $Payer_data->id;
+
+        $Route_bill = RouteBilling::find($route_id);
+        $Route->address_loading = $Route_bill->start;
+        $Route->address_unloading = $Route_bill->finish;
+        $Route->route_length = $Route_bill->length;
 
         $Route->date_route = $request->input('date-route');
         $Route->number_trips = $request->input('number-trips');
@@ -182,66 +183,23 @@ class RoutesController extends Controller
         $Route->save();
 
         /* Запись дополнительных услуг */
-        if ($request->input('service-id-1') > 0) {
-            $Service = new Services();
-            $Service->route_id = $Route->id;
-            $Service->service_id = $request->input('service-id-1');
-            $Service->price = $Service->service->price;
-            $Service->number_operations = $request->input('number-operations-1');
-            $Service->sum = $Service->price * $Service->number_operations;
-            $Service->comment = $request->input('service-comment-1');
-            $Service->save();
+        $service_id = $request->service_id;
+        $number_operations = $request->number_operations;
+        $service_comment = $request->service_comment;
+
+        for ($i = 0; $i < count($service_id); $i++) {
+            if ($service_id[$i] > 0) {
+                $Service = new Services();
+                $Service->route_id = $Route->id;
+                $Service->service_id = $service_id[$i];
+                $Service->price = $Service->service->price;
+                $Service->number_operations = $number_operations[$i];
+                $Service->sum = $Service->price * $Service->number_operations;
+                $Service->comment = $service_comment[$i];
+                $Service->save();
+            }
         }
-        if ($request->input('service-id-2') > 0) {
-            $Service = new Services();
-            $Service->route_id = $Route->id;
-            $Service->service_id = $request->input('service-id-2');
-            $Service->price = $Service->service->price;
-            $Service->number_operations = $request->input('number-operations-2');
-            $Service->sum = $Service->price * $Service->number_operations;
-            $Service->comment = $request->input('service-comment-2');
-            $Service->save();
-        }
-        if ($request->input('service-id-3') > 0) {
-            $Service = new Services();
-            $Service->route_id = $Route->id;
-            $Service->service_id = $request->input('service-id-3');
-            $Service->price = $Service->service->price;
-            $Service->number_operations = $request->input('number-operations-3');
-            $Service->sum = $Service->price * $Service->number_operations;
-            $Service->comment = $request->input('service-comment-3');
-            $Service->save();
-        }
-        if ($request->input('service-id-4') > 0) {
-            $Service = new Services();
-            $Service->route_id = $Route->id;
-            $Service->service_id = $request->input('service-id-4');
-            $Service->price = $Service->service->price;
-            $Service->number_operations = $request->input('number-operations-4');
-            $Service->sum = $Service->price * $Service->number_operations;
-            $Service->comment = $request->input('service-comment-4');
-            $Service->save();
-        }
-        if ($request->input('service-id-5') > 0) {
-            $Service = new Services();
-            $Service->route_id = $Route->id;
-            $Service->service_id = $request->input('service-id-5');
-            $Service->price = $Service->service->price;
-            $Service->number_operations = $request->input('number-operations-5');
-            $Service->sum = $Service->price * $Service->number_operations;
-            $Service->comment = $request->input('service-comment-5');
-            $Service->save();
-        }
-        if ($request->input('service-id-6') > 0) {
-            $Service = new Services();
-            $Service->route_id = $Route->id;
-            $Service->service_id = $request->input('service-id-6');
-            $Service->price = $Service->service->price;
-            $Service->number_operations = $request->input('number-operations-6');
-            $Service->sum = $Service->price * $Service->number_operations;
-            $Service->comment = $request->input('service-comment-6');
-            $Service->save();
-        }
+
         // Оповещение в Телеграм
         //$Telegram = new TelegramController();
         //$Telegram->sendMessage('Создан новый маршрут.');

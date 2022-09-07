@@ -102,11 +102,12 @@
 
                     <!-- Список плательщиков -->
                     <div class="card mb-3">
-                        <div class="card-header">
-                            Плательщик
+                        <div class="card-header d-flex justify-content-between">
+                            <p>Плательщик</p>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" data-bs-toggle="collapse"
-                                    href=".collapse-payer" id="flexSwitchCheckPayer" aria-controls="collapsePayer">
+                                <input name="collapse-new-payer" class="form-check-input" type="checkbox" role="switch"
+                                    data-bs-toggle="collapse" href=".collapse-payer" id="flexSwitchCheckPayer"
+                                    aria-controls="collapsePayer">
                                 <label class="form-check-label" for="flexSwitchCheckPayer">новый</label>
                             </div>
                         </div>
@@ -144,11 +145,12 @@
 
                     {{-- Маршруты --}}
                     <div class="card mb-3">
-                        <div class="card-header">
-                            Маршрут
+                        <div class="card-header d-flex justify-content-between">
+                            <p>Маршрут</p>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" data-bs-toggle="collapse"
-                                    href=".collapse-route" id="flexSwitchCheckRoute" aria-controls="collapseRoute">
+                                <input name="collapse-new-route" class="form-check-input" type="checkbox" role="switch"
+                                    data-bs-toggle="collapse" href=".collapse-route" id="flexSwitchCheckRoute"
+                                    aria-controls="collapseRoute">
                                 <label class="form-check-label" for="flexSwitchCheckRoute">новый</label>
                             </div>
                         </div>
@@ -236,274 +238,20 @@
 
             <!-- Дополнительные услуги -->
             <div class="additional-servis" style="display: none">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header">
                         <h4>Дополнительные услуги</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Список услуг -->
-                            <div class="col-md-4">
-                                <div class="form-floating">
-                                    @if (count($Services))
-                                    <select name="service-id-1" id="service-id-1"
-                                        class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>выбрать</option>
-                                        @foreach ($Services as $Service)
-                                        <option value="{{ $Service->id }}">{{ $Service->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="service-id-1">Услуга</label>
-                                    @else
-                                    <div class="alert alert-danger" role="alert">
-                                        В системе нет услуг. Для начала работы необходимо <a
-                                            href="{{ route('directory.services-new') }}" class="alert-link">заполнить
-                                            список услуг</a>.
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <!-- Список услуг конец -->
-                            <!-- Количество операций -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="number" min="1" max="8" name="number-operations-1"
-                                        id="number-operations-1" placeholder="Количество операций"
-                                        class="form-control form-control-lg">
-                                    <label for="number-operations-1">Количество операций</label>
-                                </div>
-                            </div>
-                            <!-- Количество операций конец -->
-                            <!-- Комментарий -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="service-comment-1" id="service-comment-1"
-                                        rows="3"></textarea>
-                                    <label for="service-comment-1" class="form-label">Комментарий</label>
-                                </div>
-                            </div>
-                            <!-- Комментарий конец -->
-                        </div>
-                        <div class="row one-service-2">
-                            <!-- Список услуг -->
-                            <div class="col-md-4">
-                                <div class="form-floating">
-                                    @if (count($Services))
-                                    <select name="service-id-2" id="service-id-2"
-                                        class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>выбрать</option>
-                                        @foreach ($Services as $Service)
-                                        <option value="{{ $Service->id }}">{{ $Service->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="service-id-2">Услуга</label>
-                                    @else
-                                    <div class="alert alert-danger" role="alert">
-                                        В системе нет услуг. Для начала работы необходимо <a
-                                            href="{{ route('directory.services-new') }}" class="alert-link">заполнить
-                                            список услуг</a>.
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <!-- Список услуг конец -->
-                            <!-- Количество операций -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="number" min="1" max="8" name="number-operations-2"
-                                        id="number-operations-2" placeholder="Количество операций"
-                                        class="form-control form-control-lg">
-                                    <label for="number-operations-2">Количество операций</label>
-                                </div>
-                            </div>
-                            <!-- Количество операций конец -->
-                            <!-- Комментарий -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="service-comment-2" id="service-comment-2"
-                                        rows="3"></textarea>
-                                    <label for="service-comment-2" class="form-label">Комментарий</label>
-                                </div>
-                            </div>
-                            <!-- Комментарий конец -->
-                        </div>
-                        <div class="row one-service-3">
-                            <!-- Список услуг -->
-                            <div class="col-md-4">
-                                <div class="form-floating">
-                                    @if (count($Services))
-                                    <select name="service-id-3" id="service-id-3"
-                                        class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>выбрать</option>
-                                        @foreach ($Services as $Service)
-                                        <option value="{{ $Service->id }}">{{ $Service->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="service-id-3">Услуга</label>
-                                    @else
-                                    <div class="alert alert-danger" role="alert">
-                                        В системе нет услуг. Для начала работы необходимо <a
-                                            href="{{ route('directory.services-new') }}" class="alert-link">заполнить
-                                            список услуг</a>.
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <!-- Список услуг конец -->
-                            <!-- Количество операций -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="number" min="1" max="8" name="number-operations-3"
-                                        id="number-operations-3" placeholder="Количество операций"
-                                        class="form-control form-control-lg">
-                                    <label for="number-operations-3">Количество операций</label>
-                                </div>
-                            </div>
-                            <!-- Количество операций конец -->
-                            <!-- Комментарий -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="service-comment-3" id="service-comment-3"
-                                        rows="3"></textarea>
-                                    <label for="service-comment-3" class="form-label">Комментарий</label>
-                                </div>
-                            </div>
-                            <!-- Комментарий конец -->
-                        </div>
-                        <div class="row one-service-4">
-                            <!-- Список услуг -->
-                            <div class="col-md-4">
-                                <div class="form-floating">
-                                    @if (count($Services))
-                                    <select name="service-id-4" id="service-id-4"
-                                        class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>выбрать</option>
-                                        @foreach ($Services as $Service)
-                                        <option value="{{ $Service->id }}">{{ $Service->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="service-id-4">Услуга</label>
-                                    @else
-                                    <div class="alert alert-danger" role="alert">
-                                        В системе нет услуг. Для начала работы необходимо <a
-                                            href="{{ route('directory.services-new') }}" class="alert-link">заполнить
-                                            список услуг</a>.
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <!-- Список услуг конец -->
-                            <!-- Количество операций -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="number" min="1" max="8" name="number-operations-4"
-                                        id="number-operations-4" placeholder="Количество операций"
-                                        class="form-control form-control-lg">
-                                    <label for="number-operations-4">Количество операций</label>
-                                </div>
-                            </div>
-                            <!-- Количество операций конец -->
-                            <!-- Комментарий -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="service-comment-4" id="service-comment-4"
-                                        rows="3"></textarea>
-                                    <label for="service-comment-4" class="form-label">Комментарий</label>
-                                </div>
-                            </div>
-                            <!-- Комментарий конец -->
-                        </div>
-                        <div class="row one-service-5">
-                            <!-- Список услуг -->
-                            <div class="col-md-4">
-                                <div class="form-floating">
-                                    @if (count($Services))
-                                    <select name="service-id-5" id="service-id-5"
-                                        class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>выбрать</option>
-                                        @foreach ($Services as $Service)
-                                        <option value="{{ $Service->id }}">{{ $Service->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="service-id-5">Услуга</label>
-                                    @else
-                                    <div class="alert alert-danger" role="alert">
-                                        В системе нет услуг. Для начала работы необходимо <a
-                                            href="{{ route('directory.services-new') }}" class="alert-link">заполнить
-                                            список услуг</a>.
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <!-- Список услуг конец -->
-                            <!-- Количество операций -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="number" min="1" max="8" name="number-operations-5"
-                                        id="number-operations-5" placeholder="Количество операций"
-                                        class="form-control form-control-lg">
-                                    <label for="number-operations-5">Количество операций</label>
-                                </div>
-                            </div>
-                            <!-- Количество операций конец -->
-                            <!-- Комментарий -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="service-comment-5" id="service-comment-5"
-                                        rows="3"></textarea>
-                                    <label for="service-comment-5" class="form-label">Комментарий</label>
-                                </div>
-                            </div>
-                            <!-- Комментарий конец -->
-                        </div>
-                        <div class="row one-service-6">
-                            <!-- Список услуг -->
-                            <div class="col-md-4">
-                                <div class="form-floating">
-                                    @if (count($Services))
-                                    <select name="service-id-6" id="service-id-6"
-                                        class="form-select form-select-lg mb-3" aria-label="Услуга">
-                                        <option value="0" selected>выбрать</option>
-                                        @foreach ($Services as $Service)
-                                        <option value="{{ $Service->id }}">{{ $Service->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="service-id-6">Услуга</label>
-                                    @else
-                                    <div class="alert alert-danger" role="alert">
-                                        В системе нет услуг. Для начала работы необходимо <a
-                                            href="{{ route('directory.services-new') }}" class="alert-link">заполнить
-                                            список услуг</a>.
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <!-- Список услуг конец -->
-                            <!-- Количество операций -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="number" min="1" max="8" name="number-operations-6"
-                                        id="number-operations-6" placeholder="Количество операций"
-                                        class="form-control form-control-lg">
-                                    <label for="number-operations-6">Количество операций</label>
-                                </div>
-                            </div>
-                            <!-- Количество операций конец -->
-                            <!-- Комментарий -->
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="service-comment-6" id="service-comment-6"
-                                        rows="3"></textarea>
-                                    <label for="service-comment-6" class="form-label">Комментарий</label>
-                                </div>
-                            </div>
-                            <!-- Комментарий конец -->
-                        </div>
+                    <div class="card-body services-list">
+                    </div>
+                    <div class="card-footer d-grid">
+                        <a class="btn btn-success service-add">Добавить услугу</a>
                     </div>
                 </div>
             </div>
             <!-- Дополнительные услуги конец -->
         </div>
+
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
             <a class="btn btn-outline-secondary btn-lg" href="{{ route('routes.list') }}" role="button">Отмена</a>
@@ -512,34 +260,60 @@
 </div>
 </div>
 <script>
-    $("#type-truck").change(function() {
-            if (this.value < 0) {
-                $(".additional-servis").css({
-                    'display': 'block'
-                });
-            } else {
-                $(".additional-servis").css({
-                    'display': 'none'
-                });
-            }
-        });
-</script>
-<script>
     $(document).ready(function() {
-            $('#driver-id').select2({
-                theme: "bootstrap-5"
+            $('#driver-id').select2({ theme: "bootstrap-5" });
+            $('#type-truck').select2({ theme: "bootstrap-5" });
+            $('#cargo').select2({ theme: "bootstrap-5" });
+            $('#payer').select2({ theme: "bootstrap-5" });
+            $('#route-billing').select2({ theme: "bootstrap-5" });
+
+            // срабатывает при выборе типа авто
+            $("#type-truck").change(function() {
+                if (this.value < 0) { $(".additional-servis").css({ 'display' : 'block' }); } else {
+                    $(".additional-servis").css({ 'display' : 'none' }); } });
+
+
+            // добавление строки с услугой
+            $('.service-add').click(function() {
+            $('.services-list').append(
+                '<div class="row">' +
+                    '<div class="col-md-4">' +
+                        '<div class="form-floating">' +
+                            '<select name="service_id[]" id="service-id[]" class="form-select mb-3" aria-label="Услуга" required>' +
+                                '<option value="0" selected>выбрать</option>' +
+                                '@foreach ($Services as $Service)' +
+                                '<option value="{{ $Service->id }}">{{ $Service->title }}</option>' +
+                                '@endforeach' +
+                            '</select>' +
+                            '<label for="service-id[]">Услуга</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                        '<div class="form-floating mb-3">' +
+                            '<input type="number" min="1" max="8" name="number_operations[]" id="number-operations[]" placeholder="Количество" class="form-control" value=1>' +
+                            '<label for="number-operations[]">Количество</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                        '<div class="form-floating mb-3">' +
+                            '<textarea class="form-control" name="service_comment[]" id="service-comment[]" rows="3"></textarea>' +
+                            '<label for="service-comment[]" class="form-label">Комментарий</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                        '<div class="form-floating mb-3 d-grid">' +
+                            '<button type="button" class="btn btn-danger remove-service"> Удалить</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>'
+                )
             });
-            $('#type-truck').select2({
-                theme: "bootstrap-5"
-            });
-            $('#cargo').select2({
-                theme: "bootstrap-5"
-            });
-            $('#payer').select2({
-                theme: "bootstrap-5"
-            });
-            $('#route-billing').select2({
-                theme: "bootstrap-5"
+
+            // Удаление строки услуги
+            $(document).on('click', '.remove-service', function(e) {
+                e.preventDefault();
+                let row_item = $(this).parent().parent().parent();
+                $(row_item).remove();
             });
         });
 </script>
