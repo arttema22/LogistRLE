@@ -4,9 +4,27 @@
 
 @section('content')
 @if (count($Salaries) or count($Routes) or count($Refillings))
+<nav class="navbar">
+    <div class="container-fluid">
+        <h1>Данные для расчета</h1>
+        @cannot('is-driver')
+        <form class="d-flex" method="get">
+            <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
+                <option value="0">Водитель</option>
+                @foreach ($Users as $User)
+                <option value="{{ $User->id }}" @if (isset($_GET['driver-id'])) @if ($_GET['driver-id']==$User->id)
+                    selected @endif
+                    @endif>{{ $User->profile->FullName }}</option>
+                @endforeach
+            </select>
+            <button type="submit" class="btn btn-primary me-2">Фильтр</button>
+            <a class="btn btn-outline-primary" href="{{ route('salary.list') }}">Очистить</a>
+        </form>
+        @endcan
+    </div>
+</nav>
 <form action="{{ route('profit.store') }}" method="post">
     @csrf
-    <h1>Данные для расчета</h1>
     <!-- Карточка с начислениями -->
     @if (count($Salaries))
     <h4>Начисления</h4>
@@ -15,12 +33,15 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col" style="width: 1%">#</th>
-                    <th scope="col" style="width: 1%">Дата</th>
+                    <th scope="col" style="width: 5%">Дата</th>
                     @cannot('is-driver')
                     <th scope="col">Водитель</th>
                     @endcan
-                    <th scope="col" style="width: 1%">Сумма</th>
+                    <th scope="col" style="width: 60%"></th>
+                    <th scope="col" style="width: 10%">Сумма</th>
+                    @cannot('is-driver')
                     <th scope="col" style="width: 1%">Согласие</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -31,28 +52,32 @@
                     @cannot('is-driver')
                     <td>{{ $Salary->driver->profile->full_name }}</td>
                     @endcan
+                    <td>{{ $Salary->comment }}</td>
                     <td>
                         <h6>{{ $Salary->salary }} руб.</h6>
                     </td>
+                    @cannot('is-driver')
                     <td>
                         <input class="form-check-input" type="checkbox" name="salary[{{ $Salary->id }}]"
                             value="{{ $Salary->id }}" checked>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
                     @can('is-driver')
-                    <td colspan="2">
-                        @else
                     <td colspan="3">
+                        @else
+                    <td colspan="4">
                         @endcan
                         Всего начислений: {{ $Salaries->count() }}
+                    </td>
                     <td>
                         <h6>{{ $Salaries->sum('salary') }} руб.</h6>
                     </td>
-                    </td>
+                    <td></td>
                 </tr>
             </tfoot>
         </table>
@@ -70,12 +95,12 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col" style="width: 1%">#</th>
-                    <th scope="col" style="width: 1%">Дата</th>
+                    <th scope="col" style="width: 5%">Дата</th>
                     @cannot('is-driver')
                     <th scope="col">Водитель</th>
                     @endcan
-                    <th scope="col">Маршрут</th>
-                    <th scope="col" style="width: 1%">Сумма</th>
+                    <th scope="col" style="width: 60%"></th>
+                    <th scope="col" style="width: 10%">Сумма</th>
                     @cannot('is-driver')
                     <th scope="col" style="width: 1%">Согласие</th>
                     @endcan
@@ -89,9 +114,18 @@
                     @cannot('is-driver')
                     <td>{{ $Route->driver->profile->full_name }}</td>
                     @endcan
-                    <td>{{ $Route->address_loading }} - {{ $Route->address_unloading }}</td>
+                    <td>
+                        {{ $Route->address_loading }} - {{ $Route->address_unloading }} ({{$Route->route_length}} км.)
+                        @if (count($Route->services))
+                        @foreach ($Route->services as $Service)
+                        <br>{{ $Service->service->title }}: {{ $Service->price }} x {{ $Service->number_operations }} =
+                        {{ $Service->sum }} руб. ({{ $Service->comment }})
+                        @endforeach
+                        @endif
+                    </td>
                     <td>
                         <h6>{{ $Route->summ_route }} руб.</h6>
+                        <h6>{{ $Route->services->sum('sum') }} руб.</h6>
                     </td>
                     @cannot('is-driver')
                     <td>
@@ -100,19 +134,6 @@
                     </td>
                     @endcan
                 </tr>
-                @if (count($Route->services))
-                @foreach ($Route->services as $Service)
-                <tr>
-                    <td></td>
-                    <td colspan="5">{{ $Service->service->title }}:
-                        {{ $Service->price }}x{{ $Service->number_operations }} =
-                        {{ $Service->sum }}
-                        руб.<br>
-                        {{ $Service->comment }}
-                    </td>
-                </tr>
-                @endforeach
-                @endif
                 @endforeach
             </tbody>
             <tfoot>
@@ -127,17 +148,19 @@
                     <td>
                         <h6>{{ $Routes->sum('summ_route') }} руб.</h6>
                     </td>
+                    <td></td>
                 <tr>
                     @can('is-driver')
                     <td colspan="3">
                         @else
                     <td colspan="4">
                         @endcan
-                        Всего за услуги: {{ $Route->services->count() }}
+                        Всего за услуги: {{ $Route->services->where('status', 1)->count() }}
                     </td>
                     <td>
-                        <h6>{{ $Route->services->sum('sum') }} руб.</h6>
+                        <h6>{{ $Route->services->where('status', 1)->sum('sum') }} руб.</h6>
                     </td>
+                    <td></td>
                 </tr>
                 </tr>
             </tfoot>
@@ -157,14 +180,15 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col" style="width: 1%">#</th>
-                    <th scope="col" style="width: 1%">Дата</th>
+                    <th scope="col" style="width: 5%">Дата</th>
                     @cannot('is-driver')
                     <th scope="col">Водитель</th>
                     @endcan
-                    <th scope="col" style="width: 1%">Количество</th>
-                    <th scope="col" style="width: 1%">Цена</th>
-                    <th scope="col" style="width: 1%">Сумма</th>
+                    <th scope="col" style="width: 60%"></th>
+                    <th scope="col" style="width: 10%">Сумма</th>
+                    @cannot('is-driver')
                     <th scope="col" style="width: 1%">Согласие</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -175,30 +199,33 @@
                     @cannot('is-driver')
                     <td>{{ $Refilling->driver->profile->full_name }}</td>
                     @endcan
-                    <td>{{ $Refilling->num_liters_car_refueling }} л.</td>
-                    <td>{{ $Refilling->price_car_refueling }} руб.</td>
+                    <td>{{ $Refilling->num_liters_car_refueling }} л. {{ $Refilling->price_car_refueling }} руб.</td>
+
                     <td>
                         <h6>{{ $Refilling->cost_car_refueling }} руб.</h6>
                     </td>
+                    @cannot('is-driver')
                     <td>
                         <input class="form-check-input" type="checkbox" name="refilling[{{ $Refilling->id }}]"
                             value="{{ $Refilling->id }}" checked>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
                     @can('is-driver')
-                    <td colspan="4">
+                    <td colspan="3">
                         @else
-                    <td colspan="5">
+                    <td colspan="4">
                         @endcan
                         Всего начислений: {{ $Refillings->count() }}
+                    </td>
                     <td>
                         <h6>{{ $Refillings->sum('cost_car_refueling') }} руб.</h6>
                     </td>
-                    </td>
+                    <td></td>
                 </tr>
             </tfoot>
         </table>

@@ -17,10 +17,10 @@ class CreateServicesTable extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->BigInteger('route_id')->unsigned();
-            $table->foreign('route_id')->references('id')->on('routes');
-            $table->BigInteger('service_id')->unsigned();
-            $table->foreign('service_id')->references('id')->on('dir_services');
+            $table->BigInteger('driver_id')->unsigned();
+            $table->foreign('driver_id')->references('id')->on('users');
+            $table->foreignId('route_id')->constrained('routes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('service_id')->constrained('dir_services')->onUpdate('cascade')->onDelete('cascade');
             $table->float('price', 8, 2);
             $table->Integer('number_operations');
             $table->float('sum', 8, 2);

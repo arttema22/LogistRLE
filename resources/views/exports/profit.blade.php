@@ -1,30 +1,86 @@
-<table>
+@if (count($Profit->profitData->where('profit_id', $Profit->id)))
+@foreach ($Profit->profitData->where('profit_id', $Profit->id) as $Data)
+<table class="table table-hover caption-top">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Дата заправки</th>
-            <th scope="col">Водитель</th>
-            <th scope="col">АЗС</th>
-            <th scope="col">Кол-во</th>
-            <th scope="col">Цена 1л</th>
-            <th scope="col">Стоимость</th>
+            <th>№</th>
+            <th>Дата</th>
+            <th>Документ</th>
+            <th>Сумма за маршрут</th>
+            <th>Топливо</th>
+            <th>Выплачено</th>
+            <th>Итог</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach($ProfitsData as $Data)
+    <!-- Маршруты -->
+    @if (count($Data->driver->driverRoute->where('profit_id', $Profit->id)))
+    @foreach ($Data->driver->driverRoute->where('profit_id', $Profit->id) as $Route)
+    <tr>
+        <th scope="row">{{$loop->iteration}}</th>
+        <td>{{ $Route->date_route }}</td>
+        <td>
+            {{ $Route->address_loading }} - {{ $Route->address_unloading }} {{ $Route->route_length
+            }} км.
+            <!-- Услуги -->
+            @if (count($Route->services->where('route_id', $Route->id)))
+            @foreach ($Route->services->where('route_id', $Route->id) as $Service)
+            <br>{{ $Service->service->title }} {{ $Service->number_operations }} сумма: {{
+            $Service->sum }} руб.
+            ( {{ $Service->comment }} )
+            @endforeach
+            @endif
+            <!-- Услуги -->
+        </td>
+        <td>{{ $Route->summ_route }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    @endforeach
+    @endif
+    <!-- Маршруты -->
+    <!-- Заправки -->
+    @if (count($Data->driver->driverRefilling->where('profit_id', $Profit->id)))
+    @foreach ($Data->driver->driverRefilling->where('profit_id', $Profit->id) as $Refilling)
+    <tr>
+        <th scope="row">{{$loop->iteration}}</th>
+        <td>{{ $Refilling->date_car_refueling }}</td>
+        <td>{{ $Refilling->num_liters_car_refueling }} л.</td>
+        <td></td>
+        <td>{{ $Refilling->cost_car_refueling }}</td>
+        <td></td>
+        <td></td>
+    </tr>
+    @endforeach
+    @endif
+    <!-- Заправки -->
+    <!-- Выплаты -->
+    @if (count($Data->driver->driverSalary->where('profit_id', $Profit->id)))
+    @foreach ($Data->driver->driverSalary->where('profit_id', $Profit->id) as $Salary)
+    <tr>
+        <th scope="row">{{$loop->iteration}}</th>
+        <td>{{ $Salary->date }}</td>
+        <td>{{ $Salary->comment }}</td>
+        <td></td>
+        <td></td>
+        <td>{{ $Salary->salary }}</td>
+        <td></td>
+    </tr>
+    @endforeach
+    @endif
+    <!-- Выплаты -->
+    <tfoot>
         <tr>
-            <td>{{$Data->driver->profile->FullName}}</td>
-            <td>Выплаты:</td>
-            <td>{{$Data->sum_salary}}</td>
-            <td>Заправки:</td>
-            <td>{{$Data->sum_refuelings}}</td>
-            <td>Маршруты:</td>
-            <td>{{$Data->sum_routes}}</td>
-            <td>Услуги:</td>
-            <td>{{$Data->sum_services}}</td>
-            <td>Итого:</td>
-            <td>{{$Data->sum_total}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ $Data->sum_routes }}<br>
+                {{ $Data->sum_services }} руб. за услуги</td>
+            <td>{{ $Data->sum_refuelings }}</td>
+            <td>{{ $Data->sum_salary }}</td>
+            <td>{{ $Data->sum_total }}</td>
         </tr>
-        @endforeach
-    </tbody>
+    </tfoot>
 </table>
+@endforeach
+@endif

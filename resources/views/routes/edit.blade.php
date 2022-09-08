@@ -132,48 +132,54 @@
 
         <!-- Дополнительные услуги -->
         @if (count($Route->services))
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h4>Дополнительные услуги</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body services-list">
                 @foreach ( $Route->services as $Serv )
                 <div class="row">
                     <!-- Список услуг -->
                     <div class="col-md-4">
                         <div class="form-floating">
-                            <select name="service-id-[]" id="service-id-[]" class="form-select form-select-lg mb-3"
-                                aria-label="Услуга">
+                            <select name="service-id[]" id="service-id-[]" class="form-select mb-3" aria-label="Услуга">
                                 @foreach ($Services as $Service)
                                 <option value="{{ $Service->id }}" @if($Serv->id == $Service->id) selected @endif>{{
                                     $Service->title }}</option>
                                 @endforeach
                             </select>
-                            <label for="service-id-3">Услуга</label>
+                            <label for="service-id[]">Услуга</label>
                         </div>
                     </div>
                     <!-- Список услуг конец -->
                     <!-- Количество операций -->
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-floating mb-3">
-                            <input type="number" min="1" max="8" name="number-operations-[]" id="number-operations-[]"
-                                placeholder="Количество операций" class="form-control form-control-lg"
-                                value="{{$Serv->number_operations}}">
-                            <label for="number-operations-3">Количество операций</label>
+                            <input type="number" min="1" max="8" name="number-operations[]" id="number-operations[]"
+                                placeholder="Количество" class="form-control" value="{{$Serv->number_operations}}">
+                            <label for="number-operations[]">Количество</label>
                         </div>
                     </div>
                     <!-- Количество операций конец -->
                     <!-- Комментарий -->
                     <div class="col-md-4">
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" name="service-comment-[]" id="service-comment-[]"
+                            <textarea class="form-control" name="service-comment[]" id="service-comment[]"
                                 rows="3">{{$Serv->comment}}</textarea>
-                            <label for="service-comment-3" class="form-label">Комментарий</label>
+                            <label for="service-comment[]" class="form-label">Комментарий</label>
                         </div>
                     </div>
                     <!-- Комментарий конец -->
+                    <div class="col-md-1">
+                        <div class="form-floating mb-3 d-grid">
+                            <button type="button" class="btn btn-danger remove-service"> Удалить</button>
+                        </div>
+                    </div>
                 </div>
                 @endforeach
+            </div>
+            <div class="card-footer d-grid">
+                <a class="btn btn-success service-add">Добавить услугу</a>
             </div>
         </div>
         @endif
@@ -185,31 +191,53 @@
 </div>
 </div>
 <script>
-    $("#type-truck").change(function () {
-        if (this.value < 0) {
-            $(".additional-servis").css({'display': 'block'});
-        } else {
-            $(".additional-servis").css({'display': 'none'});
-        }
-    });
-</script>
-<script>
-    $("#route-billing").change(function () {
-        if (this.value < 0) {
-            $(".custom-route").css({'display': 'block'});
-        } else {
-            $(".custom-route").css({'display': 'none'});
-        }
-    });
-</script>
-<script>
     $(document).ready(function () {
         $('#driver-id').select2({theme: "bootstrap-5"});
         $('#cargo').select2({theme: "bootstrap-5"});
         $('#payer').select2({theme: "bootstrap-5"});
-        $('#route-billing').select2({theme: "bootstrap-5"});
-    }
-    );
-</script>
 
+// добавление строки с услугой
+$('.service-add').click(function() {
+$('.services-list').append(
+'<div class="row">' +
+    '<div class="col-md-4">' +
+        '<div class="form-floating">' +
+            '<select name="service_id[]" id="service-id[]" class="form-select mb-3" aria-label="Услуга" required>' +
+                '<option value="0" selected>выбрать</option>' +
+                '@foreach ($Services as $Service)' +
+                '<option value="{{ $Service->id }}">{{ $Service->title }}</option>' +
+                '@endforeach' +
+                '</select>' +
+            '<label for="service-id[]">Услуга</label>' +
+            '</div>' +
+        '</div>' +
+    '<div class="col-md-2">' +
+        '<div class="form-floating mb-3">' +
+            '<input type="number" min="1" max="8" name="number_operations[]" id="number-operations[]" placeholder="Количество" class="form-control" value=1>' +
+            '<label for="number-operations[]">Количество</label>' +
+            '</div>' +
+        '</div>' +
+    '<div class="col-md-4">' +
+        '<div class="form-floating mb-3">' +
+            '<textarea class="form-control" name="service_comment[]" id="service-comment[]" rows="3"></textarea>' +
+            '<label for="service-comment[]" class="form-label">Комментарий</label>' +
+            '</div>' +
+        '</div>' +
+    '<div class="col-md-1">' +
+        '<div class="form-floating mb-3 d-grid">' +
+            '<button type="button" class="btn btn-danger remove-service"> Удалить</button>' +
+            '</div>' +
+        '</div>' +
+    '</div>'
+)
+});
+
+// Удаление строки услуги
+$(document).on('click', '.remove-service', function(e) {
+e.preventDefault();
+let row_item = $(this).parent().parent().parent();
+$(row_item).remove();
+});
+    });
+</script>
 @endsection

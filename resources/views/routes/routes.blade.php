@@ -46,18 +46,21 @@
             aria-labelledby="flush-heading{{$Route->id}}" data-bs-parent="#accordionFlushRoutes">
             <div class="accordion-body">
                 <div class="card">
-                    <div class="card-header">
-                        Маршрут: {{$Route->address_loading}} - {{$Route->address_unloading}} ({{$Route->route_length}}
-                        км.)
-                        <a href="{{ route('routes.edit', $Route->id) }}"
-                            class="btn btn-outline-primary btn-sm">Изменить</a>
+                    <div class="card-header d-flex justify-content-between">
+                        <p>Маршрут: {{$Route->address_loading}} - {{$Route->address_unloading}}
+                            ({{$Route->route_length}}
+                            км.)</p>
+                        <div>
+                            {{-- <a href="{{ route('routes.edit', $Route->id) }}"
+                                class="btn btn-outline-primary btn-sm">Изменить</a> --}}
 
-                        <!-- Кнопка удаления записи -->
-                        <!-- Обязательно подключение include('inc.modal-delete') -->
-                        <!-- data-bs-url - содержит ссылку на удаление -->
-                        <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
-                            data-bs-url="{{ route('routes.destroy', $Route->id) }}" data-bs-type="маршрута"
-                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
+                            <!-- Кнопка удаления записи -->
+                            <!-- Обязательно подключение include('inc.modal-delete') -->
+                            <!-- data-bs-url - содержит ссылку на удаление -->
+                            <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
+                                data-bs-url="{{ route('routes.destroy', $Route->id) }}" data-bs-type="маршрута"
+                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Подробности</h5>

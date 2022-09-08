@@ -191,6 +191,11 @@ class RoutesController extends Controller
             for ($i = 0; $i < count($service_id); $i++) {
                 if ($service_id[$i] > 0) {
                     $Service = new Services();
+                    if (Gate::allows('is-driver')) { //текущий пользователь имеет роль водителя
+                        $Service->driver_id = Auth::user()->id;
+                    } else {
+                        $Service->driver_id = $request->input('driver-id');
+                    }
                     $Service->route_id = $Route->id;
                     $Service->service_id = $service_id[$i];
                     $Service->price = $Service->service->price;
