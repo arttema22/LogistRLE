@@ -99,7 +99,7 @@ class ProfitController extends Controller
             }
             if ($route != null) {
                 Routes::whereIn('id', $route)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
-                Services::whereIn('route_id', $route)->where('status', 1)->update(['status' => 0]);
+                Services::where('driver_id', $User->id)->where('status', 1)->update(['status' => 0]);
             }
         }
 
