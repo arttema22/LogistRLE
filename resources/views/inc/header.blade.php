@@ -79,8 +79,6 @@
                                     водителей</a></li>
                             <li><a class="dropdown-item" href="{{ route('directory.cargo') }}">Перевозимые
                                     грузы</a></li>
-                            <li><a class="dropdown-item" href="{{ route('directory.address') }}">Адреса
-                                    погрузки/разгрузки</a></li>
                             <li><a class="dropdown-item" href="{{ route('directory.petrol-stations') }}">АЗС</a>
                             </li>
                             <li><a class="dropdown-item" href="{{ route('directory.payers') }}">Плательщики</a>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DirectoryController;
+use Illuminate\Support\Facades\Route;
 
 // Типы грузовиков
 Route::get('/type-trucks', [DirectoryController::class, 'type_trucks'])->name('type-trucks');
@@ -37,15 +38,6 @@ Route::get('/cargo-update/{id}', [DirectoryController::class, 'cargo_update'])->
 Route::post('/cargo-update/{id}', [DirectoryController::class, 'cargo_update_save'])->name('cargo-update-save');
 Route::get('/cargo-delete/{id}', [DirectoryController::class, 'cargo_delete'])->name('cargo-delete');
 Route::get('/cargo-recover/{id}', [DirectoryController::class, 'cargo_recover'])->name('cargo-recover');
-
-// Адреса (погрузки/разгрузки)
-Route::get('/address', [DirectoryController::class, 'address'])->name('address');
-Route::get('/address-new', [DirectoryController::class, 'address_new'])->name('address-new');
-Route::post('/address-new', [DirectoryController::class, 'address_new_save'])->name('address-new-save');
-Route::get('/address-update/{id}', [DirectoryController::class, 'address_update'])->name('address-update');
-Route::post('/address-update/{id}', [DirectoryController::class, 'address_update_save'])->name('address-update-save');
-Route::get('/address-delete/{id}', [DirectoryController::class, 'address_delete'])->name('address-delete');
-Route::get('/address-recover/{id}', [DirectoryController::class, 'address_recover'])->name('address-recover');
 
 // АЗС
 Route::get('/petrol-stations', [DirectoryController::class, 'petrol_stations'])->name('petrol-stations');

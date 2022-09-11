@@ -4,14 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder {
+class DatabaseSeeder extends Seeder
+{
 
     /**
      * Seed the application's database.
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
 
         $this->call([
             RolesSeeder::class,
@@ -24,11 +26,9 @@ class DatabaseSeeder extends Seeder {
             PetrolStationsSeeder::class,
             OwnerTruksSeeder::class,
             PlaceWorksSeeder::class,
-            AddressesSeeder::class,
             PayersSeeder::class,
             DirServicesSeeder::class,
             RefillingsSeeder::class,
         ]);
     }
-
 }
