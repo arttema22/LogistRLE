@@ -21,7 +21,7 @@ class RefillingController extends Controller
     // список актуальных заправок
     public function index(Request $request)
     {
-        $data = $request->validate(['driver-id' => 'numeric']);
+        $data = $request->validate(['driver-id' => 'numeric', 'petrol-id' => 'numeric']);
         $filter = app()->make(PetrolFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
             $Refillings = Refilling::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
@@ -29,13 +29,14 @@ class RefillingController extends Controller
         } else {
             $Refillings = Refilling::where('status', 1)->filter($filter)->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
-            return view('refilling.refilling', ['Refillings' => $Refillings, 'Users' => $Users]);
+            $PerolSt = DirPetrolStations::all();
+            return view('refilling.refilling', ['Refillings' => $Refillings, 'Users' => $Users, 'PerolSt' => $PerolSt]);
         }
     }
     // список архивных заправок
     public function archive(Request $request)
     {
-        $data = $request->validate(['driver-id' => 'numeric']);
+        $data = $request->validate(['driver-id' => 'numeric', 'petrol-id' => 'numeric']);
         $filter = app()->make(PetrolFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
             $Refillings = Refilling::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
@@ -43,7 +44,8 @@ class RefillingController extends Controller
         } else {
             $Refillings = Refilling::where('status', 0)->filter($filter)->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
-            return view('refilling.archive', ['Refillings' => $Refillings, 'Users' => $Users]);
+            $PerolSt = DirPetrolStations::all();
+            return view('refilling.archive', ['Refillings' => $Refillings, 'Users' => $Users, 'PerolSt' => $PerolSt]);
         }
     }
 
@@ -183,7 +185,7 @@ class RefillingController extends Controller
         }
 
         $data['chart_data'] = json_encode($data);
-dd($data);
+        dd($data);
         return view('refilling.statistics', $data);
     }
 }

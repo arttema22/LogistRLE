@@ -3,25 +3,8 @@
 @section('title')Заправки@endsection
 
 @section('content')
+@include('inc.refilling-filter')
 @if(count($Refillings))
-<nav class="navbar">
-    <div class="container-fluid">
-        <h1>Заправки</h1>
-        @cannot('is-driver')
-        <form class="d-flex" method="get">
-            <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
-                <option value="0">Водитель</option>
-                @foreach($Users as $User)
-                <option value="{{$User->id}}" @if(isset($_GET['driver-id'])) @if($_GET['driver-id']==$User->id) selected
-                    @endif @endif>{{$User->profile->FullName}}</option>
-                @endforeach
-            </select>
-            <button type="submit" class="btn btn-primary me-2">Фильтр</button>
-            <a class="btn btn-outline-primary" href="{{route('refilling.list')}}">Очистить</a>
-        </form>
-        @endcan
-    </div>
-</nav>
 @foreach ($Refillings as $Refilling)
 <div class="card mb-3">
     @cannot('is-driver')
@@ -34,19 +17,20 @@
                 tabindex="0" class="btn btn-outline-info btn-sm" role="button" data-toggle="popover"
                 data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="Создана: {{$Refilling->created_at}}
                                         Изменена: {{$Refilling->updated_at}}
-                                        Владелец: {{$Refilling->owner->profile->FullName}}">i
+                                        Владелец: {{$Refilling->owner->profile->FullName}}"><i class="bi bi-info"></i>
             </a></p>
         <p class="card-text">АЗС - {{$Refilling->petrolStation->title}} 1 литр - {{$Refilling->price_car_refueling}}
             руб. Заправлено {{$Refilling->num_liters_car_refueling}} л.</p>
     </div>
     <div class="card-footer text-muted">
-        <a href="{{ route('refilling.edit', $Refilling->id) }}" class="btn btn-outline-primary btn-sm">Изменить</a>
+        <a href="{{ route('refilling.edit', $Refilling->id) }}" class="btn btn-outline-primary btn-sm"><i
+                class="bi bi-pencil"></i></a>
         <!-- Кнопка удаления записи -->
         <!-- Обязательно подключение include('inc.modal-delete') -->
         <!-- data-bs-url - содержит ссылку на удаление -->
         <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
             data-bs-url="{{ route('refilling.destroy', $Refilling->id) }}" data-bs-type="заправки"
-            data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
+            data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-trash"></i></button>
     </div>
 </div>
 @endforeach
