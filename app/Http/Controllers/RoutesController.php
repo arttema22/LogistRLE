@@ -143,28 +143,36 @@ class RoutesController extends Controller
         $Route_bill = RouteBilling::find($route_id);
         $Route->address_loading = $Route_bill->start;
         $Route->address_unloading = $Route_bill->finish;
-        $Route->route_length = $Route_bill->length;
-
+        if ($Route_bill->is_static == 1) {
+            $Route->route_length = 0;
+        } else {
+            $Route->route_length = $Route_bill->length;
+        }
         $Route->date_route = $request->input('date-route');
         $Route->number_trips = $request->input('number-trips');
 
         // расчет цены маршрута
-        $Distance = DistanceBilling::find($Route->dir_type_trucks_id);
-        if ($Route->route_length >= 300) {
-            $Route->price_route = $Distance->more_300_km * $Route->route_length; //стоимость за 1 км * расстояние
-        } elseif ($Route->route_length >= 60) {
-            $Route->price_route = $Distance->more_60_km * $Route->route_length; //стоимость за 1 км * расстояние
-        } elseif ($Route->route_length <= 15) {
-            $Route->price_route = $Distance->up_15_km; // стоимость всего маршрута
-        } elseif ($Route->route_length <= 30) {
-            $Route->price_route = $Distance->up_30_km; // стоимость всего маршрута
+        if ($Route_bill->is_static == 1) {
+            $Route->price_route = $Route_bill->price;
         } else {
-            if ($Route->dir_type_trucks_id == 2) {
-                $Route->price_route = $Distance->up_60_km * $Route->route_length; //стоимость за 1 км * расстояние
+            $Distance = DistanceBilling::find($Route->dir_type_trucks_id);
+            if ($Route->route_length >= 300) {
+                $Route->price_route = $Distance->more_300_km * $Route->route_length; //стоимость за 1 км * расстояние
+            } elseif ($Route->route_length >= 60) {
+                $Route->price_route = $Distance->more_60_km * $Route->route_length; //стоимость за 1 км * расстояние
+            } elseif ($Route->route_length <= 15) {
+                $Route->price_route = $Distance->up_15_km; // стоимость всего маршрута
+            } elseif ($Route->route_length <= 30) {
+                $Route->price_route = $Distance->up_30_km; // стоимость всего маршрута
             } else {
-                $Route->price_route = $Distance->up_60_km; // стоимость всего маршрута
+                if ($Route->dir_type_trucks_id == 2) {
+                    $Route->price_route = $Distance->up_60_km * $Route->route_length; //стоимость за 1 км * расстояние
+                } else {
+                    $Route->price_route = $Distance->up_60_km; // стоимость всего маршрута
+                }
             }
         }
+
         $Route->price_route = $Route->price_route * $Route->number_trips;
 
         if ($request->filled('unexpected-expenses')) {

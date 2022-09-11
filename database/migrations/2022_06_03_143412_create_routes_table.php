@@ -25,7 +25,7 @@ class CreateRoutesTable extends Migration
             $table->string('address_loading');
             $table->string('address_unloading');
             $table->date('date_route');
-            $table->Integer('route_length');
+            $table->Integer('route_length')->default(0);
             $table->float('price_route', 8, 2);
             $table->Integer('number_trips');
             $table->float('unexpected_expenses', 8, 2)->default(0);

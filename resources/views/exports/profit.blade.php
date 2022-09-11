@@ -1,6 +1,24 @@
 @if (count($Profit->profitData->where('profit_id', $Profit->id)))
 @foreach ($Profit->profitData->where('profit_id', $Profit->id) as $Data)
-<table class="table table-hover caption-top">
+<table>
+    <tr>
+        <td colspan="7">
+            Акт сверки (учетный) {{$Data->id}}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7">
+            между ООО "РегионЛесЭкспорт" и
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7">
+            Мы, нижеподписавшиеся, Директор ООО "РегионЛесЭкспорт" А.В.Клишевич с одной стороны, и с другой стороны,
+            составили настоящий акт сверки в том, что состояние взаимных расчетов по данным учета следующее:
+        </td>
+    </tr>
+</table>
+<table>
     <thead>
         <tr>
             <th>№</th>
@@ -81,6 +99,20 @@
             <td>{{ $Data->sum_total }}</td>
         </tr>
     </tfoot>
+</table>
+<table>
+    <tr>
+        <td colspan="5"></td>
+        <td colspan="2">
+            ООО "РегионЛесЭкспорт"
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5"></td>
+        <td colspan="2">
+            (Клишевич А.В.)
+        </td>
+    </tr>
 </table>
 @endforeach
 @endif

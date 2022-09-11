@@ -35,19 +35,21 @@
             <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button" data-toggle="popover"
                 data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="Создана: {{ $Salary->created_at }}
                                 Изменена: {{ $Salary->updated_at }}
-                                Владелец: {{ $Salary->owner->profile->FullName }}">i
+                                Владелец: {{ $Salary->owner->profile->FullName }}"><i class="bi bi-info"></i>
             </a>
         </p>
         <p class="card-text">{{ $Salary->comment }}</p>
     </div>
     <div class="card-footer text-muted">
-        <a href="{{ route('salary.edit', $Salary->id) }}" class="btn btn-outline-primary btn-sm">Изменить</a>
+        <a href="{{ route('salary.edit', $Salary->id) }}" class="btn btn-outline-primary btn-sm"><i
+                class="bi bi-pencil"></i></a>
         <!-- Кнопка удаления записи -->
         <!-- Обязательно подключение include('inc.modal-delete') -->
         <!-- data-bs-url - содержит ссылку на удаление -->
         <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
             data-bs-url="{{ route('salary.destroy', $Salary->id) }}" data-bs-type="начисления" data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop">Удалить</button>
+            data-bs-target="#staticBackdrop"><i class="bi bi-trash"></i></button>
+
     </div>
 </div>
 @endforeach

@@ -12,7 +12,7 @@ class RouteBillingController extends Controller
 
     public function index()
     {
-        $RouteBilling = RouteBilling::where('status', 1)->get();
+        $RouteBilling = RouteBilling::where('status', 1)->simplePaginate(config('app.pagination_count'));
         return view('billing.route', ['RouteBilling' => $RouteBilling]);
     }
 
@@ -27,14 +27,23 @@ class RouteBillingController extends Controller
         $valid = $request->validate([
             'start' => 'required',
             'finish' => 'required',
-            'length' => 'required',
         ]);
-
+        if ($request->input('collapse-new-type')) {
+            $valid = $request->validate(['price' => 'required',]);
+        } else {
+            $valid = $request->validate(['length' => 'required',]);
+        }
         $RouteBilling = new RouteBilling();
         // заполнение модели данными из формы
         $RouteBilling->start = $request->input('start');
         $RouteBilling->finish = $request->input('finish');
-        $RouteBilling->length = $request->input('length');
+        if ($request->input('collapse-new-type')) {
+            $RouteBilling->is_static = 1;
+            $RouteBilling->price = $request->input('price');
+        } else {
+            $RouteBilling->is_static = 0;
+            $RouteBilling->length = $request->input('length');
+        }
         // сохранение данных в базе
         $RouteBilling->save();
         // переход к странице списка
@@ -53,13 +62,25 @@ class RouteBillingController extends Controller
         $valid = $request->validate([
             'start' => 'required',
             'finish' => 'required',
-            'length' => 'required',
         ]);
+        if ($request->input('collapse-new-type')) {
+            $valid = $request->validate(['price' => 'required',]);
+        } else {
+            $valid = $request->validate(['length' => 'required',]);
+        }
         $RouteBilling = RouteBilling::find($id);
         // заполнение модели данными из формы
         $RouteBilling->start = $request->input('start');
         $RouteBilling->finish = $request->input('finish');
-        $RouteBilling->length = $request->input('length');
+        if ($request->input('collapse-new-type')) {
+            $RouteBilling->is_static = 1;
+            $RouteBilling->length = null;
+            $RouteBilling->price = $request->input('price');
+        } else {
+            $RouteBilling->is_static = 0;
+            $RouteBilling->length = $request->input('length');
+            $RouteBilling->price = null;
+        }
         // сохранение данных в базе
         $RouteBilling->save();
         // переход к странице списка

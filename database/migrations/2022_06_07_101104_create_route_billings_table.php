@@ -19,7 +19,9 @@ class CreateRouteBillingsTable extends Migration
             $table->timestamps();
             $table->string('start');
             $table->string('finish');
-            $table->Integer('length');
+            $table->boolean('is_static')->default(0);
+            $table->Integer('length')->nullable();;
+            $table->float('price', 8, 2)->nullable();
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
             $table->softDeletes();
