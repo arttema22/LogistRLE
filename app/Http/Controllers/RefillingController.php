@@ -92,7 +92,7 @@ class RefillingController extends Controller
             $Refilling->driver_id = $request->input('driver-id');
         }
         $Refilling->petrol_stations_id = $request->input('petrol-stations-id');
-        $Refilling->date_car_refueling = $request->input('date-car-refueling');
+        $Refilling->date = $request->input('date-car-refueling');
         $Refilling->num_liters_car_refueling = $request->input('num-liters-car-refueling');
         $Refilling->price_car_refueling = $request->input('price-car-refueling');
         $Refilling->cost_car_refueling = $request->input('num-liters-car-refueling') * $request->input('price-car-refueling');
@@ -146,7 +146,7 @@ class RefillingController extends Controller
             $Refilling->driver_id = $request->input('driver-id');
         }
         $Refilling->petrol_stations_id = $request->input('petrol-stations-id');
-        $Refilling->date_car_refueling = $request->input('date-car-refueling');
+        $Refilling->date = $request->input('date-car-refueling');
         $Refilling->num_liters_car_refueling = $request->input('num-liters-car-refueling');
         $Refilling->price_car_refueling = $request->input('price-car-refueling');
         $Refilling->cost_car_refueling = $request->input('num-liters-car-refueling') * $request->input('price-car-refueling');
@@ -171,8 +171,8 @@ class RefillingController extends Controller
         // $Refillings = Refilling::filter($filter)->simplePaginate(config('app.pagination_count'));
         // $Users = User::where('role_id', 2)->get();
 
-        $record = Refilling::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(date_car_refueling) as day_name"), DB::raw("DAY(date_car_refueling) as day"))
-            //->where('date_car_refueling', '>', Carbon::today()->subDay(6))
+        $record = Refilling::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(date) as day_name"), DB::raw("DAY(date) as day"))
+            //->where('date', '>', Carbon::today()->subDay(6))
             ->groupBy('day_name', 'day')
             ->orderBy('day')
             ->get();

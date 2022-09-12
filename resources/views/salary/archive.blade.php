@@ -5,26 +5,8 @@
 @section('content')
 <link rel="stylesheet" href="/css/tablesort.css">
 <script src='/js/tablesort.min.js'></script>
+@include('inc.filter-salary')
 @if (count($Salaries))
-<nav class="navbar">
-    <div class="container-fluid">
-        <h1>Архив выплат</h1>
-        @cannot('is-driver')
-        <form class="d-flex" method="get">
-            <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
-                <option value="0">Водитель</option>
-                @foreach ($Users as $User)
-                <option value="{{ $User->id }}" @if (isset($_GET['driver-id'])) @if ($_GET['driver-id']==$User->id)
-                    selected @endif
-                    @endif>{{ $User->profile->FullName }}</option>
-                @endforeach
-            </select>
-            <button type="submit" class="btn btn-primary me-2">Фильтр</button>
-            <a class="btn btn-outline-primary" href="{{ route('salary.archive') }}">Очистить</a>
-        </form>
-        @endcan
-    </div>
-</nav>
 <div class="table-responsive">
     <table class="table table-hover" id="sort-table">
         <thead class="table-primary">
@@ -52,7 +34,7 @@
                         data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="{{ $Salary->comment }}
                         Создана: {{ $Salary->created_at }}
                         Изменена: {{ $Salary->updated_at }}
-                        Владелец: {{ $Salary->owner->profile->FullName }}">i
+                        Владелец: {{ $Salary->owner->profile->FullName }}"><i class="bi bi-info"></i>
                     </a>
                 </td>
             </tr>
@@ -66,8 +48,7 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
-            <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новое
-                начисление</a>
+            <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новая выплата</a>
         </div>
     </div>
 </nav>

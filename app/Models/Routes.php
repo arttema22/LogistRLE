@@ -13,7 +13,8 @@ use App\Models\DirAddress;
 use App\Models\Services;
 use App\Models\Traits\Filterable;
 
-class Routes extends Model {
+class Routes extends Model
+{
 
     use HasFactory;
     use Filterable;
@@ -21,42 +22,48 @@ class Routes extends Model {
     /**
      * Получить данные о дополнительных услугах.
      */
-    public function services() {
+    public function services()
+    {
         return $this->hasMany(Services::class, 'route_id', 'id');
     }
 
     /**
      * Получить данные о создателе записи о марщруте.
      */
-    public function owner() {
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
     /**
      * Получить данные о водителе.
      */
-    public function driver() {
+    public function driver()
+    {
         return $this->belongsTo(User::class, 'driver_id', 'id');
     }
 
     /**
      * Получить данные о типе автомобиля.
      */
-    public function typeTruck() {
+    public function typeTruck()
+    {
         return $this->belongsTo(DirTypeTrucks::class, 'dir_type_trucks_id', 'id');
     }
 
     /**
      * Получить данные о грузе.
      */
-    public function cargo() {
+    public function cargo()
+    {
         return $this->belongsTo(DirCargo::class, 'cargo_id', 'id');
     }
 
     /**
      * Получить данные о плательщике.
      */
-    public function payer() {
+    public function payer()
+    {
         return $this->belongsTo(DirPayers::class, 'payer_id', 'id');
     }
 
@@ -79,12 +86,14 @@ class Routes extends Model {
      * Преобразует дату из базы в нужный формат.
      * Формат лежит в config\app
      */
-    public function getDateRouteAttribute($value) {
+    public function getDateAttribute($value)
+    {
         return Carbon::parse($value)->format(config('app.date_format'));
     }
 
-    public function getDateEditAttribute() {
-        return Carbon::parse($this->date_route)->format('Y-m-d');
+    public function getDateEditAttribute()
+    {
+        return Carbon::parse($this->date)->format('Y-m-d');
     }
 
     /**
@@ -92,12 +101,13 @@ class Routes extends Model {
      * Преобразует дату из базы в нужный формат.
      * Формат лежит в config\app
      */
-    public function getCreatedAtAttribute($value) {
+    public function getCreatedAtAttribute($value)
+    {
         return Carbon::parse($value)->format(config('app.date_format'));
     }
 
-    public function getUpdatedAtAttribute($value) {
+    public function getUpdatedAtAttribute($value)
+    {
         return Carbon::parse($value)->format(config('app.date_format'));
     }
-
 }

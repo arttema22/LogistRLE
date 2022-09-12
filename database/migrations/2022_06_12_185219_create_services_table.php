@@ -17,6 +17,7 @@ class CreateServicesTable extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->date('date');
             $table->BigInteger('driver_id')->unsigned();
             $table->foreign('driver_id')->references('id')->on('users');
             $table->foreignId('route_id')->constrained('routes')->onUpdate('cascade')->onDelete('cascade');

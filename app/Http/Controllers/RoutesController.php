@@ -29,7 +29,7 @@ class RoutesController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $request->validate(['driver-id' => 'numeric']);
+        $data = $request->validate(['driver-id' => 'numeric', 'type-truck-id' => 'numeric']);
         $filter = app()->make(RoutesFilter::class, ['queryParams' => array_filter($data)]);
         $Services = DirServices::all();
         $Payers = DirPayers::all();
@@ -47,15 +47,16 @@ class RoutesController extends Controller
 
     public function archive(Request $request)
     {
-        $data = $request->validate(['driver-id' => 'numeric']);
+        $data = $request->validate(['driver-id' => 'numeric', 'type-truck-id' => 'numeric']);
         $filter = app()->make(RoutesFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
             $Routes = Routes::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
             return view('routes.archive', ['Routes' => $Routes]);
         } else {
             $Users = User::where('role_id', 2)->get();
+            $TypeTrucks = DirTypeTrucks::all();
             $Routes = Routes::where('status', 0)->filter($filter)->simplePaginate(config('app.pagination_count'));
-            return view('routes.archive', ['Routes' => $Routes, 'Users' => $Users]);
+            return view('routes.archive', ['Routes' => $Routes, 'Users' => $Users, 'TypeTrucks' => $TypeTrucks]);
         }
     }
 
@@ -148,7 +149,7 @@ class RoutesController extends Controller
         } else {
             $Route->route_length = $Route_bill->length;
         }
-        $Route->date_route = $request->input('date-route');
+        $Route->date = $request->input('date-route');
         $Route->number_trips = $request->input('number-trips');
 
         // расчет цены маршрута
@@ -199,6 +200,7 @@ class RoutesController extends Controller
             for ($i = 0; $i < count($service_id); $i++) {
                 if ($service_id[$i] > 0) {
                     $Service = new Services();
+                    $Service->date = $request->input('date-route');
                     if (Gate::allows('is-driver')) { //текущий пользователь имеет роль водителя
                         $Service->driver_id = Auth::user()->id;
                     } else {
@@ -264,7 +266,7 @@ class RoutesController extends Controller
         $Route->payer_id = $request->input('payer');
         $Route->address_loading = $request->input('address-loading');
         $Route->address_unloading = $request->input('address-unloading');
-        $Route->date_route = $request->input('date-route');
+        $Route->date = $request->input('date-route');
         $Route->route_length = $request->input('route-length');
         $Route->price_route = $request->input('price-route');
         $Route->number_trips = $request->input('number-trips');

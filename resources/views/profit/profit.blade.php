@@ -3,26 +3,8 @@
 @section('title')Данные для расчета@endsection
 
 @section('content')
+@include('inc.filter-profit')
 @if (count($Salaries) or count($Routes) or count($Refillings))
-<nav class="navbar">
-    <div class="container-fluid">
-        <h1>Данные для расчета</h1>
-        @cannot('is-driver')
-        <form class="d-flex" method="get">
-            <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
-                <option value="0">Водитель</option>
-                @foreach ($Users as $User)
-                <option value="{{ $User->id }}" @if (isset($_GET['driver-id'])) @if ($_GET['driver-id']==$User->id)
-                    selected @endif
-                    @endif>{{ $User->profile->FullName }}</option>
-                @endforeach
-            </select>
-            <button type="submit" class="btn btn-primary me-2">Фильтр</button>
-            <a class="btn btn-outline-primary" href="{{ route('salary.list') }}">Очистить</a>
-        </form>
-        @endcan
-    </div>
-</nav>
 <form action="{{ route('profit.store') }}" method="post">
     @csrf
     <!-- Карточка с начислениями -->
@@ -110,7 +92,7 @@
                 @foreach ($Routes as $Route)
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $Route->date_route }}</td>
+                    <td>{{ $Route->date }}</td>
                     @cannot('is-driver')
                     <td>{{ $Route->driver->profile->full_name }}</td>
                     @endcan
@@ -195,7 +177,7 @@
                 @foreach ($Refillings as $Refilling)
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $Refilling->date_car_refueling }}</td>
+                    <td>{{ $Refilling->date }}</td>
                     @cannot('is-driver')
                     <td>{{ $Refilling->driver->profile->full_name }}</td>
                     @endcan

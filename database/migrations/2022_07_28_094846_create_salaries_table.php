@@ -17,11 +17,11 @@ class CreateSalariesTable extends Migration
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->date('date');
             $table->BigInteger('owner_id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('users');
             $table->BigInteger('driver_id')->unsigned();
             $table->foreign('driver_id')->references('id')->on('users');
-            $table->date('date');
             $table->float('salary', 8, 2);
             $table->BigInteger('profit_id')->unsigned()->default(0);
             $table->text('comment')->nullable();

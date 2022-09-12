@@ -5,7 +5,7 @@
 @section('content')
 <link rel="stylesheet" href="/css/tablesort.css">
 <script src='/js/tablesort.min.js'></script>
-@include('inc.refilling-filter')
+@include('inc.filter-refilling')
 @if(count($Refillings))
 
 <div class="table-responsive">
@@ -21,14 +21,14 @@
                 <th scope="col">Кол-во</th>
                 <th scope="col">Цена 1л</th>
                 <th scope="col">Стоимость</th>
-                <th scope="col" data-sort-method='none'>Запись о заправке</th>
+                <th scope="col" style="width: 1%">Инфо</th>
             </tr>
         </thead>
         <tbody>
             @foreach($Refillings as $Refilling)
             <tr>
                 <th scope="row">{{$loop->iteration}}</th>
-                <td>{{$Refilling->date_car_refueling}}</td>
+                <td>{{$Refilling->date}}</td>
                 @cannot('is-driver')
                 <td>{{$Refilling->driver->profile->FullName}}</td>
                 @endcan
@@ -39,11 +39,13 @@
                     <h6>{{$Refilling->cost_car_refueling}} руб.</h6>
                 </td>
                 <td>
-                    <small class="text-muted">
-                        Создана: {{$Refilling->created_at}}<br>
-                        Изменена: {{$Refilling->updated_at}}<br>
-                        Владелец: {{$Refilling->owner->profile->FullName}}
-                    </small>
+                    <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button" data-toggle="popover"
+                        data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="{{ $Refilling->comment }}
+                                            Создана: {{ $Refilling->created_at }}
+                                            Изменена: {{ $Refilling->updated_at }}
+                                            Владелец: {{ $Refilling->owner->profile->FullName }}"><i
+                            class="bi bi-info"></i>
+                    </a>
                 </td>
             </tr>
             @endforeach
@@ -61,7 +63,12 @@
     </div>
 </nav>
 <script>
-    new Tablesort(document.getElementById('sort-table'));
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover({
+            placement : 'left'
+        });
+    });
+    // new Tablesort(document.getElementById('sort-table'));
 </script>
 @else
 <div class="px-4 py-5 my-5 text-center">

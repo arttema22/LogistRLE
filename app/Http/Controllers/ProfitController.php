@@ -22,7 +22,7 @@ class ProfitController extends Controller
     // список сверок
     public function index(Request $request)
     {
-        $data = $request->validate(['driver-id' => 'numeric']);
+        $data = $request->validate(['driver-id' => 'numeric', 'date-profit' => 'date']);
         $filter = app()->make(ProfitFilter::class, ['queryParams' => array_filter($data)]);
 
         if (Gate::allows('is-driver')) {
@@ -31,10 +31,10 @@ class ProfitController extends Controller
             $Refillings = Refilling::where('status', 1)->where('driver_id', Auth::user()->id)->get();
             return view('profit.profit', ['Salaries' => $Salary, 'Routes' => $Routes, 'Refillings' => $Refillings]);
         } else {
-            $Salary = Salary::where('status', 1)->get();
-            $Routes = Routes::where('status', 1)->get();
+            $Salary = Salary::where('status', 1)->filter($filter)->get();
+            $Routes = Routes::where('status', 1)->filter($filter)->get();
+            $Refillings = Refilling::where('status', 1)->filter($filter)->get();
             $Users = User::where('role_id', 2)->get();
-            $Refillings = Refilling::where('status', 1)->get();
             return view('profit.profit', ['Salaries' => $Salary, 'Routes' => $Routes, 'Refillings' => $Refillings, 'Users' => $Users]);
         }
     }
@@ -87,7 +87,9 @@ class ProfitController extends Controller
                     $ProfitData->sum_routes = Routes::whereIn('id', $route)->where('status', 1)->where('driver_id', $User->id)->sum('summ_route');
                     $ProfitData->sum_services = Services::where('driver_id', $User->id)->where('status', 1)->sum('sum');
                 }
+
                 $ProfitData->sum_total = $ProfitData->sum_routes + $ProfitData->sum_services - $ProfitData->sum_refuelings - $ProfitData->sum_salary;
+
                 $ProfitData->save();
             }
 

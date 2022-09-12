@@ -12,6 +12,7 @@ class CreateRoutesTable extends Migration
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->date('date');
             $table->BigInteger('owner_id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('users');
             $table->BigInteger('driver_id')->unsigned();
@@ -24,7 +25,6 @@ class CreateRoutesTable extends Migration
             $table->foreign('payer_id')->references('id')->on('dir_payers');
             $table->string('address_loading');
             $table->string('address_unloading');
-            $table->date('date_route');
             $table->Integer('route_length')->default(0);
             $table->float('price_route', 8, 2);
             $table->Integer('number_trips');

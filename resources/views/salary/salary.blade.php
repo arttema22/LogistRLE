@@ -3,26 +3,8 @@
 @section('title')Выплаты@endsection
 
 @section('content')
+@include('inc.filter-salary')
 @if (count($Salaries))
-<nav class="navbar">
-    <div class="container-fluid">
-        <h1>Выплаты</h1>
-        @cannot('is-driver')
-        <form class="d-flex" method="get">
-            <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
-                <option value="0">Водитель</option>
-                @foreach ($Users as $User)
-                <option value="{{ $User->id }}" @if (isset($_GET['driver-id'])) @if ($_GET['driver-id']==$User->id)
-                    selected @endif
-                    @endif>{{ $User->profile->FullName }}</option>
-                @endforeach
-            </select>
-            <button type="submit" class="btn btn-primary me-2">Фильтр</button>
-            <a class="btn btn-outline-primary" href="{{ route('salary.list') }}">Очистить</a>
-        </form>
-        @endcan
-    </div>
-</nav>
 @foreach ($Salaries as $Salary)
 <div class="card mb-3">
     @cannot('is-driver')
@@ -40,7 +22,7 @@
         </p>
         <p class="card-text">{{ $Salary->comment }}</p>
     </div>
-    <div class="card-footer text-muted">
+    <div class="card-footer text-muted text-end">
         <a href="{{ route('salary.edit', $Salary->id) }}" class="btn btn-outline-primary btn-sm"><i
                 class="bi bi-pencil"></i></a>
         <!-- Кнопка удаления записи -->
@@ -54,7 +36,7 @@
 </div>
 @endforeach
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новое начисление</a>
+    <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новая выплата</a>
 </div>
 @include('inc.modal-delete')
 <script>

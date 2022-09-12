@@ -60,15 +60,15 @@ return [
         |
         */
         'properties'             => [
-            'creator'        => '',
+            'creator'        => 'Артем Гусев',
             'lastModifiedBy' => '',
-            'title'          => '',
+            'title'          => 'Акт сверки',
             'description'    => '',
             'subject'        => '',
             'keywords'       => '',
             'category'       => '',
             'manager'        => '',
-            'company'        => '',
+            'company'        => 'РегионЛесЭкспорт',
         ],
     ],
 

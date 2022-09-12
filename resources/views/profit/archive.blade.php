@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title')Список расчетов@endsection
+@section('title')Архив расчетов@endsection
 
 @section('content')
-<h1 class="mt-5">Список расчетов</h1>
+<h1 class="mt-5">Архив расчетов</h1>
 @if (count($Profits))
 @can('is-driver')
 <div class="table-responsive">

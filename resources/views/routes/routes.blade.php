@@ -3,26 +3,8 @@
 @section('title')Маршруты@endsection
 
 @section('content')
-
+@include('inc.filter-route')
 @if(count($Routes))
-<nav class="navbar">
-    <div class="container-fluid">
-        <h1>Маршруты</h1>
-        @cannot('is-driver')
-        <form class="d-flex" method="get">
-            <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
-                <option value="0">Водитель</option>
-                @foreach($Users as $User)
-                <option value="{{$User->id}}" @if(isset($_GET['driver-id'])) @if($_GET['driver-id']==$User->id) selected
-                    @endif @endif>{{$User->profile->FullName}}</option>
-                @endforeach
-            </select>
-            <button type="submit" class="btn btn-primary me-2">Фильтр</button>
-            <a class="btn btn-outline-primary" href="{{route('routes.list')}}">Очистить</a>
-        </form>
-        @endcan
-    </div>
-</nav>
 <div class="accordion accordion-flush" id="accordionFlushRoutes">
     @foreach($Routes as $Route)
     <div class="accordion-item">
@@ -32,7 +14,7 @@
                 aria-controls="flush-collapse{{$Route->id}}">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-2">{{$Route->date_route}}</div>
+                        <div class="col-md-2">{{$Route->date}}</div>
                         @cannot('is-driver')
                         <div class="col-md-4">{{$Route->driver->profile->FullName}}</div>
                         @endcan
@@ -59,7 +41,8 @@
                             <!-- data-bs-url - содержит ссылку на удаление -->
                             <button type="button" class="btn btn-outline-danger btn-sm btn-del-modal"
                                 data-bs-url="{{ route('routes.destroy', $Route->id) }}" data-bs-type="маршрута"
-                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
+                                data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
+                                    class="bi bi-trash"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
