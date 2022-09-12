@@ -166,7 +166,7 @@ Route::name('profit.')
         Route::get('', [ProfitController::class, 'index'])->name('list');
         Route::get('/archive', [ProfitController::class, 'archive'])->name('archive');
         Route::post('/store', [ProfitController::class, 'store'])->name('store');
-        Route::get('/export/{id}/{uid}', [ProfitController::class, 'export'])->name('export');
+        Route::get('/export/{id}', [ProfitController::class, 'export'])->name('export');
 
         Route::get('pdf/preview', [PDFController::class, 'preview'])->name('pdf.preview');
         Route::get('pdf/generate', [PDFController::class, 'generatePDF'])->name('pdf.generate');

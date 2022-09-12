@@ -4,256 +4,145 @@
 
 @section('content')
 @include('inc.filter-profit')
-@if (count($Salaries) or count($Routes) or count($Refillings))
-<form action="{{ route('profit.store') }}" method="post">
-    @csrf
-    <!-- Карточка с начислениями -->
-    @if (count($Salaries))
-    <h4>Начисления</h4>
-    <div class="table-responsive">
+
+@foreach ( $Users as $User)
+@if (count($User->driverSalary->where('status', 1)) or count($User->driverRefilling->where('status', 1)) or
+count($User->driverRoute->where('status', 1)))
+<div class="card mb-3">
+    <div class="card-header navbar">
+        <h5>{{ $User->profile->fullName }}</h5>
+        <i>с {{$User->profit->last()->created_at}} по {{ date('d.m.Y')}}</i>
+    </div>
+    <div class="card-body">
         <table class="table table-hover">
-            <thead class="table-primary">
+            <thead>
                 <tr>
-                    <th scope="col" style="width: 1%">#</th>
-                    <th scope="col" style="width: 5%">Дата</th>
-                    @cannot('is-driver')
-                    <th scope="col">Водитель</th>
-                    @endcan
-                    <th scope="col" style="width: 60%"></th>
-                    <th scope="col" style="width: 10%">Сумма</th>
-                    @cannot('is-driver')
-                    <th scope="col" style="width: 1%">Согласие</th>
-                    @endcan
+                    <th style="width: 10%">Дата</th>
+                    <th>Документ</th>
+                    <th style="width: 10%">Выплаты</th>
+                    <th style="width: 10%">Заправки</th>
+                    <th style="width: 10%">Маршруты</th>
+                    <th style="width: 10%">Услуги</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($Salaries as $Salary)
                 <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
+                    <th>Сальдо начальное</th>
+                    <td>{{ $User->profit->last()->comment }}</td>
+                    <th>{{ $User->profit->last()->sum_salary }}</th>
+                    <th>{{ $User->profit->last()->sum_refuelings }}</th>
+                    <th>{{ $User->profit->last()->sum_routes }}</th>
+                    <th>{{ $User->profit->last()->sum_services }}</th>
+                    <th>{{ $User->profit->last()->saldo_end }}</th>
+                </tr>
+                @foreach ( $User->driverSalary->where('status', 1) as $Salary )
+                <tr>
                     <td>{{ $Salary->date }}</td>
-                    @cannot('is-driver')
-                    <td>{{ $Salary->driver->profile->full_name }}</td>
-                    @endcan
-                    <td>{{ $Salary->comment }}</td>
-                    <td>
-                        <h6>{{ $Salary->salary }} руб.</h6>
-                    </td>
-                    @cannot('is-driver')
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="salary[{{ $Salary->id }}]"
-                            value="{{ $Salary->id }}" checked>
-                    </td>
-                    @endcan
+                    <td>Выплата. {{ $Salary->comment }}</td>
+                    <td>{{ $Salary->salary }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 @endforeach
-            </tbody>
-            <tfoot>
+                @foreach ( $User->driverRefilling->where('status', 1) as $Refilling )
                 <tr>
-                    @can('is-driver')
-                    <td colspan="3">
-                        @else
-                    <td colspan="4">
-                        @endcan
-                        Всего начислений: {{ $Salaries->count() }}
-                    </td>
-                    <td>
-                        <h6>{{ $Salaries->sum('salary') }} руб.</h6>
-                    </td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    @else
-    <h4 class="mt-5">Начислений нет <a href="{{ route('salary.create') }}" class="btn btn-link">Новое начисление</a>
-    </h4>
-    @endif
-
-    <!-- Карточка с маршрутами -->
-    @if (count($Routes))
-    <h4>Маршруты</h4>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-primary">
-                <tr>
-                    <th scope="col" style="width: 1%">#</th>
-                    <th scope="col" style="width: 5%">Дата</th>
-                    @cannot('is-driver')
-                    <th scope="col">Водитель</th>
-                    @endcan
-                    <th scope="col" style="width: 60%"></th>
-                    <th scope="col" style="width: 10%">Сумма</th>
-                    @cannot('is-driver')
-                    <th scope="col" style="width: 1%">Согласие</th>
-                    @endcan
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($Routes as $Route)
-                <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $Route->date }}</td>
-                    @cannot('is-driver')
-                    <td>{{ $Route->driver->profile->full_name }}</td>
-                    @endcan
-                    <td>
-                        {{ $Route->address_loading }} - {{ $Route->address_unloading }} ({{$Route->route_length}} км.)
-                        @if (count($Route->services))
-                        @foreach ($Route->services as $Service)
-                        <br>{{ $Service->service->title }}: {{ $Service->price }} x {{ $Service->number_operations }} =
-                        {{ $Service->sum }} руб. ({{ $Service->comment }})
-                        @endforeach
-                        @endif
-                    </td>
-                    <td>
-                        <h6>{{ $Route->summ_route }} руб.</h6>
-                        <h6>{{ $Route->services->sum('sum') }} руб.</h6>
-                    </td>
-                    @cannot('is-driver')
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="route[{{ $Route->id }}]"
-                            value="{{ $Route->id }}" checked>
-                    </td>
-                    @endcan
-                </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    @can('is-driver')
-                    <td colspan="3">
-                        @else
-                    <td colspan="4">
-                        @endcan
-                        Всего за маршруты: {{ $Routes->count() }}
-                    </td>
-                    <td>
-                        <h6>{{ $Routes->sum('summ_route') }} руб.</h6>
-                    </td>
-                    <td></td>
-                <tr>
-                    @can('is-driver')
-                    <td colspan="3">
-                        @else
-                    <td colspan="4">
-                        @endcan
-                        Всего за услуги: {{ $Route->services->where('status', 1)->count() }}
-                    </td>
-                    <td>
-                        <h6>{{ $Route->services->where('status', 1)->sum('sum') }} руб.</h6>
-                    </td>
-                    <td></td>
-                </tr>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    @else
-    <h4 class="mt-5">Маршрутов нет <a href="{{ route('routes.create') }}" class="btn btn-link">Новый
-            маршрут</a>
-    </h4>
-    @endif
-
-    <!-- Карточка с заправками -->
-    @if (count($Refillings))
-    <h4>Заправки</h4>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-primary">
-                <tr>
-                    <th scope="col" style="width: 1%">#</th>
-                    <th scope="col" style="width: 5%">Дата</th>
-                    @cannot('is-driver')
-                    <th scope="col">Водитель</th>
-                    @endcan
-                    <th scope="col" style="width: 60%"></th>
-                    <th scope="col" style="width: 10%">Сумма</th>
-                    @cannot('is-driver')
-                    <th scope="col" style="width: 1%">Согласие</th>
-                    @endcan
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($Refillings as $Refilling)
-                <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $Refilling->date }}</td>
-                    @cannot('is-driver')
-                    <td>{{ $Refilling->driver->profile->full_name }}</td>
-                    @endcan
-                    <td>{{ $Refilling->num_liters_car_refueling }} л. {{ $Refilling->price_car_refueling }} руб.</td>
-
                     <td>
-                        <h6>{{ $Refilling->cost_car_refueling }} руб.</h6>
+                        Заправка. {{ $Refilling->petrolStation->title }}. Заправлено
+                        {{ $Refilling->num_liters_car_refueling }} л. по
+                        {{ $Refilling->price_car_refueling }} руб.
                     </td>
-                    @cannot('is-driver')
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="refilling[{{ $Refilling->id }}]"
-                            value="{{ $Refilling->id }}" checked>
-                    </td>
-                    @endcan
+                    <td></td>
+                    <td>{{ $Refilling->cost_car_refueling }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
+                @endforeach
+                @foreach ( $User->driverRoute->where('status', 1) as $Route )
+                <tr>
+                    <td>{{ $Route->date }}</td>
+                    <td>
+                        Маршрут. {{ $Route->address_loading }} -
+                        {{ $Route->address_unloading }}
+                        {{ $Route->route_length }}.
+                        Транспорт - {{ $Route->typeTruck->title }}.
+                        Груз - {{ $Route->cargo->title }}.
+                        Плательщик - {{ $Route->payer->title }}.
+                        Количество рейсов - {{ $Route->number_trips }}.
+                        Стоимость - {{ $Route->price_route }} руб.
+                        Непредвиденные расходы - {{ $Route->unexpected_expenses }} руб.
+                        {{ $Route->comment }}<br>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ $Route->summ_route }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @foreach ( $Route->services->where('status', 1) as $Service )
+                <tr>
+                    <td></td>
+                    <td>
+                        {{ $Service->service->title }}.
+                        Количество - {{ $Service->number_operations }} по цена
+                        {{ $Service->price }} руб.
+                        {{ $Service->comment }}
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ $Service->sum }}</td>
+                    <td></td>
+                </tr>
+                @endforeach
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    @can('is-driver')
-                    <td colspan="3">
-                        @else
-                    <td colspan="4">
-                        @endcan
-                        Всего начислений: {{ $Refillings->count() }}
-                    </td>
-                    <td>
-                        <h6>{{ $Refillings->sum('cost_car_refueling') }} руб.</h6>
-                    </td>
-                    <td></td>
+                    <th colspan="2">Обороты за период</th>
+                    <th>{{ $User->driverSalary->where('status', 1)->sum('salary') }}</th>
+                    <th>{{ $User->driverRefilling->where('status', 1)->sum('cost_car_refueling') }}</th>
+                    <th>{{ $User->driverRoute->where('status', 1)->sum('summ_route') }}</th>
+                    <th>{{ $User->driverService->where('status', 1)->sum('sum') }}</th>
+                    <th>
+                        {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status', 1)->sum('summ_route')
+                        - $User->driverRefilling->where('status', 1)->sum('cost_car_refueling') -
+                        $User->driverSalary->where('status', 1)->sum('salary')
+                        }}
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="6">Сальдо конечное</th>
+                    <th>
+                        {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status', 1)->sum('summ_route')
+                        - $User->driverRefilling->where('status', 1)->sum('cost_car_refueling') -
+                        $User->driverSalary->where('status', 1)->sum('salary')
+                        }}
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="6">Сальдо конечное</th>
+                    <th>
+                        {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status', 1)->sum('summ_route')
+                        +
+                        $User->driverService->where('status', 1)->sum('sum') -
+                        $User->driverSalary->where('status', 1)->sum('salary')
+                        }}
+                    </th>
                 </tr>
             </tfoot>
         </table>
     </div>
-    @else
-    <h4 class="mt-5">Заправок нет <a href="{{ route('refilling.create') }}" class="btn btn-link">Новая
-            заправка</a></h4>
-    @endif
-    @cannot('is-driver')
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <input type="submit" class="btn btn-primary btn-lg" value="Произвести расчет">
-    </div>
-    @endcan
-</form>
-@else
-<h1 class="mt-5">Нет данных для расчетов</h1>
-<p>Для производства рассчетов необходимо создать хоть одну запись.</p>
-<div class="container px-4 py-5" id="hanging-icons">
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-        <div class="col d-flex align-items-start">
-            <div>
-                <h2>Маршруты</h2>
-                <p>Сервис работы с маршрутами. Не забывайте подать данные.</p>
-                <a href="{{ route('routes.list') }}" class="btn btn-primary">Перейти</a>
-                <a href="{{ route('routes.create') }}" class="btn btn-outline-primary">Новый маршрут</a>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div>
-                <h2>Заправки</h2>
-                <p>Сервис работы с заправками автомобиля. Не забывайте подать данные.</p>
-                <a href="{{ route('refilling.list') }}" class="btn btn-primary">Перейти</a>
-                <a href="{{ route('refilling.create') }}" class="btn btn-outline-primary">Новая заправка</a>
-            </div>
-        </div>
-        @cannot('is-driver')
-        <div class="col d-flex align-items-start">
-            <div>
-                <h2>Начисления</h2>
-                <p>Сервис работы с начислениями зарплаты.</p>
-                <a href="{{ route('salary.list') }}" class="btn btn-primary">Перейти</a>
-                <a href="{{ route('salary.create') }}" class="btn btn-outline-primary">Новое начисление</a>
-            </div>
-        </div>
-        @endcan
+    <div class="card-footer navbar">
+        <i></i>
+        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export', $User->id) }}"
+            role="button">Экспорт</a>
     </div>
 </div>
 @endif
+@endforeach
 @endsection

@@ -136,13 +136,5 @@ class UserSeeder extends Seeder
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
         ]);
-        DB::table('users')->insert([
-            'name' => '269',
-            'email' => 'volmar@inbox.ru',
-            'role_id' => 2,
-            'password' => Hash::make('radswad0'),
-            'created_at' => '2022-09-01 09:00:00',
-            'updated_at' => '2022-09-01 09:00:00',
-        ]);
     }
 }

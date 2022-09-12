@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use App\Models\Routes;
 use App\Models\DirServices;
+use App\Models\Traits\Filterable;
 
 class Services extends Model
 {
 
     use HasFactory;
+    use Filterable;
 
     /**
      * Получить данные о марщруте.

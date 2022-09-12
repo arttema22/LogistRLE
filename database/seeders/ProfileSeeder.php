@@ -150,14 +150,5 @@ class ProfileSeeder extends Seeder
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
         ]);
-        DB::table('profiles')->insert([
-            'user_id' => 16,
-            'last_name' => 'Вольмар',
-            'first_name' => 'Игорь',
-            'sec_name' => 'Витальевич',
-            'phone' => '89213371726',
-            'created_at' => '2022-09-01 09:00:00',
-            'updated_at' => '2022-09-01 09:00:00',
-        ]);
     }
 }

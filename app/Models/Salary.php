@@ -8,22 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Traits\Filterable;
 
-class Salary extends Model {
-
-    use HasFactory;
-    use Filterable;
+class Salary extends Model
+{
+    use HasFactory, Filterable;
 
     /**
      * Получить данные о водителе.
      */
-    public function driver() {
+    public function driver()
+    {
         return $this->belongsTo(User::class, 'driver_id', 'id');
     }
 
     /**
      * Получить данные о владельце.
      */
-    public function owner() {
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
@@ -32,20 +33,23 @@ class Salary extends Model {
      * Преобразует дату из базы в нужный формат.
      * Формат лежит в config\app
      */
-    public function getDateAttribute($value) {
+    public function getDateAttribute($value)
+    {
         return Carbon::parse($value)->format(config('app.date_format'));
     }
 
-    public function getDateEditAttribute() {
+    public function getDateEditAttribute()
+    {
         return Carbon::parse($this->date)->format('Y-m-d');
     }
 
-    public function getCreatedAtAttribute($value) {
+    public function getCreatedAtAttribute($value)
+    {
         return Carbon::parse($value)->format(config('app.date_full_format'));
     }
 
-    public function getUpdatedAtAttribute($value) {
+    public function getUpdatedAtAttribute($value)
+    {
         return Carbon::parse($value)->format(config('app.date_full_format'));
     }
-
 }

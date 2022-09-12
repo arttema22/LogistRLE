@@ -22,20 +22,19 @@ class ProfitController extends Controller
     // список сверок
     public function index(Request $request)
     {
-        $data = $request->validate(['driver-id' => 'numeric', 'date-profit' => 'date']);
+        $data = $request->validate(['driver-id' => 'numeric']);
         $filter = app()->make(ProfitFilter::class, ['queryParams' => array_filter($data)]);
 
         if (Gate::allows('is-driver')) {
             $Salary = Salary::where('status', 1)->where('driver_id', Auth::user()->id)->get();
             $Routes = Routes::where('status', 1)->where('driver_id', Auth::user()->id)->get();
             $Refillings = Refilling::where('status', 1)->where('driver_id', Auth::user()->id)->get();
-            return view('profit.profit', ['Salaries' => $Salary, 'Routes' => $Routes, 'Refillings' => $Refillings]);
+            $Users = User::where('id', Auth::user()->id)->get();
+            return view('profit.profit', ['Users' => $Users]);
         } else {
-            $Salary = Salary::where('status', 1)->filter($filter)->get();
-            $Routes = Routes::where('status', 1)->filter($filter)->get();
-            $Refillings = Refilling::where('status', 1)->filter($filter)->get();
-            $Users = User::where('role_id', 2)->get();
-            return view('profit.profit', ['Salaries' => $Salary, 'Routes' => $Routes, 'Refillings' => $Refillings, 'Users' => $Users]);
+            $Users = User::where('role_id', 2)->filter($filter)->get();
+            $User_list = User::where('role_id', 2)->get();
+            return view('profit.profit', ['Users' => $Users, 'User_list' => $User_list]);
         }
     }
 
@@ -110,8 +109,8 @@ class ProfitController extends Controller
         return redirect()->route('profit.list')->with('success', 'Произведено новое начисление.');
     }
 
-    public function export($id, $uid)
+    public function export($id)
     {
-        return Excel::download(new ProfitExport($id, $uid), 'Profit-' . $id . '-' . $uid . '.xlsx');
+        return Excel::download(new ProfitExport($id), 'Profit-' . $id . '.xlsx');
     }
 }

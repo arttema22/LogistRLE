@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             UserSeeder::class,
             ProfileSeeder::class,
+            ProfitSeeder::class,
             TupeTrucksSeeder::class,
             DistanceBillingSeeder::class,
             RouteBillingSeeder::class,

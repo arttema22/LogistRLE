@@ -5,8 +5,10 @@ namespace App\Http\Controllers\auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
 use App\Models\Profile;
+use App\Models\Profits;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
@@ -40,6 +42,7 @@ class UserController extends Controller
         $User->password = $request->input('password');
         $User->role_id = $request->input('role');
         $User->save();
+
         $Profile = new Profile();
         $Profile->user_id = $User->id;
         $Profile->last_name = $request->input('last-name');
@@ -47,6 +50,13 @@ class UserController extends Controller
         $Profile->sec_name = $request->input('sec-name');
         $Profile->phone = $request->input('phone');
         $Profile->save();
+
+        $Profit = new Profits();
+        $Profit->owner_id = Auth::user()->id;
+        $Profit->driver_id = $User->id;
+        $Profit->comment = 'Начальная загрузка';
+        $Profit->save();
+
         return redirect()->route('user.list')->with('success', 'Создан новый пользователь.');
     }
 

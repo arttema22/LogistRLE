@@ -9,18 +9,20 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @author arttema
  */
-class SalaryFilter extends AbstractFilter {
+class SalaryFilter extends AbstractFilter
+{
 
     public const DRIVER_ID = 'driver-id';
 
-    protected function getCallbacks(): array {
+    protected function getCallbacks(): array
+    {
         return [
             self::DRIVER_ID => [$this, 'driverId'],
         ];
     }
 
-    public function driverId(Builder $builder, $value) {
+    public function driverId(Builder $builder, $value)
+    {
         $builder->where('driver_id', $value);
     }
-
 }
