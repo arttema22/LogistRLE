@@ -165,6 +165,7 @@ Route::name('profit.')
     ->group(function () {
         Route::get('', [ProfitController::class, 'index'])->name('list');
         Route::get('/archive', [ProfitController::class, 'archive'])->name('archive');
+        Route::get('/close', [ProfitController::class, 'close'])->name('close');
         Route::post('/store', [ProfitController::class, 'store'])->name('store');
         Route::get('/export/{id}', [ProfitController::class, 'export'])->name('export');
 

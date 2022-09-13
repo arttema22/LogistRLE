@@ -38,4 +38,8 @@ class Profits extends Model
     {
         return Carbon::parse($value)->format(config('app.date_format'));
     }
+    public function getDateAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('app.date_format'));
+    }
 }

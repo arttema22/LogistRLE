@@ -66,6 +66,11 @@ count($User->driverRoute->where('status', 1)))
                 <tr>
                     <td>{{ $Route->date }}</td>
                     <td>
+                        @if ($Route->typeTruck->is_service)
+                        @php
+                        $isService = 1;
+                        @endphp
+                        @endif
                         Маршрут. {{ $Route->address_loading }} -
                         {{ $Route->address_unloading }}
                         {{ $Route->route_length }}.
@@ -109,29 +114,33 @@ count($User->driverRoute->where('status', 1)))
                     <th>{{ $User->driverRoute->where('status', 1)->sum('summ_route') }}</th>
                     <th>{{ $User->driverService->where('status', 1)->sum('sum') }}</th>
                     <th>
-                        {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status', 1)->sum('summ_route')
-                        - $User->driverRefilling->where('status', 1)->sum('cost_car_refueling') -
+                        @if ($isService)
+                        {{ $User->driverRoute->where('status', 1)->sum('summ_route')
+                        +
+                        $User->driverService->where('status', 1)->sum('sum') -
                         $User->driverSalary->where('status', 1)->sum('salary')
                         }}
+                        @else
+                        {{ $User->driverRoute->where('status', 1)->sum('summ_route')
+                        - $User->driverRefilling->where('status', 1)->sum('cost_car_refueling') -
+                        $User->driverSalary->where('status', 1)->sum('salary') }}
+                        @endif
                     </th>
                 </tr>
                 <tr>
                     <th colspan="6">Сальдо конечное</th>
                     <th>
-                        {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status', 1)->sum('summ_route')
-                        - $User->driverRefilling->where('status', 1)->sum('cost_car_refueling') -
-                        $User->driverSalary->where('status', 1)->sum('salary')
-                        }}
-                    </th>
-                </tr>
-                <tr>
-                    <th colspan="6">Сальдо конечное</th>
-                    <th>
+                        @if ($isService)
                         {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status', 1)->sum('summ_route')
                         +
                         $User->driverService->where('status', 1)->sum('sum') -
                         $User->driverSalary->where('status', 1)->sum('salary')
                         }}
+                        @else
+                        {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status', 1)->sum('summ_route')
+                        - $User->driverRefilling->where('status', 1)->sum('cost_car_refueling') -
+                        $User->driverSalary->where('status', 1)->sum('salary') }}
+                        @endif
                     </th>
                 </tr>
             </tfoot>
@@ -143,6 +152,14 @@ count($User->driverRoute->where('status', 1)))
             role="button">Экспорт</a>
     </div>
 </div>
+
+@php
+$isService = 0;
+@endphp
 @endif
 @endforeach
+
+@cannot('is-driver')
+<a class="btn btn-danger btn-sm" href="{{ route('profit.close') }}" role="button">Закрыть период</a>
+@endcan
 @endsection

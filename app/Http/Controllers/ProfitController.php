@@ -24,89 +24,82 @@ class ProfitController extends Controller
     {
         $data = $request->validate(['driver-id' => 'numeric']);
         $filter = app()->make(ProfitFilter::class, ['queryParams' => array_filter($data)]);
-
+        $isService = 0;
         if (Gate::allows('is-driver')) {
-            $Salary = Salary::where('status', 1)->where('driver_id', Auth::user()->id)->get();
-            $Routes = Routes::where('status', 1)->where('driver_id', Auth::user()->id)->get();
-            $Refillings = Refilling::where('status', 1)->where('driver_id', Auth::user()->id)->get();
             $Users = User::where('id', Auth::user()->id)->get();
-            return view('profit.profit', ['Users' => $Users]);
+            return view('profit.profit', ['Users' => $Users, 'isService' => $isService]);
         } else {
             $Users = User::where('role_id', 2)->filter($filter)->get();
             $User_list = User::where('role_id', 2)->get();
-            return view('profit.profit', ['Users' => $Users, 'User_list' => $User_list]);
+            return view('profit.profit', ['Users' => $Users, 'User_list' => $User_list, 'isService' => $isService]);
         }
     }
 
     public function archive()
     {
         if (Gate::allows('is-driver')) {
-            $Profits = ProfitsData::where('status', 1)->where('driver_id', Auth::user()->id)->orderByDesc('created_at')->get();
-            //$Profits = ProfitsData::where('status', 1)->where('driver_id', Auth::user()->id)->orderByDesc('created_at')->simplePaginate(config('app.pagination_count'));
+            $Users = User::where('id', Auth::user()->id)->get();
         } else {
-            $Profits = Profits::where('status', 1)->orderByDesc('created_at')->simplePaginate(config('app.pagination_count'));
+            $Users = User::where('role_id', 2)->get();
         }
-        return view('profit.archive', ['Profits' => $Profits]);
+        return view('profit.archive', ['Users' => $Users]);
+    }
+
+    public function close()
+    {
+        return view('profit.close');
     }
 
     public function store(Request $request)
     {
-        $Profit = new Profits();
-        $Profit->owner_id = Auth::user()->id;
-        $Profit->save();
         $Users = User::where('role_id', 2)->get();
         foreach ($Users as $User) {
-            // проверка массивов на их наличие в запросе
-            if (isset($request->salary) ? $salary = $request->salary : $salary = null);
-            if (isset($request->refilling) ? $refilling = $request->refilling : $refilling = null);
-            if (isset($request->route) ? $route = $request->route : $route = null);
-
             if (!$User->driverRefilling->where('status', 1)->isEmpty() or !$User->driverRoute->where('status', 1)->isEmpty() or !$User->driverSalary->where('status', 1)->isEmpty()) {
-                $ProfitData = new ProfitsData();
-                $ProfitData->profit_id = $Profit->id;
-                $ProfitData->driver_id = $User->id;
+                $Profit = new Profits();
+                $Profit->date = $request->input('date-close');
+                $Profit->owner_id = Auth::user()->id;
+                $Profit->driver_id = $User->id;
+                $Profit->saldo_start = $User->profit->last()->saldo_end;
+                $Profit->sum_salary = $User->driverSalary->where('status', 1)->sum('salary');
+                $Profit->sum_refuelings = $User->driverRefilling->where('status', 1)->sum('cost_car_refueling');
+                $Profit->sum_routes = $User->driverRoute->where('status', 1)->sum('summ_route');
+                $Profit->sum_services = $User->driverService->where('status', 1)->sum('sum');
 
-                // расчет суммы всех начислений водителю
-                if ($salary == null) {
-                    $ProfitData->sum_salary = 0;
-                } else {
-                    $ProfitData->sum_salary = Salary::whereIn('id', $salary)->where('status', 1)->where('driver_id', $User->id)->sum('salary');
-                }
-                // расчет суммы всех заправок водителя
-                if ($refilling == null) {
-                    $ProfitData->sum_refuelings = 0;
-                } else {
-                    $ProfitData->sum_refuelings = Refilling::whereIn('id', $refilling)->where('status', 1)->where('driver_id', $User->id)->sum('cost_car_refueling');
-                }
-                // расчет суммы всех маршрутов водителя
-                if ($route == null) {
-                    $ProfitData->sum_routes = 0;
-                    $ProfitData->sum_services = 0;
-                } else {
-                    $ProfitData->sum_routes = Routes::whereIn('id', $route)->where('status', 1)->where('driver_id', $User->id)->sum('summ_route');
-                    $ProfitData->sum_services = Services::where('driver_id', $User->id)->where('status', 1)->sum('sum');
+                $isService = 0;
+                foreach ($User->driverRoute->where('status', 1) as $Route) {
+                    if ($Route->is_service) {
+                        $isService = 1;
+                    }
                 }
 
-                $ProfitData->sum_total = $ProfitData->sum_routes + $ProfitData->sum_services - $ProfitData->sum_refuelings - $ProfitData->sum_salary;
+                if ($isService) {
+                    $Profit->saldo_end = $Profit->saldo_start + $Profit->sum_routes +
+                        $Profit->sum_services - $Profit->sum_salary;
+                } else {
+                    $Profit->saldo_end = $Profit->saldo_start + $Profit->sum_routes - $Profit->sum_refuelings -
+                        $Profit->sum_salary;
+                }
 
-                $ProfitData->save();
-            }
-
-            if ($salary != null) {
-                Salary::whereIn('id', $salary)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            }
-            if ($refilling != null) {
-                Refilling::whereIn('id', $refilling)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            }
-            if ($route != null) {
-                Routes::whereIn('id', $route)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
-                Services::where('driver_id', $User->id)->where('status', 1)->update(['status' => 0]);
+                $Profit->comment = $request->input('comment');
+                $Profit->save();
             }
         }
 
+        // if ($salary != null) {
+        //     Salary::whereIn('id', $salary)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+        // }
+        // if ($refilling != null) {
+        //     Refilling::whereIn('id', $refilling)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+        // }
+        // if ($route != null) {
+        //     Routes::whereIn('id', $route)->where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+        //     Services::where('driver_id', $User->id)->where('status', 1)->update(['status' => 0]);
+        // }
+
+
         //$Telegram = new TelegramController();
         //$Telegram->sendMessage('Произведено новое начисление.');
-        return redirect()->route('profit.list')->with('success', 'Произведено новое начисление.');
+        return redirect()->route('profit.list')->with('success', 'Произведено закрытие периода.');
     }
 
     public function export($id)

@@ -52,8 +52,11 @@ class UserController extends Controller
         $Profile->save();
 
         $Profit = new Profits();
+        $Profit->date = date('Y-m-d');
         $Profit->owner_id = Auth::user()->id;
         $Profit->driver_id = $User->id;
+        $Profit->saldo_start = $request->input('saldo');
+        $Profit->saldo_end = $request->input('saldo');
         $Profit->comment = 'Начальная загрузка';
         $Profit->save();
 
