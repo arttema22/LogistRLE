@@ -27,7 +27,7 @@ class CreateProfitsTable extends Migration
             $table->float('sum_refuelings', 8, 2)->nullable();
             $table->float('sum_routes', 8, 2)->nullable();
             $table->float('sum_services', 8, 2)->nullable();
-            $table->float('saldo_end', 8, 2)->default(0);
+            $table->float('saldo_end', 10, 2)->default(0);
             $table->text('comment')->nullable();
             $table->boolean('status')->default(1);
             $table->softDeletes();

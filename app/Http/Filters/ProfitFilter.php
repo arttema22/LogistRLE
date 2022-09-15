@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class ProfitFilter extends AbstractFilter
 {
-
     public const DRIVER_ID = 'driver-id';
 
     protected function getCallbacks(): array
