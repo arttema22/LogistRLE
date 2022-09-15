@@ -5,18 +5,7 @@
 @section('content')
 <div class="container px-4 py-5">
     <h1>Изменение маршрута</h1>
-
-    @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-            <li>{{$error}}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
-
+    @include('inc.error-msg')
     <form method="post" action="{{route('routes.update', $Route->id)}}">
         @csrf
         <div class="container">

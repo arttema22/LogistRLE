@@ -3,6 +3,8 @@
         <h1>Данные для расчета</h1>
         @cannot('is-driver')
         <form class="d-flex" method="get">
+            <input type="date" name="date-profit" id="date-profit" placeholder="Дата"
+                class="form-control form-control-lg me-1">
             <select name="driver-id" id="driver-id" class="form-select me-2" aria-label="Водитель">
                 <option value="0">Водитель</option>
                 @foreach ($User_list as $User)
