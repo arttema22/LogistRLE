@@ -39,10 +39,9 @@
                             </tr>
                             @foreach ( $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit) as
                                 $Salary ) <tr>
-                                <td>{{$Salary}}</td>
-                                {{-- <td>{{ $Salary->date }}</td>
+                                <td>{{ $Salary->date }}</td>
                                 <td>Выплата. {{ $Salary->comment }}</td>
-                                <td>{{ $Salary->salary }}</td> --}}
+                                <td>{{ $Salary->salary }}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

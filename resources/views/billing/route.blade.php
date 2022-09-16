@@ -10,7 +10,7 @@
         <form class="d-flex" method="get">
             <input type="text" name="start" id="start" class="form-control form-control-lg me-1">
             <button type="submit" class="btn btn-primary me-2"><i class="bi bi-filter"></i></button>
-            <a class="btn btn-outline-primary" href="{{route('refilling.list')}}"><i class="bi bi-arrow-repeat"></i></a>
+            <a class="btn btn-outline-primary" href="{{route('billing.route')}}"><i class="bi bi-arrow-repeat"></i></a>
         </form>
         @endcan
     </div>
