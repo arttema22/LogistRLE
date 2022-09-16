@@ -1,11 +1,20 @@
 @extends('layouts.app')
 
-@section('title')
-Тарифы по маршруту
-@endsection
+@section('title')Тарифы по маршруту@endsection
 
 @section('content')
-<h1 class="mt-5">Тарифы по маршруту</h1>
+<nav class="navbar">
+    <div class="container-fluid">
+        <h1>Тарифы по маршруту</h1>
+        @cannot('is-driver')
+        <form class="d-flex" method="get">
+            <input type="text" name="start" id="start" class="form-control form-control-lg me-1">
+            <button type="submit" class="btn btn-primary me-2"><i class="bi bi-filter"></i></button>
+            <a class="btn btn-outline-primary" href="{{route('refilling.list')}}"><i class="bi bi-arrow-repeat"></i></a>
+        </form>
+        @endcan
+    </div>
+</nav>
 @if (count($RouteBilling))
 <table class="table table-hover">
     <thead class="table-primary">

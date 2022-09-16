@@ -6,13 +6,16 @@ use App\Models\RouteBilling;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DirTypeTrucks;
+use App\Http\Filters\RouteBillingFilter;
 
 class RouteBillingController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $RouteBilling = RouteBilling::where('status', 1)->simplePaginate(config('app.pagination_count'));
+        $data = $request->validate(['start' => 'alpha']);
+        $filter = app()->make(RouteBillingFilter::class, ['queryParams' => array_filter($data)]);
+        $RouteBilling = RouteBilling::where('status', 1)->filter($filter)->orderBy('start')->orderBy('finish')->simplePaginate(config('app.pagination_count'));
         return view('billing.route', ['RouteBilling' => $RouteBilling]);
     }
 

@@ -37,12 +37,12 @@
                                 <th>{{ $User->profit->last()->sum_services }}</th>
                                 <th>{{ $User->profit->last()->saldo_end }}</th>
                             </tr>
-
                             @foreach ( $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit) as
                                 $Salary ) <tr>
-                                <td>{{ $Salary->date }}</td>
+                                <td>{{$Salary}}</td>
+                                {{-- <td>{{ $Salary->date }}</td>
                                 <td>Выплата. {{ $Salary->comment }}</td>
-                                <td>{{ $Salary->salary }}</td>
+                                <td>{{ $Salary->salary }}</td> --}}
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -75,16 +75,16 @@
                                             $isService = 1;
                                             @endphp
                                             @endif
-                                            Маршрут. {{ $Route->address_loading }} -
+                                            {{ $Route->address_loading }} -
                                             {{ $Route->address_unloading }}
                                             {{ $Route->route_length }}.
-                                            Транспорт - {{ $Route->typeTruck->title }}.
-                                            Груз - {{ $Route->cargo->title }}.
-                                            Плательщик - {{ $Route->payer->title }}.
-                                            Количество рейсов - {{ $Route->number_trips }}.
+                                            {{ $Route->typeTruck->title }}.
+                                            {{ $Route->cargo->title }}.
+                                            {{ $Route->payer->title }}.
+                                            Рейсов - {{ $Route->number_trips }}.
                                             Стоимость - {{ $Route->price_route }} руб.
-                                            Непредвиденные расходы - {{ $Route->unexpected_expenses }} руб.
-                                            {{ $Route->comment }}<br>
+                                            Доп. расходы - {{ $Route->unexpected_expenses }} руб.<br>
+                                            {{ $Route->comment }}
                                         </td>
                                         <td></td>
                                         <td></td>
@@ -185,9 +185,9 @@
 
             @endforeach
 
-            @cannot('is-driver')
+            {{-- @cannot('is-driver')
             <div class="text-end my-1">
                 <a class="btn btn-danger btn-sm" href="{{ route('profit.close') }}" role="button">Закрыть период</a>
             </div>
-            @endcan
+            @endcan --}}
             @endsection
