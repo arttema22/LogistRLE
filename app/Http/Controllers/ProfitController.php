@@ -169,30 +169,20 @@ class ProfitController extends Controller
             $all_sum[] = ' ';
         }
 
-
         $isService = 0;
         foreach ($User->driverRoute->where('status', 1)->where('date', '<=', $date) as $Route) {
-            if ($Route->is_service) {
+            if ($Route->typeTruck->is_service) {
                 $isService = 1;
             }
         }
         if ($isService) {
-            $sum_period = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sum('summ_route')
-                +
+            $sumPeriod = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sum('summ_route') +
                 $User->driverService->where('status', 1)->where('date', '<=', $date)->sum('sum') -
                 $User->driverSalary->where('status', 1)->where('date', '<=', $date)->sum('salary');
         } else {
-            $sum_period = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sum('summ_route')
-                - $User->driverRefilling->where('status', 1)->where(
-                    'date',
-                    '<=',
-                    $date
-                )->sum('cost_car_refueling') -
-                $User->driverSalary->where('status', 1)->where(
-                    'date',
-                    '<=',
-                    $date
-                )->sum('salary');
+            $sumPeriod = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sum('summ_route') -
+                $User->driverRefilling->where('status', 1)->where('date', '<=', $date)->sum('cost_car_refueling') -
+                $User->driverSalary->where('status', 1)->where('date', '<=', $date)->sum('salary');
         }
 
         $params = [
@@ -205,8 +195,8 @@ class ProfitController extends Controller
             '{refilling_sum_period}' => $User->driverRefilling->where('status', 1)->sum('cost_car_refueling'),
             '{route_sum_period}' => $User->driverRoute->where('status', 1)->sum('summ_route'),
             '{service_sum_period}' => $User->driverService->where('status', 1)->sum('sum'),
-            '{sum_period}' => $sum_period,
-            '{saldo_end}' => $User->profit->last()->saldo_end + $sum_period,
+            '{sum_period}' => $sumPeriod,
+            '{saldo_end}' => $User->profit->last()->saldo_end + $sumPeriod,
 
             '[all_date]' => $all_date,
             '[all_data]' => $all_data,
