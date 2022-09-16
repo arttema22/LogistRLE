@@ -35,10 +35,6 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="{{ route('refilling.archive') }}">Архив</a></li>
-                            @cannot('is-driver')
-                            {{-- <li><a class="dropdown-item" href="{{ route('refilling.statistics') }}">Статистика</a>
-                            </li> --}}
-                            @endcan
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -53,17 +49,17 @@
                             <li><a class="dropdown-item" href="{{ route('salary.archive') }}">Архив</a></li>
                         </ul>
                     </li>
+                    @cannot('is-driver')
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Расчеты</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ route('profit.list') }}">Текущие</a></li>
-                            <li><a class="dropdown-item" href="{{ route('profit.archive') }}">Архив</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profit.archive') }}">Общая сверка</a></li>
                         </ul>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{route('revise.list')}}">Сверки</a>
-                    </li> --}}
+                    @endcannot
+
                     @cannot('is-driver')
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -73,10 +69,6 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ route('directory.type-trucks') }}">Типы
                                     грузовиков</a></li>
-                            <li><a class="dropdown-item" href="{{ route('directory.owner-trucks') }}">Владельцы
-                                    грузовиков</a></li>
-                            <li><a class="dropdown-item" href="{{ route('directory.place-work') }}">Места работы
-                                    водителей</a></li>
                             <li><a class="dropdown-item" href="{{ route('directory.cargo') }}">Перевозимые
                                     грузы</a></li>
                             <li><a class="dropdown-item" href="{{ route('directory.petrol-stations') }}">АЗС</a>
@@ -99,7 +91,7 @@
                             </li>
                         </ul>
                     </li>
-                    @endcan
+                    @endcannot
                 </ul>
                 <a class="btn btn-link" href="{{ route('user.edit', Auth::user()->id) }}">{{
                     Auth::user()->profile->FullName }}</a>

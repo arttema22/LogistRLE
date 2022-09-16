@@ -24,10 +24,10 @@ class RefillingController extends Controller
         $data = $request->validate(['driver-id' => 'numeric', 'petrol-id' => 'numeric']);
         $filter = app()->make(PetrolFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
-            $Refillings = Refilling::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Refillings = Refilling::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('refilling.refilling', ['Refillings' => $Refillings]);
         } else {
-            $Refillings = Refilling::where('status', 1)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Refillings = Refilling::where('status', 1)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
             $PerolSt = DirPetrolStations::all();
             return view('refilling.refilling', ['Refillings' => $Refillings, 'Users' => $Users, 'PerolSt' => $PerolSt]);
@@ -39,10 +39,10 @@ class RefillingController extends Controller
         $data = $request->validate(['driver-id' => 'numeric', 'petrol-id' => 'numeric']);
         $filter = app()->make(PetrolFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
-            $Refillings = Refilling::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Refillings = Refilling::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('refilling.archive', ['Refillings' => $Refillings]);
         } else {
-            $Refillings = Refilling::where('status', 0)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Refillings = Refilling::where('status', 0)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
             $PerolSt = DirPetrolStations::all();
             return view('refilling.archive', ['Refillings' => $Refillings, 'Users' => $Users, 'PerolSt' => $PerolSt]);

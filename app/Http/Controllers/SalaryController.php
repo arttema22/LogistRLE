@@ -19,10 +19,10 @@ class SalaryController extends Controller
         $data = $request->validate(['driver-id' => 'numeric']);
         $filter = app()->make(SalaryFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
-            $Salaries = Salary::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Salaries = Salary::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('salary.salary', ['Salaries' => $Salaries]);
         } else {
-            $Salaries = Salary::where('status', 1)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Salaries = Salary::where('status', 1)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
             return view('salary.salary', ['Salaries' => $Salaries, 'Users' => $Users]);
         }
@@ -33,10 +33,10 @@ class SalaryController extends Controller
         $data = $request->validate(['driver-id' => 'numeric']);
         $filter = app()->make(SalaryFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
-            $Salaries = Salary::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Salaries = Salary::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('salary.archive', ['Salaries' => $Salaries]);
         } else {
-            $Salaries = Salary::where('status', 0)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Salaries = Salary::where('status', 0)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
             return view('salary.archive', ['Salaries' => $Salaries, 'Users' => $Users]);
         }

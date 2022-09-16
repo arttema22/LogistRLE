@@ -36,11 +36,11 @@ class RoutesController extends Controller
         $TypeTrucks = DirTypeTrucks::all();
         $Cargo = DirCargo::all();
         if (Gate::allows('is-driver')) {
-            $Routes = Routes::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Routes = Routes::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('routes.routes', ['Routes' => $Routes, 'Services' => $Services, 'Payers' => $Payers, 'TypeTrucks' => $TypeTrucks, 'Cargo' => $Cargo]);
         } else {
             $Users = User::where('role_id', 2)->get();
-            $Routes = Routes::where('status', 1)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Routes = Routes::where('status', 1)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('routes.routes', ['Routes' => $Routes, 'Users' => $Users, 'Services' => $Services, 'Payers' => $Payers, 'TypeTrucks' => $TypeTrucks, 'Cargo' => $Cargo]);
         }
     }
@@ -50,12 +50,12 @@ class RoutesController extends Controller
         $data = $request->validate(['driver-id' => 'numeric', 'type-truck-id' => 'numeric']);
         $filter = app()->make(RoutesFilter::class, ['queryParams' => array_filter($data)]);
         if (Gate::allows('is-driver')) {
-            $Routes = Routes::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Routes = Routes::where('status', 0)->where('driver_id', Auth::user()->id)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('routes.archive', ['Routes' => $Routes]);
         } else {
             $Users = User::where('role_id', 2)->get();
             $TypeTrucks = DirTypeTrucks::all();
-            $Routes = Routes::where('status', 0)->filter($filter)->simplePaginate(config('app.pagination_count'));
+            $Routes = Routes::where('status', 0)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('routes.archive', ['Routes' => $Routes, 'Users' => $Users, 'TypeTrucks' => $TypeTrucks]);
         }
     }

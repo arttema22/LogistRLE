@@ -14,156 +14,161 @@
                 <i>с {{$User->profit->last()->created_at}} по {{$dateProfit}}</i>
             </div>
             <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%">Дата</th>
-                            <th>Документ</th>
-                            <th style="width: 10%">Выплаты</th>
-                            <th style="width: 10%">Заправки</th>
-                            <th style="width: 10%">Маршруты</th>
-                            <th style="width: 10%">Услуги</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Сальдо начальное</th>
-                            <td>{{ $User->profit->last()->comment }}</td>
-                            <th>{{ $User->profit->last()->sum_salary }}</th>
-                            <th>{{ $User->profit->last()->sum_refuelings }}</th>
-                            <th>{{ $User->profit->last()->sum_routes }}</th>
-                            <th>{{ $User->profit->last()->sum_services }}</th>
-                            <th>{{ $User->profit->last()->saldo_end }}</th>
-                        </tr>
-
-                        @foreach ( $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit) as $Salary )
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                            <td>{{ $Salary->date }}</td>
-                            <td>Выплата. {{ $Salary->comment }}</td>
-                            <td>{{ $Salary->salary }}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                                <th style="width: 10%">Дата</th>
+                                <th>Документ</th>
+                                <th style="width: 10%">Выплаты</th>
+                                <th style="width: 10%">Заправки</th>
+                                <th style="width: 10%">Маршруты</th>
+                                <th style="width: 10%">Услуги</th>
+                                <th></th>
                             </tr>
-                            @endforeach
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Сальдо начальное</th>
+                                <td>{{ $User->profit->last()->comment }}</td>
+                                <th>{{ $User->profit->last()->sum_salary }}</th>
+                                <th>{{ $User->profit->last()->sum_refuelings }}</th>
+                                <th>{{ $User->profit->last()->sum_routes }}</th>
+                                <th>{{ $User->profit->last()->sum_services }}</th>
+                                <th>{{ $User->profit->last()->saldo_end }}</th>
+                            </tr>
 
-                            @foreach ( $User->driverRefilling->where('status', 1)->where('date','<=', $dateProfit) as
-                                $Refilling ) <tr>
-                                <td>{{ $Refilling->date }}</td>
-                                <td>
-                                    Заправка. {{ $Refilling->petrolStation->title }}. Заправлено
-                                    {{ $Refilling->num_liters_car_refueling }} л. по
-                                    {{ $Refilling->price_car_refueling }} руб.
-                                </td>
+                            @foreach ( $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit) as
+                                $Salary ) <tr>
+                                <td>{{ $Salary->date }}</td>
+                                <td>Выплата. {{ $Salary->comment }}</td>
+                                <td>{{ $Salary->salary }}</td>
                                 <td></td>
-                                <td>{{ $Refilling->cost_car_refueling }}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 </tr>
                                 @endforeach
 
-                                @foreach ( $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit) as
-                                    $Route ) <tr>
-                                    <td>{{ $Route->date }}</td>
+                                @foreach ( $User->driverRefilling->where('status', 1)->where('date','<=', $dateProfit)
+                                    as $Refilling ) <tr>
+                                    <td>{{ $Refilling->date }}</td>
                                     <td>
-                                        @if ($Route->typeTruck->is_service)
-                                        @php
-                                        $isService = 1;
-                                        @endphp
-                                        @endif
-                                        Маршрут. {{ $Route->address_loading }} -
-                                        {{ $Route->address_unloading }}
-                                        {{ $Route->route_length }}.
-                                        Транспорт - {{ $Route->typeTruck->title }}.
-                                        Груз - {{ $Route->cargo->title }}.
-                                        Плательщик - {{ $Route->payer->title }}.
-                                        Количество рейсов - {{ $Route->number_trips }}.
-                                        Стоимость - {{ $Route->price_route }} руб.
-                                        Непредвиденные расходы - {{ $Route->unexpected_expenses }} руб.
-                                        {{ $Route->comment }}<br>
+                                        Заправка. {{ $Refilling->petrolStation->title }}. Заправлено
+                                        {{ $Refilling->num_liters_car_refueling }} л. по
+                                        {{ $Refilling->price_car_refueling }} руб.
                                     </td>
                                     <td></td>
+                                    <td>{{ $Refilling->cost_car_refueling }}</td>
                                     <td></td>
-                                    <td>{{ $Route->summ_route }}</td>
                                     <td></td>
                                     <td></td>
                                     </tr>
-                                    @foreach ( $Route->services->where('status', 1)->where('date','<=', $dateProfit) as
-                                        $Service ) <tr>
-                                        <td></td>
+                                    @endforeach
+
+                                    @foreach ( $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit)
+                                        as $Route ) <tr>
+                                        <td>{{ $Route->date }}</td>
                                         <td>
-                                            {{ $Service->service->title }}.
-                                            Количество - {{ $Service->number_operations }} по цена
-                                            {{ $Service->price }} руб.
-                                            {{ $Service->comment }}
+                                            @if ($Route->typeTruck->is_service)
+                                            @php
+                                            $isService = 1;
+                                            @endphp
+                                            @endif
+                                            Маршрут. {{ $Route->address_loading }} -
+                                            {{ $Route->address_unloading }}
+                                            {{ $Route->route_length }}.
+                                            Транспорт - {{ $Route->typeTruck->title }}.
+                                            Груз - {{ $Route->cargo->title }}.
+                                            Плательщик - {{ $Route->payer->title }}.
+                                            Количество рейсов - {{ $Route->number_trips }}.
+                                            Стоимость - {{ $Route->price_route }} руб.
+                                            Непредвиденные расходы - {{ $Route->unexpected_expenses }} руб.
+                                            {{ $Route->comment }}<br>
                                         </td>
                                         <td></td>
                                         <td></td>
+                                        <td>{{ $Route->summ_route }}</td>
                                         <td></td>
-                                        <td>{{ $Service->sum }}</td>
                                         <td></td>
                                         </tr>
-                                        @endforeach
-                                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="2">Обороты за период</th>
-                            <th>{{ $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
-                                    sum('salary') }}</th>
-                            <th>{{ $User->driverRefilling->where('status', 1)->where('date','<=', $dateProfit)->
-                                    sum('cost_car_refueling') }}</th>
-                            <th>{{ $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit)->
-                                    sum('summ_route') }}</th>
-                            <th>{{ $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->sum('sum')
-                                    }}</th>
-                            <th>
-                                @if ($isService)
-                                {{ $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit)->
-                                    sum('summ_route')
-                                    +
-                                    $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->
-                                        sum('sum') -
-                                        $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
-                                            sum('salary')
-                                            }}
-                                            @else
-                                            {{ $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit)->
-                                                sum('summ_route')
-                                                - $User->driverRefilling->where('status', 1)->where('date','<=',
-                                                    $dateProfit)->sum('cost_car_refueling') -
-                                                    $User->driverSalary->where('status', 1)->where('date','<=',
-                                                        $dateProfit)->sum('salary') }}
-                                                        @endif
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="6">Сальдо конечное</th>
-                            <th>
-                                @if ($isService)
-                                {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status',
-                                1)->where('date','<=', $dateProfit)->sum('summ_route')
-                                    +
-                                    $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->
-                                        sum('sum') -
-                                        $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
-                                            sum('salary')
-                                            }}
-                                            @else
-                                            {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status',
-                                            1)->where('date','<=', $dateProfit)->sum('summ_route')
-                                                - $User->driverRefilling->where('status', 1)->where('date','<=',
-                                                    $dateProfit)->sum('cost_car_refueling') -
-                                                    $User->driverSalary->where('status', 1)->where('date','<=',
-                                                        $dateProfit)->sum('salary') }}
-                                                        @endif
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>
+                                        @foreach ( $Route->services->where('status', 1)->where('date','<=', $dateProfit)
+                                            as $Service ) <tr>
+                                            <td></td>
+                                            <td>
+                                                {{ $Service->service->title }}.
+                                                Количество - {{ $Service->number_operations }} по цена
+                                                {{ $Service->price }} руб.
+                                                {{ $Service->comment }}
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ $Service->sum }}</td>
+                                            <td></td>
+                                            </tr>
+                                            @endforeach
+                                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">Обороты за период</th>
+                                <th>{{ $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
+                                        sum('salary') }}</th>
+                                <th>{{ $User->driverRefilling->where('status', 1)->where('date','<=', $dateProfit)->
+                                        sum('cost_car_refueling') }}</th>
+                                <th>{{ $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit)->
+                                        sum('summ_route') }}</th>
+                                <th>{{ $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->
+                                        sum('sum')
+                                        }}</th>
+                                <th>
+                                    @if ($isService)
+                                    {{ $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit)->
+                                        sum('summ_route')
+                                        +
+                                        $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->
+                                            sum('sum') -
+                                            $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
+                                                sum('salary')
+                                                }}
+                                                @else
+                                                {{ $User->driverRoute->where('status', 1)->where('date','<=',
+                                                    $dateProfit)->
+                                                    sum('summ_route')
+                                                    - $User->driverRefilling->where('status', 1)->where('date','<=',
+                                                        $dateProfit)->sum('cost_car_refueling') -
+                                                        $User->driverSalary->where('status', 1)->where('date','<=',
+                                                            $dateProfit)->sum('salary') }}
+                                                            @endif
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="6">Сальдо конечное</th>
+                                <th>
+                                    @if ($isService)
+                                    {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status',
+                                    1)->where('date','<=', $dateProfit)->sum('summ_route')
+                                        +
+                                        $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->
+                                            sum('sum') -
+                                            $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
+                                                sum('salary')
+                                                }}
+                                                @else
+                                                {{ $User->profit->last()->saldo_end +
+                                                $User->driverRoute->where('status',
+                                                1)->where('date','<=', $dateProfit)->sum('summ_route')
+                                                    - $User->driverRefilling->where('status', 1)->where('date','<=',
+                                                        $dateProfit)->sum('cost_car_refueling') -
+                                                        $User->driverSalary->where('status', 1)->where('date','<=',
+                                                            $dateProfit)->sum('salary') }}
+                                                            @endif
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
             <div class="card-footer navbar">
                 <i></i>

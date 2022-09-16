@@ -248,8 +248,14 @@
         </div>
     </form>
 </div>
-</div>
+
 <script>
+    // Скрипты для страницы нового маршрута
+        // 1. добавляются select2 для нужных полей
+        // 2. обработчик типа авто
+        // 3. добавление блока инпутов для новой услуги
+        // 4. удаление строки с услугой
+
     $(document).ready(function() {
             $('#driver-id').select2({ theme: "bootstrap-5" });
             $('#type-truck').select2({ theme: "bootstrap-5" });

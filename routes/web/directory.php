@@ -12,24 +12,6 @@ Route::post('/type-trucks-update/{id}', [DirectoryController::class, 'type_truck
 Route::get('/type-trucks-delete/{id}', [DirectoryController::class, 'type_trucks_delete'])->name('type-trucks-delete');
 Route::get('/type-trucks-recover/{id}', [DirectoryController::class, 'type_trucks_recover'])->name('type-trucks-recover');
 
-// Владельцы грузовиков
-Route::get('/owner-trucks', [DirectoryController::class, 'owner_trucks'])->name('owner-trucks');
-Route::get('/owner-trucks-new', [DirectoryController::class, 'owner_trucks_new'])->name('owner-trucks-new');
-Route::post('/owner-trucks-new', [DirectoryController::class, 'owner_trucks_new_save'])->name('owner-trucks-new-save');
-Route::get('/owner-trucks-update/{id}', [DirectoryController::class, 'owner_trucks_update'])->name('owner-trucks-update');
-Route::post('/owner-trucks-update/{id}', [DirectoryController::class, 'owner_trucks_update_save'])->name('owner-trucks-update-save');
-Route::get('/owner-trucks-delete/{id}', [DirectoryController::class, 'owner_trucks_delete'])->name('owner-trucks-delete');
-Route::get('/owner-trucks-recover/{id}', [DirectoryController::class, 'owner_trucks_recover'])->name('owner-trucks-recover');
-
-// Маста работы водителей
-Route::get('/place-work', [DirectoryController::class, 'place_work'])->name('place-work');
-Route::get('/place-work-new', [DirectoryController::class, 'place_work_new'])->name('place-work-new');
-Route::post('/place-work-new', [DirectoryController::class, 'place_work_new_save'])->name('place-work-new-save');
-Route::get('/place-work-update/{id}', [DirectoryController::class, 'place_work_update'])->name('place-work-update');
-Route::post('/place-work-update/{id}', [DirectoryController::class, 'place_work_update_save'])->name('place-work-update-save');
-Route::get('/place-work-delete/{id}', [DirectoryController::class, 'place_work_delete'])->name('place-work-delete');
-Route::get('/place-work-recover/{id}', [DirectoryController::class, 'place_work_recover'])->name('place-work-recover');
-
 // Грузы
 Route::get('/cargo', [DirectoryController::class, 'cargo'])->name('cargo');
 Route::get('/cargo-new', [DirectoryController::class, 'cargo_new'])->name('cargo-new');
