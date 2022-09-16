@@ -250,5 +250,35 @@ class ProfitController extends Controller
 
     public function export_all()
     {
+
+        $Profits = Profits::where('status', 1)->get();
+        foreach ($Profits as $Profit) {
+            $name[] = $Profit->driver->profile->fullName;
+            $date[] = $Profit->date;
+            $saldo_start[] = $Profit->saldo_start;
+            $sum_salary[] = $Profit->sum_salary;
+            $sum_refuelings[] = $Profit->sum_refuelings;
+            $sum_routes[] = $Profit->sum_routes;
+            $sum_services[] = $Profit->sum_services;
+            $saldo_end[] = $Profit->saldo_end;
+            $comment[] = $Profit->comment;
+        }
+
+        $params = [
+            '[name]' => $name,
+            '[date]' => $date,
+            '[saldo_start]' => $saldo_start,
+            '[sum_salary]' => $sum_salary,
+            '[sum_refuelings]' => $sum_refuelings,
+            '[sum_routes]' => $sum_routes,
+            '[sum_services]' => $sum_services,
+            '[saldo_end]' => $saldo_end,
+            '[comment]' => $comment,
+        ];
+
+        $templateFile = 'template-rle-all.xlsx';
+        $fileName = 'Cверки.xlsx';
+
+        PhpExcelTemplator::outputToFile($templateFile, $fileName, $params);
     }
 }
