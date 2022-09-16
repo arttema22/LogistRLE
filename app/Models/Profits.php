@@ -22,6 +22,14 @@ class Profits extends Model
     }
 
     /**
+     * Получить данные о водителе.
+     */
+    public function driver()
+    {
+        return $this->belongsTo(User::class, 'driver_id', 'id');
+    }
+
+    /**
      * Получить данные о начислениях водителю.
      */
     public function profitData()

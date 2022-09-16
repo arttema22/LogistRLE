@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <h1>Общая сверка</h1>
         @cannot('is-driver')
-        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-all') }}">Экспорт</a>
+        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-all') }}">Экспорт всех</a>
         @endcan
     </div>
 </nav>
@@ -48,6 +48,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="card-footer navbar">
+        <i></i>
+        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-archive', $User->id) }}"
+            role="button">Экспорт</a>
     </div>
 </div>
 @endforeach

@@ -214,32 +214,41 @@ class ProfitController extends Controller
         // return Excel::download(new ProfitExport($id), 'Profit-' . $id . '.xlsx');
     }
 
+    public function export_archive($id)
+    {
+        $User = User::find($id);
+        $Profits = Profits::where('status', 1)->where('driver_id', $id)->get();
+        foreach ($Profits as $Profit) {
+            $date[] = $Profit->date;
+            $saldo_start[] = $Profit->saldo_start;
+            $sum_salary[] = $Profit->sum_salary;
+            $sum_refuelings[] = $Profit->sum_refuelings;
+            $sum_routes[] = $Profit->sum_routes;
+            $sum_services[] = $Profit->sum_services;
+            $saldo_end[] = $Profit->saldo_end;
+            $comment[] = $Profit->comment;
+        }
+
+        $params = [
+            '{name}' => $User->profile->fullName,
+
+            '[date]' => $date,
+            '[saldo_start]' => $saldo_start,
+            '[sum_salary]' => $sum_salary,
+            '[sum_refuelings]' => $sum_refuelings,
+            '[sum_routes]' => $sum_routes,
+            '[sum_services]' => $sum_services,
+            '[saldo_end]' => $saldo_end,
+            '[comment]' => $comment,
+        ];
+
+        $templateFile = 'template-rle-2.xlsx';
+        $fileName = 'Cверки ' . $User->profile->fullName . '.xlsx';
+
+        PhpExcelTemplator::outputToFile($templateFile, $fileName, $params);
+    }
+
     public function export_all()
     {
-        $templateFile = 'template.xlsx';
-        $fileName = 'exported_file.xlsx';
-        $params = require('params.php');
-
-        $spreadsheet = IOFactory::load($templateFile);
-        $templateVarsArr = $spreadsheet->getActiveSheet()->toArray();
-        $templateSheet = clone $spreadsheet->getActiveSheet();
-        $callbacks = [];
-        $events = [];
-
-        $sheet1 = $spreadsheet->getSheet(0);
-        PhpExcelTemplator::renderWorksheet($sheet1, $templateVarsArr, $params, $callbacks, $events);
-
-        $sheet2 = clone $templateSheet;
-        $sheet2->setTitle('Workshet 2');
-        $spreadsheet->addSheet($sheet2);
-        PhpExcelTemplator::renderWorksheet($sheet2, $templateVarsArr, $params, $callbacks, $events);
-
-        $sheet3 = clone $templateSheet;
-        $sheet3->setTitle('Workshet 3');
-        $spreadsheet->addSheet($sheet3);
-        PhpExcelTemplator::renderWorksheet($sheet3, $templateVarsArr, $params, $callbacks, $events);
-
-        PhpExcelTemplator::saveSpreadsheetToFile($spreadsheet, $fileName);
-        // PhpExcelTemplator::outputSpreadsheetToFile($spreadsheet, $fileName); // to download the file from web page
     }
 }
