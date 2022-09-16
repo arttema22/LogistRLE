@@ -40,7 +40,7 @@
                             @foreach ( $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit) as
                                 $Salary ) <tr>
                                 <td>{{ $Salary->date }}</td>
-                                <td>Выплата. {{ $Salary->comment }}</td>
+                                <td>{{ $Salary->comment }}</td>
                                 <td>{{ $Salary->salary }}</td>
                                 <td></td>
                                 <td></td>
@@ -53,7 +53,7 @@
                                     as $Refilling ) <tr>
                                     <td>{{ $Refilling->date }}</td>
                                     <td>
-                                        Заправка. {{ $Refilling->petrolStation->title }}. Заправлено
+                                        {{ $Refilling->petrolStation->title }}. Заправлено
                                         {{ $Refilling->num_liters_car_refueling }} л. по
                                         {{ $Refilling->price_car_refueling }} руб.
                                     </td>
@@ -123,46 +123,30 @@
                                         }}</th>
                                 <th>
                                     @if ($isService)
-                                    {{ $User->driverRoute->where('status', 1)->where('date','<=', $dateProfit)->
-                                        sum('summ_route')
-                                        +
-                                        $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->
-                                            sum('sum') -
+                                    @php
+                                    $sumPeriod = $User->driverRoute->where('status', 1)->where('date','<=',
+                                        $dateProfit)->sum('summ_route') + $User->driverService->where('status',
+                                        1)->where('date','<=', $dateProfit)-> sum('sum') -
                                             $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
-                                                sum('salary')
-                                                }}
+                                                sum('salary');
+                                                @endphp
                                                 @else
-                                                {{ $User->driverRoute->where('status', 1)->where('date','<=',
-                                                    $dateProfit)->
-                                                    sum('summ_route')
+                                                @php
+                                                $sumPeriod =$User->driverRoute->where('status', 1)->where('date','<=',
+                                                    $dateProfit)->sum('summ_route')
                                                     - $User->driverRefilling->where('status', 1)->where('date','<=',
                                                         $dateProfit)->sum('cost_car_refueling') -
                                                         $User->driverSalary->where('status', 1)->where('date','<=',
-                                                            $dateProfit)->sum('salary') }}
+                                                            $dateProfit)->sum('salary');
+                                                            @endphp
                                                             @endif
+                                                            {{$sumPeriod}}
                                 </th>
                             </tr>
                             <tr>
                                 <th colspan="6">Сальдо конечное</th>
                                 <th>
-                                    @if ($isService)
-                                    {{ $User->profit->last()->saldo_end + $User->driverRoute->where('status',
-                                    1)->where('date','<=', $dateProfit)->sum('summ_route')
-                                        +
-                                        $User->driverService->where('status', 1)->where('date','<=', $dateProfit)->
-                                            sum('sum') -
-                                            $User->driverSalary->where('status', 1)->where('date','<=', $dateProfit)->
-                                                sum('salary')
-                                                }}
-                                                @else
-                                                {{ $User->profit->last()->saldo_end +
-                                                $User->driverRoute->where('status',
-                                                1)->where('date','<=', $dateProfit)->sum('summ_route')
-                                                    - $User->driverRefilling->where('status', 1)->where('date','<=',
-                                                        $dateProfit)->sum('cost_car_refueling') -
-                                                        $User->driverSalary->where('status', 1)->where('date','<=',
-                                                            $dateProfit)->sum('salary') }}
-                                                            @endif
+                                    {{ $User->profit->last()->saldo_end + $sumPeriod }}
                                 </th>
                             </tr>
                         </tfoot>

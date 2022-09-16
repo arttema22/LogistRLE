@@ -121,9 +121,6 @@ class ProfitController extends Controller
 
     public function export($id, $date)
     {
-        $templateFile = 'template-rle-1.xlsx';
-        $fileName = 'exported_file.xlsx';
-
         $User = User::find($id);
 
         $Salary = $User->driverSalary->where('status', 1)->where('date', '<=', $date)->toArray();
@@ -134,7 +131,7 @@ class ProfitController extends Controller
             $refilling_sum[]  = ' ';
             $route_sum[]  = ' ';
             $service_sum[] = ' ';
-            $all_sum[] = $i['salary'];
+            $all_sum[] = ' ';
         }
 
         $Refilling = $User->driverRefilling->where('status', 1)->where('date', '<=', $date)->toArray();
@@ -145,7 +142,7 @@ class ProfitController extends Controller
             $refilling_sum[]  = $i['cost_car_refueling'];
             $route_sum[]  = ' ';
             $service_sum[] = ' ';
-            $all_sum[] = $i['cost_car_refueling'];
+            $all_sum[] = ' ';
         }
 
         $Route = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->toArray();
@@ -158,7 +155,7 @@ class ProfitController extends Controller
             $refilling_sum[]  = ' ';
             $route_sum[]  = $i['summ_route'];
             $service_sum[] = ' ';
-            $all_sum[] = $i['summ_route'];
+            $all_sum[] = ' ';
         }
 
         $Service = $User->driverService->where('status', 1)->where('date', '<=', $date)->toArray();
@@ -169,7 +166,7 @@ class ProfitController extends Controller
             $refilling_sum[]  = ' ';
             $route_sum[]  = ' ';
             $service_sum[] = $i['sum'];
-            $all_sum[] = $i['sum'];
+            $all_sum[] = ' ';
         }
 
 
@@ -198,8 +195,6 @@ class ProfitController extends Controller
                 )->sum('salary');
         }
 
-
-
         $params = [
             '{num}' => $User->profit->last()->id,
             '{date_start}' => $User->profit->last()->created_at,
@@ -213,7 +208,6 @@ class ProfitController extends Controller
             '{sum_period}' => $sum_period,
             '{saldo_end}' => $User->profit->last()->saldo_end + $sum_period,
 
-
             '[all_date]' => $all_date,
             '[all_data]' => $all_data,
             '[salary_sum]' => $salary_sum,
@@ -222,6 +216,9 @@ class ProfitController extends Controller
             '[service_sum]' => $service_sum,
             '[all_sum]' => $all_sum,
         ];
+
+        $templateFile = 'template-rle-1.xlsx';
+        $fileName = 'Акт сверки ' . $User->profile->fullName . '.xlsx';
 
         PhpExcelTemplator::outputToFile($templateFile, $fileName, $params);
         // return Excel::download(new ProfitExport($id), 'Profit-' . $id . '.xlsx');
