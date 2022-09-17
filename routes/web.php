@@ -18,10 +18,9 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [DashboardController::class, 'index'])->name('home');
 
 // Маршруты аутентификации
 Route::name('user.')

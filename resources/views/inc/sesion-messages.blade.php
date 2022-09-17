@@ -11,6 +11,13 @@
         </div>
     </div>
 </div>
+<script>
+    window.onload = (event) => {
+                    let toastAlert = document.querySelector('.toast');
+                    let toast = new bootstrap.Toast(toastAlert);
+                    toast.show();
+                }
+</script>
 @endif
 
 @if (session('danger'))
@@ -21,6 +28,13 @@
             aria-label="Close"></button>
     </div>
 </div>
+<script>
+    window.onload = (event) => {
+                    let toastAlert = document.querySelector('.toast');
+                    let toast = new bootstrap.Toast(toastAlert);
+                    toast.show();
+                }
+</script>
 @endif
 
 @if (session('warning'))
@@ -31,8 +45,6 @@
             aria-label="Close"></button>
     </div>
 </div>
-@endif
-
 <script>
     window.onload = (event) => {
                     let toastAlert = document.querySelector('.toast');
@@ -40,3 +52,4 @@
                     toast.show();
                 }
 </script>
+@endif
