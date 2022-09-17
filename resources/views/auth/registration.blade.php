@@ -8,21 +8,24 @@
     <img class="mb-4" src="img/logo-rle.png" alt="" width="72">
     <h1 class="h3 mb-3 fw-normal">Пожалуйста зарегистрируйтесь</h1>
     <div class="form-floating">
-        <input name="last-name" type="text" class="form-control" id="last-name" value="{{old('last-name')}}" placeholder="Фамилия">
+        <input name="last-name" type="text" class="form-control" id="last-name" value="{{old('last-name')}}"
+            placeholder="Фамилия">
         <label for="last-name">Фамилия</label>
         @error('last-name')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
     </div>
     <div class="form-floating">
-        <input name="first-name" type="text" class="form-control" id="first-name" value="{{old('first-name')}}" placeholder="Имя">
+        <input name="first-name" type="text" class="form-control" id="first-name" value="{{old('first-name')}}"
+            placeholder="Имя">
         <label for="first-name">Имя</label>
         @error('first-name')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
     </div>
     <div class="form-floating">
-        <input name="sec-name" type="text" class="form-control" id="sec-name" value="{{old('sec-name')}}" placeholder="Отчество">
+        <input name="sec-name" type="text" class="form-control" id="sec-name" value="{{old('sec-name')}}"
+            placeholder="Отчество">
         <label for="sec-name">Отчество</label>
         @error('sec-name')
         <div class="alert alert-danger">{{ $message }}</div>
@@ -36,7 +39,16 @@
         @enderror
     </div>
     <div class="form-floating">
-        <input name="email" type="email" class="form-control" id="email" value="{{old('email')}}" placeholder="Ваш email">
+        <input name="saldo" type="number" step="any" class="form-control" id="saldo" value="{{old('saldo')}}"
+            placeholder="Начальное сальдо">
+        <label for="saldo">Начальное сальдо</label>
+        @error('saldo')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="form-floating">
+        <input name="email" type="email" class="form-control" id="email" value="{{old('email')}}"
+            placeholder="Ваш email">
         <label for="email">Ваш email</label>
         @error('email')
         <div class="alert alert-danger">{{ $message }}</div>
