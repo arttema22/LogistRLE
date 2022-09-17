@@ -68,7 +68,7 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
             @can('is-driver')
-            <a class="btn btn-outline-secondary btn-lg" href="{{ route('dashboard') }}" role="button">Отмена</a>
+            <a class="btn btn-outline-secondary btn-lg" href="{{ route('home') }}" role="button">Отмена</a>
             @else
             <a class="btn btn-outline-secondary btn-lg" href="{{ route('user.list') }}" role="button">Отмена</a>
             @endcan

@@ -22,8 +22,6 @@ use App\Http\Controllers\PostController;
 Route::get('/', function () {
     return view('home');
 })->name('home');
-// Маршрут dashboard - страница доступная только дя аутентифицированных пользователей
-Route::view('/dashboard', 'dashboard')->middleware('auth')->name('dashboard');
 
 // Маршруты аутентификации
 Route::name('user.')
@@ -34,7 +32,7 @@ Route::name('user.')
         // Маршрут на страницу аутентификации
         Route::get('/login', function () {
             if (Auth::check()) { // Если пользователь уже аутентифицирован, то на приват его
-                return redirect(route('dashboard'));
+                return redirect(route('home'));
             }
             return view('auth.login'); // На страницу входа
         })->name('login');
@@ -49,7 +47,7 @@ Route::name('user.')
         // Маршрут регистрации нового пользователя
         Route::get('/registration', function () {
             if (Auth::check()) { // Если пользователь уже аутентифицирован, то на приват его
-                return redirect(route('dashboard'));
+                return redirect(route('home'));
             }
             return view('auth.registration');
         })->name('registration');

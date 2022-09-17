@@ -8,11 +8,13 @@ use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class RegisterController extends Controller {
+class RegisterController extends Controller
+{
 
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
         if (Auth::check()) { // если пользователь уже аутентифицирован
-            return redirect(route('dashboard')); // переход в панель
+            return redirect(route('home')); // переход в панель
         }
         $validateFields = $request->validate([
             'last-name' => 'required',
@@ -20,15 +22,15 @@ class RegisterController extends Controller {
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required'
-                //'password' => 'required|Password::min(8)->mixedCase()'
+            //'password' => 'required|Password::min(8)->mixedCase()'
         ]);
         if (User::where('email', $validateFields['email'])->exists()) {
             return redirect(route('user.registration'))->withErrors([
-                        'email' => 'Такой email уже существует'
+                'email' => 'Такой email уже существует'
             ]);
         }
         $validateFields['role_id'] = 2;
-       // dd($validateFields);
+        // dd($validateFields);
         $user = User::create($validateFields);
         $profile = new Profile;
         $profile->user_id = $user->id;
@@ -38,27 +40,27 @@ class RegisterController extends Controller {
         $profile->save();
         if ($user) {
             Auth::login($user);
-            return redirect(route('dashboard'));
+            return redirect(route('home'));
         }
         return redirect(route('user.login'))->withErrors([
-                    'formError' => 'Произошла ошибка при сохранении пользователя'
+            'formError' => 'Произошла ошибка при сохранении пользователя'
         ]);
     }
 
-    public function save_user(Request $request) {
+    public function save_user(Request $request)
+    {
         $validateFields = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required'
-                //'password' => 'required|Password::min(8)->mixedCase()'
+            //'password' => 'required|Password::min(8)->mixedCase()'
         ]);
         if (User::where('email', $validateFields['email'])->exists()) {
             return redirect(route('user.registration'))->withErrors([
-                        'email' => 'Такой email уже существует'
+                'email' => 'Такой email уже существует'
             ]);
         }
         $user = User::create($validateFields);
         return redirect(route('user.list'))->with('success', 'Создан новый пользователь');
     }
-
 }

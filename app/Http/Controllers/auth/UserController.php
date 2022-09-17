@@ -93,7 +93,7 @@ class UserController extends Controller
         $Profile->phone = $request->input('phone');
         $Profile->save();
         if (Gate::allows('is-driver')) { //текущий пользователь имеет роль водителя
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         } else {
             return redirect()->route('user.list')->with('success', 'Данные были изменены');
         }
