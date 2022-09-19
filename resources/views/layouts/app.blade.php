@@ -17,6 +17,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}">
 </head>
 
 <body class="d-flex flex-column h-100">
