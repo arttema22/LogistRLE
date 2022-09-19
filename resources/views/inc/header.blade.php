@@ -46,16 +46,16 @@
                             <li><a class="dropdown-item" href="{{ route('salary.archive') }}">Архив</a></li>
                         </ul>
                     </li>
-                    @cannot('is-driver')
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Расчеты</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ route('profit.list') }}">Текущие</a></li>
+                            @cannot('is-driver')
                             <li><a class="dropdown-item" href="{{ route('profit.archive') }}">Общая сверка</a></li>
+                            @endcannot
                         </ul>
                     </li>
-                    @endcannot
 
                     @cannot('is-driver')
                     <li class="nav-item dropdown">

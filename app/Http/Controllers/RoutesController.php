@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\DirTypeTrucks;
 use App\Models\DirCargo;
 use App\Models\DirPayers;
-use App\Models\DirAddress;
 use App\Models\DirServices;
 use App\Models\Services;
 use App\Models\RouteBilling;
@@ -22,11 +21,6 @@ use Illuminate\Support\Facades\Gate;
 class RoutesController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $data = $request->validate(['driver-id' => 'numeric', 'type-truck-id' => 'numeric']);
@@ -227,12 +221,12 @@ class RoutesController extends Controller
 
     public function edit($id)
     {
+        $Route = Routes::find($id);
         $Users = User::where('role_id', 2)->get();
         $TypeTrucks = DirTypeTrucks::all();
         $Cargo = DirCargo::all();
         $Payers = DirPayers::all();
         $Services = DirServices::all();
-        $Route = Routes::find($id);
         return view('routes.edit', ['Users' => $Users, 'TypeTrucks' => $TypeTrucks, 'Cargo' => $Cargo, 'Payers' => $Payers, 'Services' => $Services, 'Route' => $Route]);
     }
 

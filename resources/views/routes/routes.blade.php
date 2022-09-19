@@ -33,8 +33,8 @@
                             ({{$Route->route_length}}
                             км.)</p>
                         <div>
-                            {{-- <a href="{{ route('routes.edit', $Route->id) }}"
-                                class="btn btn-outline-primary btn-sm">Изменить</a> --}}
+                            <a href="{{ route('routes.edit', $Route->id) }}" class="btn btn-outline-primary btn-sm"><i
+                                    class="bi bi-pencil"></i></a>
 
                             <!-- Кнопка удаления записи -->
                             <!-- Обязательно подключение include('inc.modal-delete') -->

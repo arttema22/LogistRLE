@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Profits;
-use App\Models\ProfitsData;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Refilling;
 use App\Models\Routes;
-use App\Models\Services;
 use App\Models\Salary;
 use Illuminate\Support\Facades\Gate;
 
