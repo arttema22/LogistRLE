@@ -123,7 +123,7 @@ class ProfitController extends Controller
     {
         $User = User::find($id);
 
-        $Salary = $User->driverSalary->where('status', 1)->where('date', '<=', $date)->toArray();
+        $Salary = $User->driverSalary->where('status', 1)->where('date', '<=', $date)->sortByDesc('date')->toArray();
         foreach ($Salary as $i) {
             $all_date[] = $i['date'];
             $all_data[] = $i['comment'] . ' ';
@@ -134,7 +134,7 @@ class ProfitController extends Controller
             $all_sum[] = ' ';
         }
 
-        $Refilling = $User->driverRefilling->where('status', 1)->where('date', '<=', $date)->toArray();
+        $Refilling = $User->driverRefilling->where('status', 1)->where('date', '<=', $date)->sortByDesc('date')->toArray();
         foreach ($Refilling as $i) {
             $all_date[] = $i['date'];
             $all_data[] = 'Заправлено ' . $i['num_liters_car_refueling'] . ' л. по ' . $i['price_car_refueling'] . ' руб.';
@@ -145,7 +145,7 @@ class ProfitController extends Controller
             $all_sum[] = ' ';
         }
 
-        $Route = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->toArray();
+        $Route = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sortByDesc('date')->toArray();
         foreach ($Route as $i) {
             $all_date[] = $i['date'];
             $all_data[] = $i['address_loading'] . ' - ' . $i['address_unloading'] . ' ' . $i['route_length'] .
@@ -158,7 +158,7 @@ class ProfitController extends Controller
             $all_sum[] = ' ';
         }
 
-        $Service = $User->driverService->where('status', 1)->where('date', '<=', $date)->toArray();
+        $Service = $User->driverService->where('status', 1)->where('date', '<=', $date)->sortByDesc('date')->toArray();
         foreach ($Service as $i) {
             $all_date[] = $i['date'];
             $all_data[] = $i['price'] . ' - ' . $i['number_operations'] . ' ' . $i['comment'];
