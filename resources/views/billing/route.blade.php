@@ -6,6 +6,7 @@
 <nav class="navbar">
     <div class="container-fluid">
         <h1>Тарифы по маршруту</h1>
+        <a class="btn btn-primary" href="{{route('billing.route-create')}}" role="button">Новый</a>
         @cannot('is-driver')
         <form class="d-flex" method="get">
             <input type="text" name="start" id="start" class="form-control form-control-lg me-1">
