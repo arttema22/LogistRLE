@@ -25,9 +25,7 @@
                         <th>Дата</th>
                         <th>Сальдо начальное</th>
                         <th>Выплаты</th>
-                        <th>Заправки</th>
-                        <th>Маршруты</th>
-                        <th>Услуги</th>
+                        <th>Начислено</th>
                         <th>Сальдо конечное</th>
                         <th>Комментарий</th>
                     </tr>
@@ -38,11 +36,20 @@
                         <td>{{$Profit->date}}</td>
                         <td>{{$Profit->saldo_start}}</td>
                         <td>{{$Profit->sum_salary}}</td>
-                        <td>{{$Profit->sum_refuelings}}</td>
-                        <td>{{$Profit->sum_routes}}</td>
-                        <td>{{$Profit->sum_services}}</td>
+                        <td style="text-align: right">{{$Profit->sum_amount}}
+                            <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button"
+                                data-toggle="popover" data-bs-trigger="focus" data-bs-title="Информация"
+                                data-bs-content="Заправки - {{$Profit->sum_refuelings}} руб.
+                                                        Маршруты - {{$Profit->sum_routes}} руб.
+                                                        Услуги - {{$Profit->sum_services}} руб.
+                                                        "><i class="bi bi-info"></i>
+                            </a>
+                        </td>
                         <td>{{$Profit->saldo_end}}</td>
                         <td>{{$Profit->comment}}</td>
+                        <td>
+
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -56,4 +63,11 @@
     </div>
 </div>
 @endforeach
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover({
+            placement : 'left'
+        });
+    });
+</script>
 @endsection

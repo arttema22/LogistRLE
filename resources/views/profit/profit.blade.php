@@ -171,9 +171,9 @@
 
             @endforeach
 
-            {{-- @cannot('is-driver')
+            @cannot('is-driver')
             <div class="text-end my-1">
                 <a class="btn btn-danger btn-sm" href="{{ route('profit.close') }}" role="button">Закрыть период</a>
             </div>
-            @endcan --}}
+            @endcan
             @endsection

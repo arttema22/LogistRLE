@@ -71,7 +71,6 @@ class ProfitController extends Controller
     public function store(Request $request)
     {
         $date = $request->input('date-close');
-        // $date = Carbon::parse($date)->format(config('app.date_format'));
         $Users = User::where('role_id', 2)->get();
         foreach ($Users as $User) {
             if (
@@ -83,7 +82,7 @@ class ProfitController extends Controller
                 $Profit->date = $request->input('date-close');
                 $Profit->owner_id = Auth::user()->id;
                 $Profit->driver_id = $User->id;
-                $Profit->saldo_start = $User->profit->last()->saldo_end;
+                $Profit->saldo_start = $User->profit->last()->saldo_start + $User->profit->last()->saldo_end;
                 $Profit->sum_salary = $User->driverSalary->where('status', 1)->where('date', '<=', $date)->sum('salary');
                 $Profit->sum_refuelings = $User->driverRefilling->where('status', 1)->where('date', '<=', $date)->sum('cost_car_refueling');
                 $Profit->sum_routes = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sum('summ_route');
@@ -95,15 +94,12 @@ class ProfitController extends Controller
                         $isService = 1;
                     }
                 }
-
                 if ($isService) {
-                    $Profit->saldo_end = $Profit->saldo_start + $Profit->sum_routes +
-                        $Profit->sum_services - $Profit->sum_salary;
+                    $Profit->sum_amount = $Profit->sum_routes + $Profit->sum_services;
                 } else {
-                    $Profit->saldo_end = $Profit->saldo_start + $Profit->sum_routes - $Profit->sum_refuelings -
-                        $Profit->sum_salary;
+                    $Profit->sum_amount = $Profit->sum_routes - $Profit->sum_refuelings;
                 }
-
+                $Profit->saldo_end = $Profit->sum_amount - $Profit->sum_salary;
                 $Profit->comment = $request->input('comment');
                 $Profit->save();
 
