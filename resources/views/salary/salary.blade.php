@@ -35,9 +35,16 @@
     </div>
 </div>
 @endforeach
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новая выплата</a>
-</div>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        {{ $Salaries->withQueryString()->links() }}
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a class="btn btn-primary btn-lg" href="{{ route('salary.create') }}" role="button">Новая выплата</a>
+        </div>
+    </div>
+</nav>
 @include('inc.modal-delete')
 <script>
     $(document).ready(function(){

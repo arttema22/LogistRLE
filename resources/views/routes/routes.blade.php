@@ -33,8 +33,8 @@
                             ({{$Route->route_length}}
                             км.)</p>
                         <div>
-                            <a href="{{ route('routes.edit', $Route->id) }}" class="btn btn-outline-primary btn-sm"><i
-                                    class="bi bi-pencil"></i></a>
+                            {{-- <a href="{{ route('routes.edit', $Route->id) }}"
+                                class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil"></i></a> --}}
 
                             <!-- Кнопка удаления записи -->
                             <!-- Обязательно подключение include('inc.modal-delete') -->
@@ -55,8 +55,8 @@
                                 {{$Route->summ_route}} руб.</b><br>
                             {{$Route->comment}}
                         </p>
-                        <h5 class="card-title">Дополнительные услуги</h5>
                         @if(count($Route->services))
+                        <h5 class="card-title">Дополнительные услуги</h5>
                         @foreach($Route->services as $Service)
                         <p class="card-text">
                             {{$Service->service->title}}
@@ -80,9 +80,16 @@
     </div>
     @endforeach
 </div>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-primary btn-lg" href="{{route('routes.create')}}" role="button">Новый маршрут</a>
-</div>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        {{$Routes->withQueryString()->links()}}
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a class="btn btn-primary btn-lg" href="{{route('routes.create')}}" role="button">Новый маршрут</a>
+        </div>
+    </div>
+</nav>
 @include('inc.modal-delete')
 @else
 @include('inc.list-empty')
