@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Salary;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,6 +30,8 @@ class DatabaseSeeder extends Seeder
             PayersSeeder::class,
             DirServicesSeeder::class,
             RefillingsSeeder::class,
+            SalarySeeder::class,
+            RoutesSeeder::class,
         ]);
     }
 }
