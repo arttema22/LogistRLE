@@ -47,7 +47,7 @@ return [
       | Count pagination row
       |--------------------------------------------------------------------------
      */
-    'pagination_count' => 3,
+    'pagination_count' => 5,
     /*
       |--------------------------------------------------------------------------
       | Application URL
@@ -70,7 +70,8 @@ return [
       | ahead and set this to a sensible default for you out of the box.
       |
      */
-    'timezone' => 'UTC',
+    //'timezone' => 'UTC',
+    'timezone' => 'Europe/Moscow',
     /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
