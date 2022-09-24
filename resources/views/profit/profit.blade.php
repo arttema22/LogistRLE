@@ -157,7 +157,9 @@
                 </div>
             </div>
             <div class="card-footer navbar">
-                <i></i>
+                {{-- <a class="btn btn-danger btn-sm" href="{{ route('profit.close', $User->id) }}"
+                    role="button">Закрыть
+                    период</a> --}}
                 <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export', [$User->id, $dateProfit]) }}"
                     role="button">Экспорт</a>
             </div>
@@ -173,7 +175,8 @@
 
             @cannot('is-driver')
             <div class="text-end my-1">
-                <a class="btn btn-danger btn-sm" href="{{ route('profit.close') }}" role="button">Закрыть период</a>
+                <a class="btn btn-danger btn-sm" href="{{ route('profit.close-all') }}" role="button">Закрыть период для
+                    всех</a>
             </div>
             @endcan
             @endsection

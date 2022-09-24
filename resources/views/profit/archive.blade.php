@@ -3,11 +3,11 @@
 @section('title')Общая сверка@endsection
 
 @section('content')
+@include('inc.filter-profit')
 <nav class="navbar">
     <div class="container-fluid">
-        <h1>Общая сверка</h1>
         @cannot('is-driver')
-        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-all') }}">Экспорт всех</a>
+        {{-- <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-all') }}">Экспорт всех</a> --}}
         @endcan
     </div>
 </nav>
@@ -26,48 +26,64 @@
                         <th>Сальдо начальное</th>
                         <th>Выплаты</th>
                         <th>Начислено</th>
+                        <th>Период</th>
                         <th>Сальдо конечное</th>
-                        <th>Комментарий</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ( $User->profit as $Profit )
-                    <tr>
-                        <td>{{$Profit->date}}</td>
-                        <td>{{$Profit->saldo_start}}</td>
-                        <td>{{$Profit->sum_salary}}</td>
-                        <td style="text-align: right">{{$Profit->sum_amount}}
-                            <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button"
-                                data-toggle="popover" data-bs-trigger="focus" data-bs-title="Информация"
-                                data-bs-content="Заправки - {{$Profit->sum_refuelings}} руб.
-                                                        Маршруты - {{$Profit->sum_routes}} руб.
-                                                        Услуги - {{$Profit->sum_services}} руб.
-                                                        "><i class="bi bi-info"></i>
-                            </a>
-                        </td>
-                        <td>{{$Profit->saldo_end}}</td>
-                        <td>{{$Profit->comment}}</td>
-                        <td>
+                    @foreach ( $User->profit->where('status', 1)->where('date','<=', $dateProfit)->
+                        sortBy('date') as $Profit )
+                        <tr>
+                            <td>{{$Profit->date}}</td>
+                            <td>{{$Profit->saldo_start}}</td>
+                            <td>{{$Profit->sum_salary}}</td>
+                            <td>{{$Profit->sum_amount}}</td>
+                            <td>{{$Profit->sum_amount}}</td>
+                            <td>{{$Profit->saldo_end}}</td>
+                        </tr>
+                        @endforeach
+                        <tr class="table-info">
+                            @php
+                            echo '<td>'. date('d.m.Y') .'</td>';
+                            $sumRefilling = $User->driverRefilling->where('status', 1)->sum('cost_car_refueling');
+                            $sumRoute = $User->driverRoute->where('status', 1)->sum('summ_route');
+                            $sumService = $User->driverService->where('status', 1)->sum('sum');
 
-                        </td>
-                    </tr>
-                    @endforeach
+                            $saldoStart = $User->profit->last()->saldo_end;
+                            echo '<td>'.$saldoStart.'</td>';
+
+                            $sumSalary = $User->driverSalary->where('status', 1)->sum('salary');
+                            echo '<td>'.$sumSalary.'</td>';
+
+                            $isService = 0;
+                            foreach ($User->driverRoute->where('status', 1) as $Route) { if
+                            ($Route->is_service) {
+                            $isService = 1;
+                            }
+                            }
+                            if ($isService) {
+                            $sumAccrual = $sumRoute + $sumService;
+                            } else {
+                            $sumAccrual = $sumRoute - $sumRefilling;
+                            }
+                            echo '<td>'.$sumAccrual.'</td>';
+
+                            $sumAmount = $sumAccrual - $sumSalary;
+                            echo '<td>'.$sumAmount.'</td>';
+
+                            $saldoEnd = $saldoStart + $sumAmount;
+                            echo '<td>'.$saldoEnd.'</td>';
+                            @endphp
+                        </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <div class="card-footer navbar">
         <i></i>
-        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-archive', $User->id) }}"
+        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-archive', [$User->id, $dateProfit]) }}"
             role="button">Экспорт</a>
     </div>
 </div>
 @endforeach
-<script>
-    $(document).ready(function(){
-        $('[data-toggle="popover"]').popover({
-            placement : 'left'
-        });
-    });
-</script>
 @endsection

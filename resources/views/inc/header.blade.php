@@ -51,9 +51,7 @@
                             data-bs-toggle="dropdown" aria-expanded="false">Расчеты</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ route('profit.list') }}">Текущие</a></li>
-                            @cannot('is-driver')
                             <li><a class="dropdown-item" href="{{ route('profit.archive') }}">Общая сверка</a></li>
-                            @endcannot
                         </ul>
                     </li>
 

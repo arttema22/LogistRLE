@@ -1,6 +1,10 @@
 <nav class="navbar">
     <div class="container-fluid">
+        @if(Request::path() === 'profit')
         <h1>Данные для расчета</h1>
+        @else
+        <h1>Общая сверка</h1>
+        @endif
         @cannot('is-driver')
         <form class="d-flex" method="get">
             <input type="date" name="date-profit" id="date-profit" placeholder="Дата"
@@ -14,7 +18,12 @@
                 @endforeach
             </select>
             <button type="submit" class="btn btn-primary me-2"><i class="bi bi-filter"></i></button>
+            @if(Request::path() === 'profit')
             <a class="btn btn-outline-primary" href="{{ route('profit.list') }}"><i class="bi bi-arrow-repeat"></i></a>
+            @else
+            <a class="btn btn-outline-primary" href="{{ route('profit.archive') }}"><i
+                    class="bi bi-arrow-repeat"></i></a>
+            @endif
         </form>
         @endcan
     </div>

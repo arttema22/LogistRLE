@@ -17,7 +17,7 @@ class RefillingFactory extends Factory
             'owner_id' => 1,
             'driver_id' => 3,
             'petrol_stations_id' => 1,
-            'date' => '2022-06-14',
+            'date' => '2022-09-14',
             'num_liters_car_refueling' => 10,
             'price_car_refueling' => 10,
             'cost_car_refueling' => 100,
