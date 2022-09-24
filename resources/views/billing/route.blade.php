@@ -6,7 +6,6 @@
 <nav class="navbar">
     <div class="container-fluid">
         <h1>Тарифы по маршруту</h1>
-        <a class="btn btn-primary" href="{{route('billing.route-create')}}" role="button">Новый</a>
         @cannot('is-driver')
         <form class="d-flex" method="get">
             <input type="text" name="start" id="start" class="form-control form-control-lg me-1">
@@ -14,6 +13,17 @@
             <a class="btn btn-outline-primary" href="{{route('billing.route')}}"><i class="bi bi-arrow-repeat"></i></a>
         </form>
         @endcan
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        {{$RouteBilling->withQueryString()->links()}}
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a class="btn btn-success" href="{{route('billing.route-create')}}" role="button"><i
+                    class="bi bi-plus"></i></a>
+        </div>
     </div>
 </nav>
 @if (count($RouteBilling))
@@ -56,7 +66,8 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
-            <a class="btn btn-primary btn-lg" href="{{route('billing.route-create')}}" role="button">Новый</a>
+            <a class="btn btn-success" href="{{route('billing.route-create')}}" role="button"><i
+                    class="bi bi-plus"></i></a>
         </div>
     </div>
 </nav>
