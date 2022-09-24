@@ -16,7 +16,8 @@ class RouteBillingController extends Controller
         $data = $request->validate(['start' => 'alpha']);
         $filter = app()->make(RouteBillingFilter::class, ['queryParams' => array_filter($data)]);
         $RouteBilling = RouteBilling::where('status', 1)->filter($filter)->orderBy('start')->orderBy('finish')->simplePaginate(config('app.pagination_count'));
-        return view('billing.route', ['RouteBilling' => $RouteBilling]);
+        $LastRoutes = RouteBilling::where('status', 1)->latest()->limit(5)->get();
+        return view('billing.route', ['RouteBilling' => $RouteBilling, 'LastRoutes' => $LastRoutes]);
     }
 
     public function create()

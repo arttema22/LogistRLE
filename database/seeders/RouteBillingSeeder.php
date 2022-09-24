@@ -20,8 +20,8 @@ class RouteBillingSeeder extends Seeder
             'finish' => 'Пикалево',
             'is_static' => 0,
             'length' => 460,
-            'created_at' => '2022-09-01 09:00:00',
-            'updated_at' => '2022-09-01 09:00:00',
+            'created_at' => '2022-09-02 09:00:00',
+            'updated_at' => '2022-09-02 09:00:00',
         ]);
         DB::table('route_billings')->insert([
             'start' => 'СХТ',
@@ -52,8 +52,8 @@ class RouteBillingSeeder extends Seeder
             'finish' => 'Ковалево',
             'is_static' => 0,
             'length' => 220,
-            'created_at' => '2022-09-01 09:00:00',
-            'updated_at' => '2022-09-01 09:00:00',
+            'created_at' => '2022-09-03 09:00:00',
+            'updated_at' => '2022-09-03 09:00:00',
         ]);
         DB::table('route_billings')->insert([
             'start' => 'СХТ',
@@ -68,8 +68,8 @@ class RouteBillingSeeder extends Seeder
             'finish' => 'СПб, Партизанская 14',
             'is_static' => 0,
             'length' => 210,
-            'created_at' => '2022-09-01 09:00:00',
-            'updated_at' => '2022-09-01 09:00:00',
+            'created_at' => '2022-09-04 09:00:00',
+            'updated_at' => '2022-09-04 09:00:00',
         ]);
         DB::table('route_billings')->insert([
             'start' => 'СХТ',
@@ -92,8 +92,8 @@ class RouteBillingSeeder extends Seeder
             'finish' => 'Пушкин',
             'is_static' => 1,
             'price' => 7000,
-            'created_at' => '2022-09-01 09:00:00',
-            'updated_at' => '2022-09-01 09:00:00',
+            'created_at' => '2022-09-04 09:01:00',
+            'updated_at' => '2022-09-04 09:01:00',
         ]);
     }
 }
