@@ -24,9 +24,8 @@
                     <tr>
                         <th>Дата</th>
                         <th>Сальдо начальное</th>
-                        <th>Выплаты</th>
+                        <th>Выплачено</th>
                         <th>Начислено</th>
-                        <th>Период</th>
                         <th>Сальдо конечное</th>
                     </tr>
                 </thead>
@@ -37,8 +36,7 @@
                             <td>{{$Profit->date}}</td>
                             <td>{{$Profit->saldo_start}}</td>
                             <td>{{$Profit->sum_salary}}</td>
-                            <td>{{$Profit->sum_amount}}</td>
-                            <td>{{$Profit->sum_amount}}</td>
+                            <td>{{$Profit->sum_accrual}}</td>
                             <td>{{$Profit->saldo_end}}</td>
                         </tr>
                         @endforeach
@@ -69,7 +67,6 @@
                             echo '<td>'.$sumAccrual.'</td>';
 
                             $sumAmount = $sumAccrual - $sumSalary;
-                            echo '<td>'.$sumAmount.'</td>';
 
                             $saldoEnd = $saldoStart + $sumAmount;
                             echo '<td>'.$saldoEnd.'</td>';
