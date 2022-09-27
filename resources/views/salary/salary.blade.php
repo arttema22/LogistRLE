@@ -13,14 +13,13 @@
     </div>
     @endcan
     <div class="card-body">
-        <p class="card-text">{{ $Salary->date }} - {{ $Salary->salary }} руб.
+        <p class="card-text">{{ $Salary->date }} - {{ $Salary->salary }} руб. {{ $Salary->comment }}
             <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button" data-toggle="popover"
                 data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="Создана: {{ $Salary->created_at }}
                                 Изменена: {{ $Salary->updated_at }}
                                 Владелец: {{ $Salary->owner->profile->FullName }}"><i class="bi bi-info"></i>
             </a>
         </p>
-        <p class="card-text">{{ $Salary->comment }}</p>
     </div>
     <div class="card-footer text-muted text-end">
         <a href="{{ route('salary.edit', $Salary->id) }}" class="btn btn-outline-primary btn-sm"><i
