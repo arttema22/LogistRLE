@@ -17,6 +17,7 @@ class CreateProfitsTable extends Migration
         Schema::create('profits', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('title');
             $table->date('date');
             $table->BigInteger('owner_id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('users');

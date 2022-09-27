@@ -18,6 +18,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 1,
@@ -28,6 +29,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 2,
@@ -38,6 +40,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 3,
@@ -48,6 +51,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 4,
@@ -58,6 +62,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 5,
@@ -68,6 +73,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 6,
@@ -78,6 +84,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 7,
@@ -88,6 +95,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 8,
@@ -98,6 +106,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 9,
@@ -108,6 +117,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 10,
@@ -118,6 +128,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 11,
@@ -128,6 +139,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 12,
@@ -138,6 +150,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 13,
@@ -148,6 +161,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 14,
@@ -158,6 +172,7 @@ class ProfitSeeder extends Seeder
         DB::table('profits')->insert([
             'created_at' => '2022-09-01 09:00:00',
             'updated_at' => '2022-09-01 09:00:00',
+            'title' => 'Старт',
             'date' => '2022-09-01',
             'owner_id' => 1,
             'driver_id' => 15,

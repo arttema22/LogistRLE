@@ -47,6 +47,7 @@ class RegisterController extends Controller
         $Profit->driver_id = $user->id;
         $Profit->saldo_start = $request->input('saldo');
         $Profit->saldo_end = $request->input('saldo');
+        $Profit->title = 'Старт';
         $Profit->comment = 'Начальная загрузка';
         $Profit->save();
 

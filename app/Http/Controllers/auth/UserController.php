@@ -57,6 +57,7 @@ class UserController extends Controller
         $Profit->driver_id = $User->id;
         $Profit->saldo_start = $request->input('saldo');
         $Profit->saldo_end = $request->input('saldo');
+        $Profit->title = 'Старт';
         $Profit->comment = 'Начальная загрузка';
         $Profit->save();
 

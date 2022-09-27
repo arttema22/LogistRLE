@@ -84,6 +84,11 @@ class ProfitController extends Controller
     }
     public function store_all(Request $request)
     {
+        // проверка введенных данных
+        $valid = $request->validate([
+            'period-title' => 'required|alpha',
+            'date-close' => 'required|date',
+        ]);
         $date = $request->input('date-close');
         $Users = User::where('role_id', 2)->get();
         foreach ($Users as $User) {
@@ -93,6 +98,7 @@ class ProfitController extends Controller
                 or !$User->driverSalary->where('status', 1)->where('date', '<=', $date)->isEmpty()
             ) {
                 $Profit = new Profits();
+                $Profit->title = $request->input('period-title');
                 $Profit->date = $request->input('date-close');
                 $Profit->owner_id = Auth::user()->id;
                 $Profit->driver_id = $User->id;

@@ -33,7 +33,7 @@
                     @foreach ( $User->profit->where('status', 1)->where('date','<=', $dateProfit)->
                         sortBy('date') as $Profit )
                         <tr>
-                            <td>{{$Profit->date}}</td>
+                            <td>{{$Profit->title}}</td>
                             <td>{{$Profit->saldo_start}}</td>
                             <td>{{$Profit->sum_salary}}</td>
                             <td>{{$Profit->sum_accrual}}</td>
@@ -73,6 +73,26 @@
                             @endphp
                         </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Итого:</th>
+                        <th></th>
+                        <th>
+                            {{$User->profit->where('status', 1)->where('date','<=', $dateProfit)->
+                                sum('sum_salary')+$sumSalary}}
+                        </th>
+                        <th>
+                            {{$User->profit->where('status', 1)->where('date','<=', $dateProfit)->
+                                sum('sum_accrual')+$sumAccrual}}
+                        </th>
+                        <th>
+                            {{ ($User->profit->where('status', 1)->where('date','<=', $dateProfit)->
+                                sum('sum_accrual')+$sumAccrual) - ($User->profit->where('status', 1)->where('date','<=',
+                                    $dateProfit)->
+                                    sum('sum_salary')+$sumSalary) }}
+                        </th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

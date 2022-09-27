@@ -16,8 +16,27 @@
                     @endif
                     @csrf
                     <p class="lead text-muted">Внимание! Процедура закрытия периода необратима. Все маршруты, заправки и
-                        выплаты
-                        попавшие в закрываемый период, не будут доступны для редактирования в дальнейшем.</p>
+                        выплаты попавшие в закрываемый период, не будут доступны для редактирования в дальнейшем.</p>
+                    {{-- Период выплат --}}
+                    <div class="form-floating mb-3">
+                        <select name="period-title" id="period-title" class="form-select form-select-lg mb-3"
+                            aria-label="Пертод">
+                            <option value=0>Выбрать период</option>
+                            <option value="Январь">Январь</option>
+                            <option value="Февраль">Февраль</option>
+                            <option value="Март">Март</option>
+                            <option value="Апрель">Апрель</option>
+                            <option value="Май">Май</option>
+                            <option value="Июнь">Июнь</option>
+                            <option value="Июль">Июль</option>
+                            <option value="Август">Август</option>
+                            <option value="Сентябрь">Сентябрь</option>
+                            <option value="Октябрь">Октябрь</option>
+                            <option value="Ноябрь">Ноябрь</option>
+                            <option value="Декабрь">Декабрь</option>
+                        </select>
+                    </div>
+                    {{-- Период выплат --}}
                     <div class="form-floating mb-3">
                         <input type="date" name="date-close" id="date-close" placeholder="Дата закрытия"
                             class="form-control form-control-lg" value="{{ date('Y-m-d') }}">
