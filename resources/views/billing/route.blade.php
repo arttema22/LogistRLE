@@ -33,7 +33,7 @@
         <h2 class="accordion-header" id="flush-heading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#flush-collapse" aria-expanded="false" aria-controls="flush-collapse">
-                Последние 5 записей
+                Последние 20 записей
             </button>
         </h2>
         <div id="flush-collapse" class="accordion-collapse collapse" aria-labelledby="flush-heading"
