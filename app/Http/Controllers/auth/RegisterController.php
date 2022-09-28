@@ -42,12 +42,11 @@ class RegisterController extends Controller
         $profile->save();
 
         $Profit = new Profits();
-        $Profit->date = date('Y-m-d');
         $Profit->owner_id = $user->id;
         $Profit->driver_id = $user->id;
         $Profit->saldo_start = $request->input('saldo');
         $Profit->saldo_end = $request->input('saldo');
-        $Profit->title = 'Старт';
+        $Profit->title = ' ';
         $Profit->comment = 'Начальная загрузка';
         $Profit->save();
 

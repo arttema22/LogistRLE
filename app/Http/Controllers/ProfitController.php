@@ -87,29 +87,26 @@ class ProfitController extends Controller
         // проверка введенных данных
         $valid = $request->validate([
             'period-title' => 'required|alpha',
-            'date-close' => 'required|date',
         ]);
-        $date = $request->input('date-close');
         $Users = User::where('role_id', 2)->get();
         foreach ($Users as $User) {
             if (
-                !$User->driverRefilling->where('status', 1)->where('date', '<=', $date)->isEmpty()
-                or !$User->driverRoute->where('status', 1)->where('date', '<=', $date)->isEmpty()
-                or !$User->driverSalary->where('status', 1)->where('date', '<=', $date)->isEmpty()
+                !$User->driverRefilling->where('status', 1)->isEmpty()
+                or !$User->driverRoute->where('status', 1)->isEmpty()
+                or !$User->driverSalary->where('status', 1)->isEmpty()
             ) {
                 $Profit = new Profits();
                 $Profit->title = $request->input('period-title');
-                $Profit->date = $request->input('date-close');
                 $Profit->owner_id = Auth::user()->id;
                 $Profit->driver_id = $User->id;
                 $Profit->saldo_start = $User->profit->last()->saldo_end;
-                $Profit->sum_salary = $User->driverSalary->where('status', 1)->where('date', '<=', $date)->sum('salary');
-                $Profit->sum_refuelings = $User->driverRefilling->where('status', 1)->where('date', '<=', $date)->sum('cost_car_refueling');
-                $Profit->sum_routes = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sum('summ_route');
-                $Profit->sum_services = $User->driverService->where('status', 1)->where('date', '<=', $date)->sum('sum');
+                $Profit->sum_salary = $User->driverSalary->where('status', 1)->sum('salary');
+                $Profit->sum_refuelings = $User->driverRefilling->where('status', 1)->sum('cost_car_refueling');
+                $Profit->sum_routes = $User->driverRoute->where('status', 1)->sum('summ_route');
+                $Profit->sum_services = $User->driverService->where('status', 1)->sum('sum');
 
                 $isService = 0;
-                foreach ($User->driverRoute->where('status', 1)->where('date', '<=', $date) as $Route) {
+                foreach ($User->driverRoute->where('status', 1) as $Route) {
                     if ($Route->is_service) {
                         $isService = 1;
                     }
@@ -125,10 +122,10 @@ class ProfitController extends Controller
                 $Profit->comment = $request->input('comment');
                 $Profit->save();
 
-                Salary::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0, 'profit_id' => $Profit->id]);
-                Refilling::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0, 'profit_id' => $Profit->id]);
-                Routes::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0, 'profit_id' => $Profit->id]);
-                Services::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0]);
+                Salary::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+                Refilling::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+                Routes::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+                Services::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0]);
             }
         }
 
@@ -138,25 +135,29 @@ class ProfitController extends Controller
     }
     public function store($id, Request $request)
     {
-        $date = $request->input('date-close');
+        // проверка введенных данных
+        $valid = $request->validate([
+            'period-title' => 'required|alpha',
+        ]);
         $User = User::find($id);
+
         if (
-            !$User->driverRefilling->where('status', 1)->where('date', '<=', $date)->isEmpty()
-            or !$User->driverRoute->where('status', 1)->where('date', '<=', $date)->isEmpty()
-            or !$User->driverSalary->where('status', 1)->where('date', '<=', $date)->isEmpty()
+            !$User->driverRefilling->where('status', 1)->isEmpty()
+            or !$User->driverRoute->where('status', 1)->isEmpty()
+            or !$User->driverSalary->where('status', 1)->isEmpty()
         ) {
             $Profit = new Profits();
-            $Profit->date = $request->input('date-close');
+            $Profit->title = $request->input('period-title');
             $Profit->owner_id = Auth::user()->id;
             $Profit->driver_id = $User->id;
             $Profit->saldo_start = $User->profit->last()->saldo_end;
-            $Profit->sum_salary = $User->driverSalary->where('status', 1)->where('date', '<=', $date)->sum('salary');
-            $Profit->sum_refuelings = $User->driverRefilling->where('status', 1)->where('date', '<=', $date)->sum('cost_car_refueling');
-            $Profit->sum_routes = $User->driverRoute->where('status', 1)->where('date', '<=', $date)->sum('summ_route');
-            $Profit->sum_services = $User->driverService->where('status', 1)->where('date', '<=', $date)->sum('sum');
+            $Profit->sum_salary = $User->driverSalary->where('status', 1)->sum('salary');
+            $Profit->sum_refuelings = $User->driverRefilling->where('status', 1)->sum('cost_car_refueling');
+            $Profit->sum_routes = $User->driverRoute->where('status', 1)->sum('summ_route');
+            $Profit->sum_services = $User->driverService->where('status', 1)->sum('sum');
 
             $isService = 0;
-            foreach ($User->driverRoute->where('status', 1)->where('date', '<=', $date) as $Route) {
+            foreach ($User->driverRoute->where('status', 1) as $Route) {
                 if ($Route->is_service) {
                     $isService = 1;
                 }
@@ -172,10 +173,10 @@ class ProfitController extends Controller
             $Profit->comment = $request->input('comment');
             $Profit->save();
 
-            Salary::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            Refilling::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            Routes::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0, 'profit_id' => $Profit->id]);
-            Services::where('status', 1)->where('driver_id', $User->id)->where('date', '<=', $date)->update(['status' => 0]);
+            Salary::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+            Refilling::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+            Routes::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0, 'profit_id' => $Profit->id]);
+            Services::where('status', 1)->where('driver_id', $User->id)->update(['status' => 0]);
 
             return redirect()->route('profit.list')->with('success', 'Произведено закрытие периода.');
         }
@@ -284,24 +285,21 @@ class ProfitController extends Controller
         $User = User::find($id);
         $Profits = Profits::where('status', 1)->where('driver_id', $id)->get();
 
-        $date = array();
         foreach ($Profits as $Profit) {
-            $date[] = $Profit->date;
+            $title[] = $Profit->title;
             $saldo_start[] = $Profit->saldo_start;
             $sum_salary[] = $Profit->sum_salary;
             $sum_accrual[] = $Profit->sum_accrual;
-            $sum_amount[] = $Profit->sum_amount;
             $saldo_end[] = $Profit->saldo_end;
         }
 
         $params = [
             '{name}' => $User->profile->fullName,
 
-            '[date]' => $date,
+            '[title]' => $title,
             '[saldo_start]' => $saldo_start,
             '[sum_salary]' => $sum_salary,
             '[sum_accrual]' => $sum_accrual,
-            '[sum_amount]' => $sum_amount,
             '[saldo_end]' => $saldo_end,
         ];
 

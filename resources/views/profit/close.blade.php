@@ -37,11 +37,7 @@
                         </select>
                     </div>
                     {{-- Период выплат --}}
-                    <div class="form-floating mb-3">
-                        <input type="date" name="date-close" id="date-close" placeholder="Дата закрытия"
-                            class="form-control form-control-lg" value="{{ date('Y-m-d') }}">
-                        <label for="date-close">Дата закрытия</label>
-                    </div>
+
                     <!-- Комментарий -->
                     <div class="form-floating mb-3">
                         <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>

@@ -157,9 +157,8 @@
                 </div>
             </div>
             <div class="card-footer navbar">
-                {{-- <a class="btn btn-danger btn-sm" href="{{ route('profit.close', $User->id) }}"
-                    role="button">Закрыть
-                    период</a> --}}
+                <a class="btn btn-danger btn-sm" href="{{ route('profit.close', $User->id) }}" role="button">Закрыть
+                    период</a>
                 <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export', [$User->id, $dateProfit]) }}"
                     role="button">Экспорт</a>
             </div>

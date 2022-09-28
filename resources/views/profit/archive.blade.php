@@ -22,7 +22,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Дата</th>
+                        <th>Период</th>
                         <th>Сальдо начальное</th>
                         <th>Выплачено</th>
                         <th>Начислено</th>
@@ -42,7 +42,14 @@
                         @endforeach
                         <tr class="table-info">
                             @php
-                            echo '<td>'. date('d.m.Y') .'</td>';
+                            $_monthsList = array(
+                            "1"=>"Январь","2"=>"Февраль","3"=>"Март",
+                            "4"=>"Апрель","5"=>"Май", "6"=>"Июнь",
+                            "7"=>"Июль","8"=>"Август","9"=>"Сентябрь",
+                            "10"=>"Октябрь","11"=>"Ноябрь","12"=>"Декабрь");
+
+                            $month = $_monthsList[date("n")];
+                            echo '<td>'. $month .'</td>';
                             $sumRefilling = $User->driverRefilling->where('status', 1)->sum('cost_car_refueling');
                             $sumRoute = $User->driverRoute->where('status', 1)->sum('summ_route');
                             $sumService = $User->driverService->where('status', 1)->sum('sum');
@@ -78,12 +85,12 @@
                         <th>Итого:</th>
                         <th></th>
                         <th>
-                            {{$User->profit->where('status', 1)->where('date','<=', $dateProfit)->
-                                sum('sum_salary')+$sumSalary}}
+                            {{-- {{$User->profit->where('status', 1)->where('date','<=', $dateProfit)->
+                                sum('sum_salary')+$sumSalary}} --}}
                         </th>
                         <th>
-                            {{$User->profit->where('status', 1)->where('date','<=', $dateProfit)->
-                                sum('sum_accrual')+$sumAccrual}}
+                            {{-- {{$User->profit->where('status', 1)->where('date','<=', $dateProfit)->
+                                sum('sum_accrual')+$sumAccrual}} --}}
                         </th>
                         <th>
                             {{ ($User->profit->where('status', 1)->where('date','<=', $dateProfit)->

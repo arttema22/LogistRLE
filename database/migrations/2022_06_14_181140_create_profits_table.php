@@ -18,7 +18,6 @@ class CreateProfitsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title');
-            $table->date('date');
             $table->BigInteger('owner_id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('users');
             $table->BigInteger('driver_id')->unsigned();

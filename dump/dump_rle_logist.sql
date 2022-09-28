@@ -359,6 +359,7 @@ CREATE TABLE `profits` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date NOT NULL,
   `owner_id` bigint unsigned NOT NULL,
   `driver_id` bigint unsigned NOT NULL,
@@ -367,6 +368,7 @@ CREATE TABLE `profits` (
   `sum_refuelings` double(8,2) NOT NULL DEFAULT '0.00',
   `sum_routes` double(8,2) NOT NULL DEFAULT '0.00',
   `sum_services` double(8,2) NOT NULL DEFAULT '0.00',
+  `sum_accrual` double(8,2) NOT NULL DEFAULT '0.00',
   `sum_amount` double(8,2) NOT NULL DEFAULT '0.00',
   `saldo_end` double(10,2) NOT NULL DEFAULT '0.00',
   `comment` text COLLATE utf8mb4_unicode_ci,
@@ -386,7 +388,7 @@ CREATE TABLE `profits` (
 
 LOCK TABLES `profits` WRITE;
 /*!40000 ALTER TABLE `profits` DISABLE KEYS */;
-INSERT INTO `profits` VALUES (1,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,1,0.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(2,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,2,0.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(3,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,3,-37760.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(4,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,4,139306.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(5,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,5,116499.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(6,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,6,136836.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(7,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,7,332169.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(8,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,8,184101.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(9,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,9,-75684.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(10,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,10,-13952.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(11,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,11,-34904.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(12,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,12,234862.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(13,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,13,116715.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(14,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,14,-17122.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(15,'2022-09-01 06:00:00','2022-09-01 06:00:00','2022-09-01',1,15,73662.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL);
+INSERT INTO `profits` VALUES (1,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,1,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(2,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,2,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,'Начальная загрузка',1,NULL),(3,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,3,-37760.00,0.00,0.00,0.00,0.00,0.00,0.00,-37760.00,'Начальная загрузка',1,NULL),(4,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,4,139306.00,0.00,0.00,0.00,0.00,0.00,0.00,139306.00,'Начальная загрузка',1,NULL),(5,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,5,116499.00,0.00,0.00,0.00,0.00,0.00,0.00,116499.00,'Начальная загрузка',1,NULL),(6,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,6,136836.00,0.00,0.00,0.00,0.00,0.00,0.00,136836.00,'Начальная загрузка',1,NULL),(7,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,7,332169.00,0.00,0.00,0.00,0.00,0.00,0.00,332169.00,'Начальная загрузка',1,NULL),(8,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,8,184101.00,0.00,0.00,0.00,0.00,0.00,0.00,184101.00,'Начальная загрузка',1,NULL),(9,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,9,-75684.00,0.00,0.00,0.00,0.00,0.00,0.00,-75684.00,'Начальная загрузка',1,NULL),(10,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,10,-13952.00,0.00,0.00,0.00,0.00,0.00,0.00,-13952.00,'Начальная загрузка',1,NULL),(11,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,11,-34904.00,0.00,0.00,0.00,0.00,0.00,0.00,-34904.00,'Начальная загрузка',1,NULL),(12,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,12,234862.00,0.00,0.00,0.00,0.00,0.00,0.00,234862.00,'Начальная загрузка',1,NULL),(13,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,13,116715.00,0.00,0.00,0.00,0.00,0.00,0.00,116715.00,'Начальная загрузка',1,NULL),(14,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,14,-17122.00,0.00,0.00,0.00,0.00,0.00,0.00,-17122.00,'Начальная загрузка',1,NULL),(15,'2022-09-01 06:00:00','2022-09-01 06:00:00','Старт','2022-09-01',1,15,73662.00,0.00,0.00,0.00,0.00,0.00,0.00,73662.00,'Начальная загрузка',1,NULL);
 /*!40000 ALTER TABLE `profits` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -419,7 +421,7 @@ CREATE TABLE `refillings` (
   CONSTRAINT `refillings_driver_id_foreign` FOREIGN KEY (`driver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `refillings_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
   CONSTRAINT `refillings_petrol_stations_id_foreign` FOREIGN KEY (`petrol_stations_id`) REFERENCES `dir_petrol_stations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -428,6 +430,7 @@ CREATE TABLE `refillings` (
 
 LOCK TABLES `refillings` WRITE;
 /*!40000 ALTER TABLE `refillings` DISABLE KEYS */;
+INSERT INTO `refillings` VALUES (1,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-14',1,3,1,10,10.00,100.00,0,NULL,1,NULL),(2,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-14',1,3,1,10,10.00,100.00,0,NULL,1,NULL),(3,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-14',1,3,1,10,10.00,100.00,0,NULL,1,NULL),(4,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-14',1,3,1,10,10.00,100.00,0,NULL,1,NULL),(5,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-14',1,3,1,10,10.00,100.00,0,NULL,1,NULL);
 /*!40000 ALTER TABLE `refillings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -489,7 +492,7 @@ CREATE TABLE `route_billings` (
 
 LOCK TABLES `route_billings` WRITE;
 /*!40000 ALTER TABLE `route_billings` DISABLE KEYS */;
-INSERT INTO `route_billings` VALUES (1,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Пикалево',0,460,NULL,NULL,1,NULL),(2,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Синявино',0,237,NULL,NULL,1,NULL),(3,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Невская Дубровка',0,234,NULL,NULL,1,NULL),(4,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Сертолово (ЛСР)',0,230,NULL,NULL,1,NULL),(5,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Ковалево',0,220,NULL,NULL,1,NULL),(6,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Отрадное',0,224,NULL,NULL,1,NULL),(7,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','СПб, Партизанская 14',0,210,NULL,NULL,1,NULL),(8,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Глинка',0,205,NULL,NULL,1,NULL),(9,'2022-09-01 06:00:00','2022-09-01 06:00:00','Волхонское','Шушары',1,NULL,7000.00,NULL,1,NULL),(10,'2022-09-01 06:00:00','2022-09-01 06:00:00','Волхонское','Пушкин',1,NULL,7000.00,NULL,1,NULL);
+INSERT INTO `route_billings` VALUES (1,'2022-09-02 06:00:00','2022-09-02 06:00:00','СХТ','Пикалево',0,460,NULL,NULL,1,NULL),(2,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Синявино',0,237,NULL,NULL,1,NULL),(3,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Невская Дубровка',0,234,NULL,NULL,1,NULL),(4,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Сертолово (ЛСР)',0,230,NULL,NULL,1,NULL),(5,'2022-09-03 06:00:00','2022-09-03 06:00:00','СХТ','Ковалево',0,220,NULL,NULL,1,NULL),(6,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Отрадное',0,224,NULL,NULL,1,NULL),(7,'2022-09-04 06:00:00','2022-09-04 06:00:00','СХТ','СПб, Партизанская 14',0,210,NULL,NULL,1,NULL),(8,'2022-09-01 06:00:00','2022-09-01 06:00:00','СХТ','Глинка',0,205,NULL,NULL,1,NULL),(9,'2022-09-01 06:00:00','2022-09-01 06:00:00','Волхонское','Шушары',1,NULL,7000.00,NULL,1,NULL),(10,'2022-09-04 06:01:00','2022-09-04 06:01:00','Волхонское','Пушкин',1,NULL,7000.00,NULL,1,NULL);
 /*!40000 ALTER TABLE `route_billings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -532,7 +535,7 @@ CREATE TABLE `routes` (
   CONSTRAINT `routes_driver_id_foreign` FOREIGN KEY (`driver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `routes_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
   CONSTRAINT `routes_payer_id_foreign` FOREIGN KEY (`payer_id`) REFERENCES `dir_payers` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -541,6 +544,7 @@ CREATE TABLE `routes` (
 
 LOCK TABLES `routes` WRITE;
 /*!40000 ALTER TABLE `routes` DISABLE KEYS */;
+INSERT INTO `routes` VALUES (1,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,1,1,1,'Kira Lemke PhD','Dr. Dangelo Dibbert',77,999.99,1,0.00,888.00,NULL,0,1,NULL),(2,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,1,1,1,'Amelia VonRueden','Dr. Karen Weber I',77,999.99,1,0.00,888.00,NULL,0,1,NULL),(3,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,1,1,1,'Fleta Satterfield','Dr. Ivy Wilkinson III',77,999.99,1,0.00,888.00,NULL,0,1,NULL),(4,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,1,1,1,'Rachel Auer','Prof. Carli Carter IV',77,999.99,1,0.00,888.00,NULL,0,1,NULL),(5,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,1,1,1,'Malinda Ferry','Marjolaine Tremblay DVM',77,999.99,1,0.00,888.00,NULL,0,1,NULL);
 /*!40000 ALTER TABLE `routes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -568,7 +572,7 @@ CREATE TABLE `salaries` (
   KEY `salaries_driver_id_foreign` (`driver_id`),
   CONSTRAINT `salaries_driver_id_foreign` FOREIGN KEY (`driver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `salaries_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -577,6 +581,7 @@ CREATE TABLE `salaries` (
 
 LOCK TABLES `salaries` WRITE;
 /*!40000 ALTER TABLE `salaries` DISABLE KEYS */;
+INSERT INTO `salaries` VALUES (1,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,15000.00,0,NULL,1,NULL),(2,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,15000.00,0,NULL,1,NULL),(3,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,15000.00,0,NULL,1,NULL),(4,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,15000.00,0,NULL,1,NULL),(5,'2022-09-27 09:58:24','2022-09-27 09:58:24','2022-09-27',1,3,15000.00,0,NULL,1,NULL);
 /*!40000 ALTER TABLE `salaries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -652,7 +657,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Artem','arttema@mail.ru',NULL,'$2y$10$ZTXwjBHyaV2VO9dLrdtG2uFA6fEwTSQ3RJrBRfhCTpdkDPy/jDlfm',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',1,1,NULL),(2,'Denis','dv1840145@gmail.com',NULL,'$2y$10$VVM6O.SdLlCZkRv5jatgfubQJWGHUdVibt1l.aB2N2GpyvahEyw/S',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',1,1,NULL),(3,'060','haziullin.andrei@mail.ru',NULL,'$2y$10$1GqrM5EivYSB2nkRr74c2O08Y8kn.QtG7RM9kygkvTeeIeg.gUV0i',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(4,'548','smirnov@mail.ru',NULL,'$2y$10$JhW1DZlU1KwX3J0psuGeQe7t6z2jfBcadRKD67XFlsixS7rw154Ja',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(5,'513','sashok568@inbox.ru',NULL,'$2y$10$z9Z3ESk.qyWV1.NB2R2ehue5LHSC7uTn/lou.WHyJQqN9/u3tEwXi',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(6,'185','sachamol75@gmail.com',NULL,'$2y$10$hoapjkMwt5ZFO5rRaI2ijO4jXd9iL9IN9hkl9a0MAkw8XwM9lsBrS',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(7,'101','lukin_vyacheslav@mail.ru',NULL,'$2y$10$dymGmDOBkbW.mGUfk0O68.uAIN1xLlO4Ospanxzut.2jRGox0P6UW',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(8,'396','aleksii.99@mail.ru',NULL,'$2y$10$FOANwdmr/dfvZ1x94Lvvl.OGYVDB9EgHITYMU.UvnHedi7UdF1PUK',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(9,'579','davydenkov@inbox.ru',NULL,'$2y$10$G14cMv7wyUE6wgFiLkf4aO1isVlflPmp31pO1lUxqIibAduvAYUs.',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(10,'547','alex-1884@mail.ru',NULL,'$2y$10$BCm0lS8BJTdCeQmE.8uU2uV2FyFHrfuGbusAw5b8VNfgEtkUAfY7u',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(11,'294','maiorov.ivan1986@mail.ru',NULL,'$2y$10$7jgyQyIjDZww7EX3cjojled7LAZkBzXZfX9GFSxVFbmZlVLjC3Qxu',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(12,'931','mers862@mail.ru',NULL,'$2y$10$aEZWKPchkGX3O0BAIAWdFO/kkWjXdMRI/eBFl2FWCgUoXTVHO22dm',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(13,'097','Vladimirov@inbox.ru',NULL,'$2y$10$jzrXakYgJMxVn5O/0hdkg.Fcc6vw/jWAzg8v35U.pkz6KL15Ouidy',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(14,'792','tilik@inbox.ru',NULL,'$2y$10$20BsFED9uj1GFnQ3MOZwseUJ52lFTz7Tvna.yS831pXXQb2XfvlG.',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(15,'280','dumtsev.igor@bk.ru',NULL,'$2y$10$cU/1avviyJ/v2/uR4RGQje8awDaE8dP6fbLz9OwK17G4xcPLsepRu',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL);
+INSERT INTO `users` VALUES (1,'Artem','arttema@mail.ru',NULL,'$2y$10$sNVS8iXK/buhmA6Wm0BSZOAq3VxSzkF/xBOBsC3ZU8OC5Q.nxl6Sq',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',1,1,NULL),(2,'Denis','dv1840145@gmail.com',NULL,'$2y$10$nAxF3xxFOD19W.LZuLroDeoKOdqbnL8aCfW1MaoAdL0k3rMTseSkG',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',1,1,NULL),(3,'060','haziullin.andrei@mail.ru',NULL,'$2y$10$6/E0EbiN93FVx0KsLDJS0eeMJZQ53RxdPTIU9QJLXT53js9N3.uUe',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(4,'548','smirnov@mail.ru',NULL,'$2y$10$JZVDJ8YYAJmvqRYFFW78oO/1RviEsZJ7izM.NfBgiKl8ruUfFwvHe',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(5,'513','sashok568@inbox.ru',NULL,'$2y$10$ENKIwyF7TsqmYgmuS6sKpuadk0jReqeAUDKm./Ag0dq7NIOm6vDlC',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(6,'185','sachamol75@gmail.com',NULL,'$2y$10$qvD8eMZybAVBRY25nQo.x.rE9gX1kPhtwMU/lbMt0ngqVrpCAoAGa',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(7,'101','lukin_vyacheslav@mail.ru',NULL,'$2y$10$VrEeBzdgYOanmhgkqC4LJeqOKEz7P999JrHJ.KGgNzNX0kE/0dfXC',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(8,'396','aleksii.99@mail.ru',NULL,'$2y$10$y6RZB1OiacK04p3eS7z.i.7epR/MilWVt0T5f5gwZQawOc/v8fNcu',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(9,'579','davydenkov@inbox.ru',NULL,'$2y$10$VSesVjFNrptUM4r/0ut1yuuLL.3y2b3d/HRbj2WNV9OhzGsxHUsoe',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(10,'547','alex-1884@mail.ru',NULL,'$2y$10$Ye2WPFyc/mstpSWQIy6QqeC3Sp94u5kAPZXbcU8xf1pY4CU84uC6G',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(11,'294','maiorov.ivan1986@mail.ru',NULL,'$2y$10$NJUid0N6aEbBNs04uGi0S.hbCx7pTK9ZPrZtoorfD2i55XLYk5n.q',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(12,'931','mers862@mail.ru',NULL,'$2y$10$h4hgqPDkW4EVFToHvPmaseMl9Yu8Tr.5wXYm9wS3OGtb0BjbNnNMe',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(13,'097','Vladimirov@inbox.ru',NULL,'$2y$10$0WD0sZlUqXNnjc2C7y/TLuIllFZZfevCWIOtr9JtaHHtWGFSSe2py',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(14,'792','tilik@inbox.ru',NULL,'$2y$10$WR6lpM6rMY591oTSk/ZfVOF9Dd37oh9IWTAm/GdJfpe64vfDgSlSa',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL),(15,'280','dumtsev.igor@bk.ru',NULL,'$2y$10$5t0yjdbhl7KW/zjht6I5duAvawwe4WHc6TRflSelk69Z0Qy.iab9K',NULL,'2022-09-01 06:00:00','2022-09-01 06:00:00',2,1,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -665,4 +670,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-20  2:28:10
+-- Dump completed on 2022-09-27 12:58:53
