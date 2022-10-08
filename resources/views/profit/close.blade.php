@@ -17,6 +17,12 @@
                     @csrf
                     <p class="lead text-muted">Внимание! Процедура закрытия периода необратима. Все маршруты, заправки и
                         выплаты попавшие в закрываемый период, не будут доступны для редактирования в дальнейшем.</p>
+                    {{-- Дата закрытия --}}
+                    <div class="form-floating mb-3">
+                        <input type="date" name="date-close" id="date-close" placeholder="Дата закрытия"
+                            class="form-control form-control-lg" value="{{ date(config('app.date_format_to_db')) }}">
+                        <label for="date-close">Дата закрытия</label>
+                    </div>
                     {{-- Период выплат --}}
                     <div class="form-floating mb-3">
                         <select name="period-title" id="period-title" class="form-select form-select-lg mb-3"

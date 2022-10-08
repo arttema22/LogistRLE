@@ -26,59 +26,59 @@
                         <th>Сальдо начальное</th>
                         <th>Выплачено</th>
                         <th>Начислено</th>
-                        <th>Сальдо конечное</th>
+                        <th>Сумма за период</th>
+                        {{-- <th>Сальдо конечное</th> --}}
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ( $User->profit->where('status', 1)->where('date','<=', $dateProfit)->
-                        sortBy('date') as $Profit )
-                        <tr>
-                            <td>{{$Profit->title}}</td>
-                            <td>{{$Profit->saldo_start}}</td>
-                            <td>{{$Profit->sum_salary}}</td>
-                            <td>{{$Profit->sum_accrual}}</td>
-                            <td>{{$Profit->saldo_end}}</td>
-                        </tr>
-                        @endforeach
-                        <tr class="table-info">
-                            @php
-                            $_monthsList = array(
-                            "1"=>"Январь","2"=>"Февраль","3"=>"Март",
-                            "4"=>"Апрель","5"=>"Май", "6"=>"Июнь",
-                            "7"=>"Июль","8"=>"Август","9"=>"Сентябрь",
-                            "10"=>"Октябрь","11"=>"Ноябрь","12"=>"Декабрь");
+                    @foreach ( $User->profit->where('status', 1)->sortBy('date') as $Profit )
+                    <tr>
+                        <td>{{$Profit->title}}</td>
+                        <td>{{$Profit->saldo_start}}</td>
+                        <td>@if ($Profit->sum_salary != 0){{$Profit->sum_salary}}@endif</td>
+                        <td>@if ($Profit->sum_accrual != 0){{$Profit->sum_accrual}}@endif</td>
+                        <td>@if ($Profit->sum_amount){{$Profit->sum_amount}}@endif</td>
+                        {{-- <td>{{$Profit->saldo_end}}</td> --}}
+                    </tr>
+                    @endforeach
+                    <tr class="table-info">
+                        @php
+                        $_monthsList = array(
+                        "1"=>"Январь","2"=>"Февраль","3"=>"Март",
+                        "4"=>"Апрель","5"=>"Май", "6"=>"Июнь",
+                        "7"=>"Июль","8"=>"Август","9"=>"Сентябрь",
+                        "10"=>"Октябрь","11"=>"Ноябрь","12"=>"Декабрь");
 
-                            $month = $_monthsList[date("n")];
-                            echo '<td>'. $month .'</td>';
-                            $sumRefilling = $User->driverRefilling->where('status', 1)->sum('cost_car_refueling');
-                            $sumRoute = $User->driverRoute->where('status', 1)->sum('summ_route');
-                            $sumService = $User->driverService->where('status', 1)->sum('sum');
+                        $month = $_monthsList[date("n")];
+                        echo '<td>'. $month .'</td>';
+                        $sumRefilling = $User->driverRefilling->where('status', 1)->sum('cost_car_refueling');
+                        $sumRoute = $User->driverRoute->where('status', 1)->sum('summ_route');
+                        $sumService = $User->driverService->where('status', 1)->sum('sum');
 
-                            $saldoStart = $User->profit->last()->saldo_end;
-                            echo '<td>'.$saldoStart.'</td>';
+                        $saldoStart = $User->profit->last()->saldo_end;
+                        echo '<td>'.$saldoStart.'</td>';
 
-                            $sumSalary = $User->driverSalary->where('status', 1)->sum('salary');
-                            echo '<td>'.$sumSalary.'</td>';
+                        $sumSalary = $User->driverSalary->where('status', 1)->sum('salary');
+                        echo '<td>'.$sumSalary.'</td>';
 
-                            $isService = 0;
-                            foreach ($User->driverRoute->where('status', 1) as $Route) { if
-                            ($Route->is_service) {
-                            $isService = 1;
-                            }
-                            }
-                            if ($isService) {
-                            $sumAccrual = $sumRoute + $sumService;
-                            } else {
-                            $sumAccrual = $sumRoute - $sumRefilling;
-                            }
-                            echo '<td>'.$sumAccrual.'</td>';
+                        $sumService = $User->driverService->where('status', 1)->sum('sum');
 
-                            $sumAmount = $sumAccrual - $sumSalary;
+                        if ($sumService != 0) {
+                        $sumAccrual = $sumRoute + $sumService;
+                        } else {
+                        $sumAccrual = $sumRoute - $sumRefilling;
+                        }
 
-                            $saldoEnd = $saldoStart + $sumAmount;
-                            echo '<td>'.$saldoEnd.'</td>';
-                            @endphp
-                        </tr>
+                        echo '<td>'.$sumAccrual.'</td>';
+
+                        $sumAmount = $sumAccrual - $sumSalary;
+                        echo '<td>'.$sumAmount.'</td>';
+
+                        $saldoEnd = $saldoStart + $sumAmount;
+                        // echo '<td>'.$saldoEnd.'</td>';
+
+                        @endphp
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -93,10 +93,13 @@
                                 sum('sum_accrual')+$sumAccrual}} --}}
                         </th>
                         <th>
+                            {{-- {{$User->profit->where('status', 1)->sortBy('date')->last()->saldo_end;}} // --}}
+                            {{$saldoEnd}}
+                            {{-- //
                             {{ ($User->profit->where('status', 1)->where('date','<=', $dateProfit)->
                                 sum('sum_accrual')+$sumAccrual) - ($User->profit->where('status', 1)->where('date','<=',
                                     $dateProfit)->
-                                    sum('sum_salary')+$sumSalary) }}
+                                    sum('sum_salary')+$sumSalary) }} --}}
                         </th>
                     </tr>
                 </tfoot>
@@ -105,7 +108,7 @@
     </div>
     <div class="card-footer navbar">
         <i></i>
-        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-archive', [$User->id, $dateProfit]) }}"
+        <a class="btn btn-outline-success btn-sm" href="{{ route('profit.export-archive', [$User->id]) }}"
             role="button">Экспорт</a>
     </div>
 </div>

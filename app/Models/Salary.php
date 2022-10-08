@@ -33,15 +33,15 @@ class Salary extends Model
      * Преобразует дату из базы в нужный формат.
      * Формат лежит в config\app
      */
-    public function getDateAttribute($value)
-    {
-        return Carbon::parse($value)->format(config('app.date_format'));
-    }
+    // public function getDateAttribute($value)
+    // {
+    //     return Carbon::parse($value)->format(config('app.date_format'));
+    // }
 
-    public function getDateEditAttribute()
-    {
-        return Carbon::parse($this->date)->format('Y-m-d');
-    }
+    // public function getDateEditAttribute()
+    // {
+    //     return Carbon::parse($this->date)->format('Y-m-d');
+    // }
 
     public function getCreatedAtAttribute($value)
     {

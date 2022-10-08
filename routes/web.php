@@ -167,7 +167,7 @@ Route::name('profit.')
         Route::post('/store-all', [ProfitController::class, 'store_all'])->name('store-all');
         Route::post('/store/{id}', [ProfitController::class, 'store'])->name('store');
         Route::get('/export/{id}/{date}', [ProfitController::class, 'export'])->name('export');
-        Route::get('/archive/export/{id}/{date}', [ProfitController::class, 'export_archive'])->name('export-archive');
+        Route::get('/archive/export/{id}', [ProfitController::class, 'export_archive'])->name('export-archive');
         Route::get('/export-all', [ProfitController::class, 'export_all'])->name('export-all');
 
         Route::get('pdf/preview', [PDFController::class, 'preview'])->name('pdf.preview');
