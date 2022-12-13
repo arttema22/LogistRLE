@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
 use App\Models\Profile;
 use App\Models\Profits;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
@@ -52,10 +53,13 @@ class UserController extends Controller
         $Profile->save();
 
         $Profit = new Profits();
+        $Profile->date = Carbon::now()->format('Y-m-d');
+        $Profile->created_at = date(now());
+        $Profile->updated_at = date(now());
         $Profit->owner_id = Auth::user()->id;
         $Profit->driver_id = $User->id;
-        $Profit->saldo_start = $request->input('saldo');
-        $Profit->saldo_end = $request->input('saldo');
+        ($request->input('saldo') ? $Profit->saldo_start = $request->input('saldo') : $Profit->saldo_start = 0);
+        ($request->input('saldo') ? $Profit->saldo_end = $request->input('saldo') : $Profit->saldo_end = 0);
         $Profit->title = ' ';
         $Profit->comment = 'Начальная загрузка';
         $Profit->save();

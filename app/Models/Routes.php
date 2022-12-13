@@ -86,28 +86,20 @@ class Routes extends Model
      * Преобразует дату из базы в нужный формат.
      * Формат лежит в config\app
      */
-    // public function getDateAttribute($value)
-    // {
-    //     return Carbon::parse($value)->format(config('app.date_format'));
-    // }
-
-    // public function getDateEditAttribute()
-    // {
-    //     return Carbon::parse($this->date)->format('Y-m-d');
-    // }
-
-    /**
-     * Аксессор
-     * Преобразует дату из базы в нужный формат.
-     * Формат лежит в config\app
-     */
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format(config('app.date_format'));
+        return Carbon::createFromTimestamp(strtotime($value))
+            ->format(config('app.date_format'));
     }
-
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format(config('app.date_format'));
+        return Carbon::createFromTimestamp(strtotime($value))
+            ->format(config('app.date_format'));
+    }
+
+    public function getDeletedAtAttribute($value)
+    {
+        return Carbon::createFromTimestamp(strtotime($value))
+            ->format(config('app.date_format'));
     }
 }

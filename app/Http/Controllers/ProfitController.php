@@ -4,26 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profits;
-use App\Models\ProfitsData;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Refilling;
 use App\Models\Routes;
 use App\Models\Services;
 use App\Models\Salary;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Export\ProfitExport;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Filters\ProfitFilter;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Illuminate\Support\Facades\DB;
-
 use alhimik1986\PhpExcelTemplator\PhpExcelTemplator;
-use alhimik1986\PhpExcelTemplator\params\ExcelParam;
-use alhimik1986\PhpExcelTemplator\params\CallbackParam;
-use alhimik1986\PhpExcelTemplator\setters\CellSetterArrayValueSpecial;
 use Illuminate\Support\Carbon;
-use Symfony\Component\Console\Input\Input;
 
 class ProfitController extends Controller
 {
@@ -143,6 +133,11 @@ class ProfitController extends Controller
             'period-title' => 'required|alpha',
         ]);
         $dateProfit = $request->input('date-close');
+        if ($dateProfit == null) {
+            $dateProfit = date(config('app.date_format_to_db'));
+        } else {
+            $dateProfit = Carbon::parse($dateProfit)->format(config('app.date_format_to_db'));
+        }
 
         if (
             !$User->driverRefilling->where('status', 1)->where('date', '<=', $dateProfit)->isEmpty()
@@ -150,7 +145,7 @@ class ProfitController extends Controller
             or !$User->driverSalary->where('status', 1)->where('date', '<=', $dateProfit)->isEmpty()
         ) {
             $Profit = new Profits();
-            $Profit->date = Carbon::parse($dateProfit)->format(config('app.date_format'));
+            $Profit->date = $dateProfit;
             $Profit->title = $request->input('period-title');
             $Profit->owner_id = Auth::user()->id;
             $Profit->driver_id = $User->id;
