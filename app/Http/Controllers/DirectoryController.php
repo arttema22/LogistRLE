@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\DirTypeTrucks;
+use App\Models\DirTypeTruck;
 use App\Models\DirOwnerTrucks;
 use App\Models\DirPlaceWork;
 use App\Models\DirCargo;
 use App\Models\DirAddress;
-use App\Models\DirPetrolStations;
+use App\Models\DirPetrolStation;
 use App\Models\DistanceBilling;
-use App\Models\DirPayers;
-use App\Models\DirServices;
+use App\Models\DirPayer;
+use App\Models\DirService;
 
 class DirectoryController extends Controller
 {
 
     public function type_trucks()
     {
-        $TypeTrucks = new DirTypeTrucks();
+        $TypeTrucks = new DirTypeTruck();
         return view('directory.type-trucks', ['TypeTrucks' => $TypeTrucks->all()]);
     }
 
@@ -30,7 +30,7 @@ class DirectoryController extends Controller
     public function type_trucks_new_save(Request $request)
     {
         $valid = $request->validate(['title' => 'required|unique:dir_type_trucks,title', 'is-service' => 'boolean']);
-        $TypeTrucks = new DirTypeTrucks();
+        $TypeTrucks = new DirTypeTruck();
         $TypeTrucks->title = $request->input('title');
         $TypeTrucks->is_service = ($request->has('is-service')) ? 1 : 0;
         $TypeTrucks->save();
@@ -42,14 +42,14 @@ class DirectoryController extends Controller
 
     public function type_trucks_update($id)
     {
-        $TypeTrucks = new DirTypeTrucks();
+        $TypeTrucks = new DirTypeTruck();
         return view('directory.type-trucks-update', ['TypeTrucks' => $TypeTrucks->find($id)]);
     }
 
     public function type_trucks_update_save($id, Request $request)
     {
         $valid = $request->validate(['title' => 'required', 'is-service' => 'boolean']);
-        $TypeTrucks = DirTypeTrucks::find($id);
+        $TypeTrucks = DirTypeTruck::find($id);
         $TypeTrucks->title = $request->input('title');
         $TypeTrucks->is_service = ($request->has('is-service')) ? 1 : 0;
         $TypeTrucks->save();
@@ -58,7 +58,7 @@ class DirectoryController extends Controller
 
     public function type_trucks_delete($id)
     {
-        $TypeTrucks = DirTypeTrucks::find($id);
+        $TypeTrucks = DirTypeTruck::find($id);
         $TypeTrucks->status = 0;
         $TypeTrucks->save();
         $DistanceBilling = DistanceBilling::find($TypeTrucks->distanceBilling->id);
@@ -69,7 +69,7 @@ class DirectoryController extends Controller
 
     public function type_trucks_recover($id)
     {
-        $TypeTrucks = DirTypeTrucks::find($id);
+        $TypeTrucks = DirTypeTruck::find($id);
         $TypeTrucks->status = 1;
         $TypeTrucks->save();
         $DistanceBilling = DistanceBilling::find($TypeTrucks->distanceBilling->id);
@@ -129,7 +129,7 @@ class DirectoryController extends Controller
 
     public function petrol_stations()
     {
-        $PetStations = new DirPetrolStations();
+        $PetStations = new DirPetrolStation();
         return view('directory.petrol-stations', ['PetStations' => $PetStations->all()]);
     }
 
@@ -141,7 +141,7 @@ class DirectoryController extends Controller
     public function petrol_stations_new_save(Request $request)
     {
         $valid = $request->validate(['title' => 'required|unique:dir_petrol_stations,title']);
-        $PetStations = new DirPetrolStations();
+        $PetStations = new DirPetrolStation();
         $PetStations->title = $request->input('title');
         $PetStations->save();
         return redirect()->route('directory.petrol-stations')->with('success', 'Создана новая запись');
@@ -149,14 +149,14 @@ class DirectoryController extends Controller
 
     public function petrol_stations_update($id)
     {
-        $PetStations = new DirPetrolStations();
+        $PetStations = new DirPetrolStation();
         return view('directory.petrol-stations-update', ['PetStations' => $PetStations->find($id)]);
     }
 
     public function petrol_stations_update_save($id, Request $request)
     {
         $valid = $request->validate(['title' => 'required|unique:dir_petrol_stations,title']);
-        $PetStations = DirPetrolStations::find($id);
+        $PetStations = DirPetrolStation::find($id);
         $PetStations->title = $request->input('title');
         $PetStations->save();
         return redirect()->route('directory.petrol-stations')->with('success', 'Запись была изменена');
@@ -164,7 +164,7 @@ class DirectoryController extends Controller
 
     public function petrol_stations_delete($id)
     {
-        $PetStations = DirPetrolStations::find($id);
+        $PetStations = DirPetrolStation::find($id);
         $PetStations->status = 0;
         $PetStations->save();
         return redirect()->route('directory.petrol-stations')->with('warning', 'Запись была удалена');
@@ -172,7 +172,7 @@ class DirectoryController extends Controller
 
     public function petrol_stations_recover($id)
     {
-        $PetStations = DirPetrolStations::find($id);
+        $PetStations = DirPetrolStation::find($id);
         $PetStations->status = 1;
         $PetStations->save();
         return redirect()->route('directory.petrol-stations')->with('success', 'Запись была восстановлена');
@@ -180,7 +180,7 @@ class DirectoryController extends Controller
 
     public function payers()
     {
-        $Payers = new DirPayers();
+        $Payers = new DirPayer();
         return view('directory.payers', ['Payers' => $Payers->all()]);
     }
 
@@ -192,7 +192,7 @@ class DirectoryController extends Controller
     public function payers_new_save(Request $request)
     {
         $valid = $request->validate(['title' => 'required|unique:dir_payers,title']);
-        $Payers = new DirPayers();
+        $Payers = new DirPayer();
         $Payers->title = $request->input('title');
         $Payers->save();
         return redirect()->route('directory.payers')->with('success', 'Создана новая запись');
@@ -200,14 +200,14 @@ class DirectoryController extends Controller
 
     public function payers_update($id)
     {
-        $Payers = new DirPayers();
+        $Payers = new DirPayer();
         return view('directory.payers-update', ['Payers' => $Payers->find($id)]);
     }
 
     public function payers_update_save($id, Request $request)
     {
         $valid = $request->validate(['title' => 'required|unique:dir_payers,title']);
-        $Payers = DirPayers::find($id);
+        $Payers = DirPayer::find($id);
         $Payers->title = $request->input('title');
         $Payers->save();
         return redirect()->route('directory.payers')->with('success', 'Запись была изменена');
@@ -215,7 +215,7 @@ class DirectoryController extends Controller
 
     public function payers_delete($id)
     {
-        $Payers = DirPayers::find($id);
+        $Payers = DirPayer::find($id);
         $Payers->status = 0;
         $Payers->save();
         return redirect()->route('directory.payers')->with('warning', 'Запись была удалена');
@@ -223,7 +223,7 @@ class DirectoryController extends Controller
 
     public function payers_recover($id)
     {
-        $Payers = DirPayers::find($id);
+        $Payers = DirPayer::find($id);
         $Payers->status = 1;
         $Payers->save();
         return redirect()->route('directory.payers')->with('success', 'Запись была восстановлена');
@@ -231,7 +231,7 @@ class DirectoryController extends Controller
 
     public function services()
     {
-        $Services = new DirServices();
+        $Services = new DirService();
         return view('directory.services', ['Services' => $Services->all()]);
     }
 
@@ -246,7 +246,7 @@ class DirectoryController extends Controller
             'title' => 'required|unique:dir_services,title',
             'price' => 'required|numeric|min:0|not_in:0'
         ]);
-        $Services = new DirServices();
+        $Services = new DirService();
         $Services->title = $request->input('title');
         $Services->price = $request->input('price');
         $Services->save();
@@ -255,7 +255,7 @@ class DirectoryController extends Controller
 
     public function services_update($id)
     {
-        $Services = new DirServices();
+        $Services = new DirService();
         return view('directory.services-update', ['Services' => $Services->find($id)]);
     }
 
@@ -265,7 +265,7 @@ class DirectoryController extends Controller
             'title' => 'required|unique:dir_services,title',
             'price' => 'required|numeric|min:0|not_in:0'
         ]);
-        $Services = DirServices::find($id);
+        $Services = DirService::find($id);
         $Services->title = $request->input('title');
         $Services->price = $request->input('price');
         $Services->save();
@@ -274,7 +274,7 @@ class DirectoryController extends Controller
 
     public function services_delete($id)
     {
-        $Services = DirServices::find($id);
+        $Services = DirService::find($id);
         $Services->status = 0;
         $Services->save();
         return redirect()->route('directory.services')->with('warning', 'Запись была удалена');
@@ -282,7 +282,7 @@ class DirectoryController extends Controller
 
     public function services_recover($id)
     {
-        $Services = DirServices::find($id);
+        $Services = DirService::find($id);
         $Services->status = 1;
         $Services->save();
         return redirect()->route('directory.services')->with('success', 'Запись была восстановлена');

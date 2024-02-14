@@ -5,7 +5,7 @@ namespace App\Http\Controllers\billing;
 use App\Models\RouteBilling;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\DirTypeTrucks;
+use App\Models\DirTypeTruck;
 use App\Http\Filters\RouteBillingFilter;
 
 class RouteBillingController extends Controller

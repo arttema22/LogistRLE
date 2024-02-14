@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\DirPetrolStations;
+use App\Models\DirPetrolStation;
 use Carbon\Carbon;
 use App\Models\Traits\Filterable;
 
@@ -36,7 +36,7 @@ class Refilling extends Model
      */
     public function petrolStation()
     {
-        return $this->belongsTo(DirPetrolStations::class, 'petrol_stations_id', 'id');
+        return $this->belongsTo(DirPetrolStation::class, 'petrol_stations_id', 'id');
     }
 
     /**
