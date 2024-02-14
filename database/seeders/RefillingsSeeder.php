@@ -17,6 +17,6 @@ class RefillingsSeeder extends Seeder
      */
     public function run()
     {
-        Refilling::factory()->count(5)->create();
+        Refilling::factory()->count(15)->create();
     }
 }

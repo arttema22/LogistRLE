@@ -9,6 +9,7 @@ use MoonShine\Menu\MenuItem;
 use MoonShine\Menu\MenuGroup;
 use App\MoonShine\Resources\DirCargoResource;
 use App\MoonShine\Resources\DirPayerResource;
+use App\MoonShine\Resources\RefillingResource;
 use MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\DirServiceResource;
 use App\MoonShine\Resources\DirTypeTruckResource;
@@ -31,6 +32,9 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     protected function menu(): array
     {
         return [
+            MenuItem::make('refillings', new RefillingResource())
+                ->translatable('moonshine::ui.refilling'),
+
             MenuGroup::make('directory', [
                 MenuItem::make('dir_services', new DirServiceResource())->translatable('moonshine::ui.dir.service'),
                 MenuItem::make('dir_petrols', new DirPetrolStationResource())->translatable('moonshine::ui.dir.petrol'),
