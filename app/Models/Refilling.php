@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\DirPetrolStation;
 use Carbon\Carbon;
 use App\Models\Traits\Filterable;
+use MoonShine\Models\MoonshineUser;
 
 class Refilling extends Model
 {
