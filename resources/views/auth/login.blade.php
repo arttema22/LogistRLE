@@ -18,10 +18,11 @@
 </style>
 <form method="post" action="{{ route('user.login') }}">
     @csrf
-    <img class="mb-4" src="img/logo-rle.png" alt="" width="72">
+    <img class="mb-4" src="/img/logo-rle.png" alt="" width="72">
     <h1 class="h3 mb-3 fw-normal">Пожалуйста войдите</h1>
     <div class="form-floating">
-        <input name="email" type="email" class="form-control" id="email" value="{{old('email')}}" placeholder="Ваш email">
+        <input name="email" type="email" class="form-control" id="email" value="{{old('email')}}"
+            placeholder="Ваш email">
         <label for="email">Ваш email</label>
         @error('email')
         <div class="alert alert-danger">{{ $message }}</div>
@@ -34,14 +35,6 @@
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
     </div>
-    <!--
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" value="remember-me"> Запомнить меня
-        </label>
-    </div>
-    -->
     <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
-    <p class="mt-5 mb-3 text-muted"><a href="{{ route('user.registration') }}">Регистрация</a></p>
 </form>
 @endsection

@@ -1,3 +1,4 @@
+@if (Auth::check())
 <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -8,7 +9,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                @if (Auth::check())
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -91,10 +91,10 @@
                 <a class="btn btn-link" href="{{ route('user.edit', Auth::user()->id) }}">{{
                     Auth::user()->profile->FullName }}</a>
                 <a class="btn btn-outline-light" href="{{ route('user.logout') }}" role="button">Выход</a>
-                @else
-                <a class="btn btn-outline-light" href="{{ route('user.login') }}" role="button">Вход</a>
-                @endif
+                {{-- @else
+                <a class="btn btn-outline-light" href="{{ route('user.login') }}" role="button">Вход</a> --}}
             </div>
         </div>
     </nav>
 </header>
+@endif

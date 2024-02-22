@@ -6,8 +6,6 @@
         <p class="lead mb-4">Система "Логистика" для компании РегионЛесЭкспорт.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             <a class="btn btn-primary btn-lg px-4 gap-3" href="{{route('user.login')}}" role="button">Вход</a>
-            <a class="btn btn-outline-secondary btn-lg px-4" href="{{route('user.registration')}}"
-                role="button">Зарегистрироваться</a>
         </div>
     </div>
 </div>
