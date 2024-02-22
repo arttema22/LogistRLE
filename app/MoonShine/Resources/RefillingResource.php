@@ -55,15 +55,15 @@ class RefillingResource extends ModelResource
         return to_page(resource: RefillingResource::class);
     }
 
-    public function query(): Builder
-    {
-        if (Auth()->user()->moonshine_user_role_id === 1) {
-            return parent::query();
-        } else {
-            return parent::query()
-                ->where('driver_id', Auth()->user()->id);
-        }
-    }
+    // public function query(): Builder
+    // {
+    //     if (Auth()->user()->moonshine_user_role_id === 1) {
+    //         return parent::query();
+    //     } else {
+    //         return parent::query()
+    //             ->where('driver_id', Auth()->user()->id);
+    //     }
+    // }
 
     public function indexFields(): array
     {
