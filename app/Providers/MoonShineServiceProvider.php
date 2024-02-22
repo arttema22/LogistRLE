@@ -42,8 +42,8 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('dir_payers', new DirPayerResource())->translatable('moonshine::ui.dir.payer'),
                 MenuItem::make('dir_type_trucks', new DirTypeTruckResource())->translatable('moonshine::ui.dir.truck'),
             ])->translatable('moonshine::ui.dir')
-                ->icon('heroicons.cog')
-                ->canSee(fn () => Auth()->user()->moonshine_user_role_id === 1),
+                ->icon('heroicons.cog'),
+            //->canSee(fn () => Auth()->user()->moonshine_user_role_id === 1),
 
             MenuGroup::make(static fn () => __('moonshine::ui.resource.system'), [
                 MenuItem::make(
