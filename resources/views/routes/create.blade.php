@@ -51,7 +51,8 @@
                                         -->
                             <?php
                                         if ($TypeTruck->is_service == 1) {
-                                            $val = gmp_neg($TypeTruck->id);
+                                            //$val = gmp_neg($TypeTruck->id);
+                                            $val = -1*$TypeTruck->id;
                                         } else {
                                             $val = $TypeTruck->id;
                                         }

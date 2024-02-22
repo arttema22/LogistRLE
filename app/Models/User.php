@@ -81,10 +81,10 @@ class User extends Authenticatable
     /**
      * Получить данные о начислениях водителю.
      */
-    public function driverRevise()
-    {
-        return $this->hasMany(ReviseData::class, 'driver_id', 'id');
-    }
+    // public function driverRevise()
+    // {
+    //     return $this->hasMany(ReviseData::class, 'driver_id', 'id');
+    // }
 
     /**
      * Получить данные о заправках автора заправок.
@@ -112,6 +112,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'phone',
     ];
 
     /**

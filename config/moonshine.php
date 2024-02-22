@@ -1,12 +1,14 @@
 <?php
 
-use MoonShine\Exceptions\MoonShineNotFoundException;
+use App\Models\User;
 use MoonShine\Forms\LoginForm;
-use MoonShine\Http\Middleware\Authenticate;
-use MoonShine\Http\Middleware\SecurityHeadersMiddleware;
-use MoonShine\Models\MoonshineUser;
 use MoonShine\MoonShineLayout;
-use MoonShine\Pages\ProfilePage;
+//use MoonShine\Pages\ProfilePage;
+use MoonShine\Models\MoonshineUser;
+use App\MoonShine\Pages\ProfilePage;
+use MoonShine\Http\Middleware\Authenticate;
+use MoonShine\Exceptions\MoonShineNotFoundException;
+use MoonShine\Http\Middleware\SecurityHeadersMiddleware;
 
 return [
     'dir' => 'app/MoonShine',
@@ -45,6 +47,7 @@ return [
 
     'pages' => [
         'dashboard' => App\MoonShine\Pages\Dashboard::class,
+        // 'profile' => ProfilePage::class
         'profile' => ProfilePage::class
     ],
 
@@ -61,6 +64,7 @@ return [
             'password' => 'password',
             'name' => 'name',
             'avatar' => 'avatar',
+            'phone' => 'phone',
         ],
         'guard' => 'moonshine',
         'guards' => [
@@ -72,7 +76,8 @@ return [
         'providers' => [
             'moonshine' => [
                 'driver' => 'eloquent',
-                'model' => MoonshineUser::class,
+                'model' => User::class,
+                //'model' => MoonshineUser::class,
             ],
         ],
         'pipelines' => [],

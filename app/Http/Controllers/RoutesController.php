@@ -127,7 +127,7 @@ class RoutesController extends Controller
          */
         $val_type_truck = $request->input('type-truck');
         if ($val_type_truck < 0) {
-            $val_type_truck = gmp_strval(gmp_neg($val_type_truck));
+            $val_type_truck = strval(-1 * $val_type_truck);
         }
         $Route->dir_type_trucks_id = $val_type_truck;
         $Route->cargo_id = $request->input('cargo');
