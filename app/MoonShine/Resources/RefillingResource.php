@@ -13,13 +13,14 @@ use MoonShine\Fields\Hidden;
 use MoonShine\Fields\Number;
 use MoonShine\Attributes\Icon;
 use MoonShine\Fields\Textarea;
+use MoonShine\Decorations\Flex;
+use MoonShine\QueryTags\QueryTag;
 use Illuminate\Support\Facades\Auth;
 use MoonShine\Resources\ModelResource;
 use Illuminate\Database\Eloquent\Model;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Resources\MoonShineUserResource;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use MoonShine\Decorations\Flex;
 
 #[Icon('heroicons.outline.battery-50')]
 
@@ -155,6 +156,24 @@ class RefillingResource extends ModelResource
     public function rules(Model $item): array
     {
         return [];
+    }
+
+    public function queryTags(): array
+    {
+        return [
+            QueryTag::make(
+                __('active'), // Tag Title
+                fn (Builder $query) => $query->where('status', 1) // Query builder
+            )->default(),
+            QueryTag::make(
+                __('old'), // Tag Title
+                fn (Builder $query) => $query->where('status', 0) // Query builder
+            ),
+            QueryTag::make(
+                __('deleted'), // Tag Title
+                fn (Builder $query) => $query->onlyTrashed() // Query builder
+            ),
+        ];
     }
 
     protected function beforeCreating(Model $item): Model

@@ -7,8 +7,10 @@ namespace App\Providers;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuItem;
 use MoonShine\Menu\MenuGroup;
+use App\MoonShine\Resources\UserResource;
 use App\MoonShine\Resources\DirCargoResource;
 use App\MoonShine\Resources\DirPayerResource;
+use App\MoonShine\Resources\UserRoleResource;
 use App\MoonShine\Resources\RefillingResource;
 use MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\DirServiceResource;
@@ -45,6 +47,11 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 ->icon('heroicons.cog'),
             //->canSee(fn () => Auth()->user()->moonshine_user_role_id === 1),
 
+            MenuGroup::make('users', [
+                MenuItem::make('users', new UserResource())->translatable('moonshine::ui.user.user'),
+                MenuItem::make('roles', new UserRoleResource())->translatable('moonshine::ui.user.user'),
+            ])->translatable('moonshine::ui.user'),
+
             MenuGroup::make(static fn () => __('moonshine::ui.resource.system'), [
                 MenuItem::make(
                     static fn () => __('moonshine::ui.resource.admins_title'),
@@ -56,8 +63,6 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 ),
             ]),
 
-            MenuItem::make('Documentation', 'https://moonshine-laravel.com')
-                ->badge(fn () => 'Check'),
         ];
     }
 

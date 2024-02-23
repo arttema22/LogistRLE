@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\DirPetrolStation;
 use Carbon\Carbon;
 use App\Models\Traits\Filterable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use MoonShine\Models\MoonshineUser;
 
 class Refilling extends Model
@@ -15,6 +16,7 @@ class Refilling extends Model
 
     use HasFactory;
     use Filterable;
+    use SoftDeletes;
 
     /**
      * Получить данные о создателе записи о заправке.

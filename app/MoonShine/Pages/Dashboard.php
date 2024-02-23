@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Pages;
 
 use App\Models\Refilling;
+use App\Models\User;
 use MoonShine\Decorations\Grid;
 use MoonShine\Metrics\LineChartMetric;
 use MoonShine\Metrics\ValueMetric;
@@ -37,6 +38,10 @@ class Dashboard extends Page
                     ->progress(Refilling::count())
                     ->columnSpan(2),
 
+                ValueMetric::make(__('Users'))
+                    ->value(User::count())
+                    ->columnSpan(2),
+
                 LineChartMetric::make(__('Refilling'))
                     ->line([
                         'Refilling' => Refilling::query()
@@ -52,7 +57,8 @@ class Dashboard extends Page
                     //         ->pluck('avg', 'date')
                     //         ->toArray()
                     // ], '#EC4176')
-                    ->columnSpan(8)
+                    ->columnSpan(12),
+
             ]),
         ];
     }
