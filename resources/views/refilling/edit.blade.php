@@ -10,7 +10,7 @@
         @csrf
         <div class="form-floating mb-3">
             <input type="date" name="date-car-refueling" id="date-car-refueling" placeholder="Дата заправки"
-                class="form-control form-control-lg" value="{{$Refilling->dateEdit}}">
+                class="form-control form-control-lg" value="{{$Refilling->date}}">
             <label for="date-car-refueling">Дата заправки</label>
         </div>
         <!-- Список пользователей -->
@@ -39,7 +39,7 @@
         <!-- Список АЗС конец -->
 
         <div class="form-floating mb-3">
-            <input type="number" min="10" max="500" name="num-liters-car-refueling" id="num-liters-car-refueling"
+            <input type="number" step="any" name="num-liters-car-refueling" id="num-liters-car-refueling"
                 placeholder="Количество литров" class="form-control form-control-lg"
                 value="{{$Refilling->num_liters_car_refueling}}">
             <label for="num-liters-car-refueling">Количество литров</label>

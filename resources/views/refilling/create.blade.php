@@ -47,8 +47,8 @@
         <!-- Список АЗС конец -->
 
         <div class="form-floating mb-3">
-            <input type="number" min="10" max="500" step="any" name="num-liters-car-refueling"
-                id="num-liters-car-refueling" placeholder="Количество литров" class="form-control form-control-lg"
+            <input type="number" step="any" name="num-liters-car-refueling" id="num-liters-car-refueling"
+                placeholder="Количество литров" class="form-control form-control-lg"
                 value="{{old('num-liters-car-refueling')}}">
             <label for="num-liters-car-refueling">Количество литров</label>
         </div>

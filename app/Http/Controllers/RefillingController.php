@@ -121,6 +121,8 @@ class RefillingController extends Controller
     // изменение заправки
     public function update($id, Request $request)
     {
+
+
         if (Gate::allows('is-driver')) { //текущий пользователь имеет роль водителя
             $valid = $request->validate([
                 'petrol-stations-id' => 'required|numeric|min:0|not_in:0',
@@ -137,6 +139,7 @@ class RefillingController extends Controller
                 'price-car-refueling' => 'required',
             ]);
         }
+
         $Refilling = Refilling::find($id);
         // заполнение модели данными из формы
         $Refilling->owner_id = Auth::user()->id;
