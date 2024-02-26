@@ -49,7 +49,14 @@ class Refilling extends Model
         return Carbon::createFromTimestamp(strtotime($value))
             ->format(config('app.date_format'));
     }
+
     public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::createFromTimestamp(strtotime($value))
+            ->format(config('app.date_format'));
+    }
+
+    public function getDateAttribute($value)
     {
         return Carbon::createFromTimestamp(strtotime($value))
             ->format(config('app.date_format'));

@@ -14,7 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script> {{-- НЕ ПЕРЕМЕЩАТЬ ВНИЗ
     --}}
 
-
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}">

@@ -16,14 +16,12 @@
         <p class="card-text">{{$Refilling->date}} - {{$Refilling->cost_car_refueling}} руб.
             {{$Refilling->petrolStation->title}} 1 литр - {{$Refilling->price_car_refueling}}
             руб. Заправлено {{$Refilling->num_liters_car_refueling}} л.
-            <a href="#" tabindex="0" class="btn btn-outline-info btn-sm" role="button" data-toggle="popover"
-                data-bs-trigger="focus" data-bs-title="Информация" data-bs-content="Создана: {{$Refilling->created_at}}
-                                        Изменена: {{$Refilling->updated_at}}
-                                        Владелец: {{$Refilling->owner->profile->FullName}}"><i class="bi bi-info"></i>
-            </a>
         </p>
     </div>
     <div class="card-footer text-muted text-end">
+        Создана: {{$Refilling->created_at}}
+        Изменена: {{$Refilling->updated_at}}
+        Владелец: {{$Refilling->owner->profile->FullName}}
         <a href="{{ route('refilling.edit', $Refilling->id) }}" class="btn btn-outline-primary btn-sm"><i
                 class="bi bi-pencil"></i></a>
         <!-- Кнопка удаления записи -->
