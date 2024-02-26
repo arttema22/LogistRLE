@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
-@section('title')Заправки@endsection
+@section('title'){{__('refilling.refillings')}}Заправки@endsection
 
 @section('content')
 @include('inc.filter-refilling')
+
 @if(count($Refillings))
 @foreach ($Refillings as $Refilling)
 <div class="card mb-3">
@@ -19,9 +20,9 @@
         </p>
     </div>
     <div class="card-footer text-muted text-end">
-        Создана: {{$Refilling->created_at}}
-        Изменена: {{$Refilling->updated_at}}
-        Владелец: {{$Refilling->owner->profile->FullName}}
+        {{__('ui.created')}}: {{$Refilling->created_at}}
+        {{__('ui.updated')}}: {{$Refilling->updated_at}}
+        {{__('ui.owner')}}: {{$Refilling->owner->profile->FullName}}
         <a href="{{ route('refilling.edit', $Refilling->id) }}" class="btn btn-outline-primary btn-sm"><i
                 class="bi bi-pencil"></i></a>
         <!-- Кнопка удаления записи -->

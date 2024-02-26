@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
         @if(Request::path() === 'refilling')
-        <h1>Заправки</h1>
+        <h1>{{__('refilling.refillings')}}</h1>
         @else
         <h1>Архив заправок</h1>
         @endif

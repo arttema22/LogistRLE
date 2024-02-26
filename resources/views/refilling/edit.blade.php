@@ -1,22 +1,28 @@
 @extends('layouts.app')
 
-@section('title')Изменение заправки@endsection
+@section('title')
+{{__('refilling.edit')}}
+@endsection
 
 @section('content')
 <div class="container px-4 py-5">
-    <h1>Изменение заправки</h1>
+    <h1>
+        {{__('refilling.edit'). " - " .$Refilling->date}}
+    </h1>
     @include('inc.error-msg')
     <form method="post" action="{{route('refilling.update', $Refilling->id)}}">
         @csrf
         <div class="form-floating mb-3">
-            <input type="date" name="date-car-refueling" id="date-car-refueling" placeholder="Дата заправки"
-                class="form-control form-control-lg" value="{{$Refilling->date}}">
-            <label for="date-car-refueling">Дата заправки</label>
+            <input type="date" name="date-car-refueling" id="date-car-refueling" class="form-control form-control-lg"
+                value="{{$Refilling->date}}">
+            <label for="date-car-refueling">
+                {{__('refilling.date')}}
+            </label>
         </div>
         <!-- Список пользователей -->
         @cannot('is-driver')
         <select name="driver-id" id="driver-id" class="form-select form-select-lg mb-3" aria-label="Водитель">
-            <option value="0">Водитель</option>
+            <option value="0">{{__('refilling.driver')}}</option>
             @foreach($Users as $User)
             <option value="{{$User->id}}" @if ($Refilling->driver->id == $User->id)
                 selected
@@ -40,24 +46,23 @@
 
         <div class="form-floating mb-3">
             <input type="number" step="any" name="num-liters-car-refueling" id="num-liters-car-refueling"
-                placeholder="Количество литров" class="form-control form-control-lg"
-                value="{{$Refilling->num_liters_car_refueling}}">
-            <label for="num-liters-car-refueling">Количество литров</label>
+                class="form-control form-control-lg" value="{{$Refilling->num_liters_car_refueling}}">
+            <label for="num-liters-car-refueling">{{__('refilling.quantity')}}</label>
         </div>
         <div class="form-floating mb-3">
             <input type="number" step="any" name="price-car-refueling" id="price-car-refueling"
-                placeholder="Цена за 1 литр" class="form-control form-control-lg"
-                value="{{$Refilling->price_car_refueling}}">
-            <label for="price-car-refueling">Цена за 1 литр</label>
+                class="form-control form-control-lg" value="{{$Refilling->price_car_refueling}}">
+            <label for="price-car-refueling">{{__('refilling.fuel_price')}}</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" name="cost-car-refueling" id="cost-car-refueling" placeholder="Стоимость заправки"
-                class="form-control form-control-lg" value="{{$Refilling->cost_car_refueling}}" disabled>
-            <label for="cost-car-refueling">Стоимость заправки</label>
+            <input type="text" name="cost-car-refueling" id="cost-car-refueling" class="form-control form-control-lg"
+                value="{{$Refilling->cost_car_refueling}}" disabled>
+            <label for="cost-car-refueling">{{__('refilling.cost')}}</label>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
-            <a class="btn btn-outline-secondary btn-lg" href="{{route('refilling.list')}}" role="button">Отмена</a>
+            <button type="submit" class="btn btn-primary btn-lg">{{__('ui.save')}}</button>
+            <a class="btn btn-outline-secondary btn-lg" href="{{route('refilling.list')}}"
+                role="button">{{__('ui.cancel')}}</a>
         </div>
     </form>
 </div>
