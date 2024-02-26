@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Models\Routes;
-use App\Models\DirService;
+use App\Models\DirServices;
 use App\Models\Traits\Filterable;
 
 class Services extends Model
@@ -28,7 +28,7 @@ class Services extends Model
      */
     public function service()
     {
-        return $this->belongsTo(DirService::class, 'service_id', 'id');
+        return $this->belongsTo(DirServices::class, 'service_id', 'id');
     }
 
     /**

@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\ServiceProvider;
-
 return [
     /*
       |--------------------------------------------------------------------------
@@ -62,7 +59,7 @@ return [
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url' => env('APP_URL', 'https://127.0.0.1:8000'),
+    'url' => env('APP_URL', 'https://logist.rlexport.ru/'),
     'asset_url' => env('ASSET_URL', null),
     /*
       |--------------------------------------------------------------------------
@@ -108,7 +105,7 @@ return [
       | localized telephone numbers, street address information and more.
       |
      */
-    'faker_locale' => 'ru_RU',
+    'faker_locale' => 'en_US',
     /*
       |--------------------------------------------------------------------------
       | Encryption Key
@@ -170,7 +167,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\MoonShineServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DirTypeTruck;
+use App\Models\DirTypeTrucks;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DistanceBilling extends Model
@@ -20,6 +20,6 @@ class DistanceBilling extends Model
      */
     public function typeTruck()
     {
-        return $this->belongsTo(DirTypeTruck::class, 'type_truck_id', 'id');
+        return $this->belongsTo(DirTypeTrucks::class, 'type_truck_id', 'id');
     }
 }

@@ -6,10 +6,10 @@ use App\Models\Routes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\DirTypeTruck;
+use App\Models\DirTypeTrucks;
 use App\Models\DirCargo;
-use App\Models\DirPayer;
-use App\Models\DirService;
+use App\Models\DirPayers;
+use App\Models\DirServices;
 use App\Models\Services;
 use App\Models\RouteBilling;
 use App\Http\Filters\RoutesFilter;
@@ -25,9 +25,9 @@ class RoutesController extends Controller
     {
         $data = $request->validate(['driver-id' => 'numeric', 'type-truck-id' => 'numeric']);
         $filter = app()->make(RoutesFilter::class, ['queryParams' => array_filter($data)]);
-        $Services = DirService::all();
-        $Payers = DirPayer::all();
-        $TypeTrucks = DirTypeTruck::all();
+        $Services = DirServices::all();
+        $Payers = DirPayers::all();
+        $TypeTrucks = DirTypeTrucks::all();
         $Cargo = DirCargo::all();
         if (Gate::allows('is-driver')) {
             $Routes = Routes::where('status', 1)->where('driver_id', Auth::user()->id)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
@@ -48,7 +48,7 @@ class RoutesController extends Controller
             return view('routes.archive', ['Routes' => $Routes]);
         } else {
             $Users = User::where('role_id', 2)->get();
-            $TypeTrucks = DirTypeTruck::all();
+            $TypeTrucks = DirTypeTrucks::all();
             $Routes = Routes::where('status', 0)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             return view('routes.archive', ['Routes' => $Routes, 'Users' => $Users, 'TypeTrucks' => $TypeTrucks]);
         }
@@ -56,11 +56,11 @@ class RoutesController extends Controller
 
     public function create()
     {
-        $TypeTrucks = DirTypeTruck::all();
+        $TypeTrucks = DirTypeTrucks::all();
         $Cargo = DirCargo::all();
-        $Payers = DirPayer::all();
+        $Payers = DirPayers::all();
         $RoutesBilling = RouteBilling::all();
-        $Services = DirService::all();
+        $Services = DirServices::all();
         if (Gate::allows('is-driver')) { //текущий пользователь имеет роль водителя
             return view('routes.create', ['TypeTrucks' => $TypeTrucks, 'Cargo' => $Cargo, 'Payers' => $Payers, 'RoutesBilling' => $RoutesBilling, 'Services' => $Services]);
         } else {
@@ -87,7 +87,7 @@ class RoutesController extends Controller
         // проверка на нового плательщика
         if ($request->input('collapse-new-payer')) {
             $valid = $request->validate(['new-payer' => 'required|unique:dir_payers,title']);
-            $Payer = new DirPayer();
+            $Payer = new DirPayers();
             $Payer->title = $request->input('new-payer');
             $Payer->save();
             $payer_id = $Payer->id;
@@ -127,12 +127,12 @@ class RoutesController extends Controller
          */
         $val_type_truck = $request->input('type-truck');
         if ($val_type_truck < 0) {
-            $val_type_truck = strval(-1 * $val_type_truck);
+            $val_type_truck = gmp_strval(gmp_neg($val_type_truck));
         }
         $Route->dir_type_trucks_id = $val_type_truck;
         $Route->cargo_id = $request->input('cargo');
 
-        $Payer_data = DirPayer::find($payer_id);
+        $Payer_data = DirPayers::find($payer_id);
         $Route->payer_id = $Payer_data->id;
 
         $Route_bill = RouteBilling::find($route_id);
@@ -223,10 +223,10 @@ class RoutesController extends Controller
     {
         $Route = Routes::find($id);
         $Users = User::where('role_id', 2)->get();
-        $TypeTrucks = DirTypeTruck::all();
+        $TypeTrucks = DirTypeTrucks::all();
         $Cargo = DirCargo::all();
-        $Payers = DirPayer::all();
-        $Services = DirService::all();
+        $Payers = DirPayers::all();
+        $Services = DirServices::all();
         return view('routes.edit', ['Users' => $Users, 'TypeTrucks' => $TypeTrucks, 'Cargo' => $Cargo, 'Payers' => $Payers, 'Services' => $Services, 'Route' => $Route]);
     }
 

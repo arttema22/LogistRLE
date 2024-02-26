@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\DirTypeTruck;
+use App\Models\DirTypeTrucks;
 use App\Models\DirCargo;
-use App\Models\DirPayer;
+use App\Models\DirPayers;
 use App\Models\DirAddress;
 use App\Models\Services;
 use App\Models\Traits\Filterable;
@@ -48,7 +48,7 @@ class Routes extends Model
      */
     public function typeTruck()
     {
-        return $this->belongsTo(DirTypeTruck::class, 'dir_type_trucks_id', 'id');
+        return $this->belongsTo(DirTypeTrucks::class, 'dir_type_trucks_id', 'id');
     }
 
     /**
@@ -64,7 +64,7 @@ class Routes extends Model
      */
     public function payer()
     {
-        return $this->belongsTo(DirPayer::class, 'payer_id', 'id');
+        return $this->belongsTo(DirPayers::class, 'payer_id', 'id');
     }
 
     /**

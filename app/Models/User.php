@@ -2,37 +2,25 @@
 
 namespace App\Models;
 
-use App\Models\Role;
-use App\Models\Revise;
-use App\Models\Routes;
-use App\Models\Salary;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Profile;
 use App\Models\Profits;
 use App\Models\Refilling;
+use App\Models\Revise;
 use App\Models\ReviseData;
+use App\Models\Routes;
+use App\Models\Role;
+use App\Models\Salary;
 use App\Models\Traits\Filterable;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Hash;
-use MoonShine\Models\MoonshineUserRole;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Filterable;
-
-    protected $fillable = [
-        'name',
-        'email',
-        'moonshine_user_role_id',
-        'password',
-        'role_id',
-        'avatar',
-        'phone',
-    ];
 
     /**
      * Получить роль пользователя.
@@ -40,11 +28,6 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
-    }
-
-    public function moonshineUserRole(): BelongsTo
-    {
-        return $this->belongsTo(MoonshineUserRole::class);
     }
 
     /**
@@ -98,10 +81,10 @@ class User extends Authenticatable
     /**
      * Получить данные о начислениях водителю.
      */
-    // public function driverRevise()
-    // {
-    //     return $this->hasMany(ReviseData::class, 'driver_id', 'id');
-    // }
+    public function driverRevise()
+    {
+        return $this->hasMany(ReviseData::class, 'driver_id', 'id');
+    }
 
     /**
      * Получить данные о заправках автора заправок.
@@ -118,6 +101,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Routes::class, 'owner_id', 'id');
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role_id',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.

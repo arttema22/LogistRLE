@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DirTypeTruck;
+use App\Models\DirTypeTrucks;
 use App\Models\Traits\Filterable;
 
 class RouteBilling extends Model
@@ -17,6 +17,6 @@ class RouteBilling extends Model
      */
     public function typeTruck()
     {
-        return $this->belongsTo(DirTypeTruck::class, 'type_truck_id', 'id');
+        return $this->belongsTo(DirTypeTrucks::class, 'type_truck_id', 'id');
     }
 }

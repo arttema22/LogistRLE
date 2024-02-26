@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Refilling;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\DirPetrolStation;
+use App\Models\DirPetrolStations;
 //use App\Http\Controllers\TelegramController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Export\RefillingExport;
@@ -29,7 +29,7 @@ class RefillingController extends Controller
         } else {
             $Refillings = Refilling::where('status', 1)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
-            $PerolSt = DirPetrolStation::all();
+            $PerolSt = DirPetrolStations::all();
             return view('refilling.refilling', ['Refillings' => $Refillings, 'Users' => $Users, 'PerolSt' => $PerolSt]);
         }
     }
@@ -44,7 +44,7 @@ class RefillingController extends Controller
         } else {
             $Refillings = Refilling::where('status', 0)->filter($filter)->orderByDesc('date')->simplePaginate(config('app.pagination_count'));
             $Users = User::where('role_id', 2)->get();
-            $PerolSt = DirPetrolStation::all();
+            $PerolSt = DirPetrolStations::all();
             return view('refilling.archive', ['Refillings' => $Refillings, 'Users' => $Users, 'PerolSt' => $PerolSt]);
         }
     }
@@ -53,11 +53,11 @@ class RefillingController extends Controller
     public function create()
     {
         if (Gate::allows('is-driver')) { //текущий пользователь имеет роль водителя
-            $PetrolStations = DirPetrolStation::all();
+            $PetrolStations = DirPetrolStations::all();
             return view('refilling.create', ['PetrolStations' => $PetrolStations]);
         } else {
             $Users = User::where('role_id', 2)->get();
-            $PetrolStations = DirPetrolStation::all();
+            $PetrolStations = DirPetrolStations::all();
             return view('refilling.create', ['Users' => $Users, 'PetrolStations' => $PetrolStations]);
         }
     }
@@ -109,7 +109,7 @@ class RefillingController extends Controller
     public function edit($id)
     {
         $Refilling = Refilling::find($id);
-        $PetrolStations = DirPetrolStation::all();
+        $PetrolStations = DirPetrolStations::all();
         if (Gate::allows('is-driver')) { //текущий пользователь имеет роль водителя
             return view('refilling.edit', ['Refilling' => $Refilling, 'PetrolStations' => $PetrolStations]);
         } else {

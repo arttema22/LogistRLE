@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\DirPetrolStation;
+use App\Models\DirPetrolStations;
 use Carbon\Carbon;
 use App\Models\Traits\Filterable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use MoonShine\Models\MoonshineUser;
 
 class Refilling extends Model
 {
 
     use HasFactory;
     use Filterable;
-    use SoftDeletes;
 
     /**
      * Получить данные о создателе записи о заправке.
@@ -39,7 +36,7 @@ class Refilling extends Model
      */
     public function petrolStation()
     {
-        return $this->belongsTo(DirPetrolStation::class, 'petrol_stations_id', 'id');
+        return $this->belongsTo(DirPetrolStations::class, 'petrol_stations_id', 'id');
     }
 
     /**
