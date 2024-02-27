@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDirCarModelsTable extends Migration
+class CreateDirModelTrucksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateDirCarModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('dir_car_models', function (Blueprint $table) {
+        Schema::create('dir_model_trucks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('title')->unique();
@@ -30,6 +30,6 @@ class CreateDirCarModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dir_car_models');
+        Schema::dropIfExists('dir_model_trucks');
     }
 }

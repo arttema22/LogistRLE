@@ -24,7 +24,7 @@
                 </td>
                 <td>
                     {{ $Contract['number'] }}<br>
-                    <small class="text-muted"><em>от {{$Contract['date']}}</em></small>
+                    <small class="text-muted"><em>от {{ $Contract['date'] }}</em></small>
                 </td>
                 <td>
                     <h5>{{$Contract['balance']}}</h5>
