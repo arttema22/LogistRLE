@@ -18,6 +18,8 @@ class FuelSupplier extends Model
         'name',
         'contract_id',
         'number',
+        'inn',
+        'kpp',
         'date',
         'balance',
     ];

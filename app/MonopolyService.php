@@ -20,6 +20,8 @@ class MonopolyService
                         'name' => 'Монополия',
                         'contract_id' => $contract['id'],
                         'number' => $contract['number'],
+                        'inn' => $contract['inn'],
+                        'kpp' => $contract['kpp'],
                         'date' => $contract['date'],
                         'balance' => $contract['balance'],
                     ]);

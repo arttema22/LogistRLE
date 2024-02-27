@@ -11,17 +11,23 @@
             <tr>
                 <th>Организация</th>
                 <th>Договор</th>
-                <th>Дата</th>
                 <th>Баланс</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($FuelSuppliers as $FuelSupplier)
             <tr>
-                <td>{{ $FuelSupplier->name }}</td>
-                <td>{{ $FuelSupplier->number }}</td>
-                <td>{{$FuelSupplier->date}}</td>
-                <td>{{$FuelSupplier->balance}}</td>
+                <td>
+                    {{ $FuelSupplier->name }}<br>
+                    <small class="text-muted"><em>ИНН:{{ $FuelSupplier->inn }}/КПП:{{ $FuelSupplier->kpp }}</em></small>
+                </td>
+                <td>
+                    {{ $FuelSupplier->number }}<br>
+                    <small class="text-muted"><em>от {{$FuelSupplier->date}}</em></small>
+                </td>
+                <td>
+                    <h5>{{$FuelSupplier->balance}}</h5>
+                </td>
             </tr>
             @endforeach
         </tbody>
