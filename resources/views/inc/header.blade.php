@@ -32,6 +32,8 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="{{ route('refilling.archive') }}">Архив</a></li>
+                            <li><a class="dropdown-item" href="{{ route('refilling.fuelsupplier') }}">Поставщики</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

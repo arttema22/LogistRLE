@@ -30,4 +30,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'monopoly' => [
+        'url' => env('MONOPOLY_URL', 'https://monopoly.online/fuel.api/'),
+        'user_name' => env('MONOPOLY_USER_NAME'),
+        'password' => env('MONOPOLY_PASSWORD'),
+        'access_token' => env('MONOPOLY_ACCESS_TOKEN'),
+        'token_type' => env('MONOPOLY_TOKEN_TYPE', 'bearer'),
+        'contract_id' => env('MONOPOLY_CONTRACT_ID'),
+    ],
+
 ];

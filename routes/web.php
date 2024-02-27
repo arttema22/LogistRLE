@@ -19,6 +19,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Refilling\FuelSupplierController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('home');
 
@@ -105,6 +106,7 @@ Route::name('refilling.')
         Route::post('/update/{id}', [RefillingController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [RefillingController::class, 'destroy'])->name('destroy');
         Route::get('/statistics', [RefillingController::class, 'statistics'])->name('statistics');
+        Route::get('/fuelsupplier', [FuelSupplierController::class, 'index'])->name('fuelsupplier');
     });
 
 // Группа Список авто
