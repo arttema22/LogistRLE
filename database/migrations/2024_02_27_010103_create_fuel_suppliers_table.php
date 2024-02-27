@@ -18,7 +18,7 @@ class CreateFuelSuppliersTable extends Migration
             $table->string('name');
             $table->string('contract_id');
             $table->string('number');
-            $table->dateTimeTz('date');
+            $table->date('date');
             $table->float('balance', 8, 2);
         });
     }
