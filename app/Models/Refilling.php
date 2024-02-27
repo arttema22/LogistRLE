@@ -56,11 +56,12 @@ class Refilling extends Model
             ->format(config('app.date_format'));
     }
 
-    public function getDateAttribute($value)
-    {
-        return Carbon::createFromTimestamp(strtotime($value))
-            ->format(config('app.date_format'));
-    }
+    // НИЗЯЯЯ включать В отчеты не попадать будет
+    // public function getDateAttribute($value)
+    // {
+    //     return Carbon::createFromTimestamp(strtotime($value))
+    //         ->format(config('app.date_format'));
+    // }
 
     public function getDeletedAtAttribute($value)
     {

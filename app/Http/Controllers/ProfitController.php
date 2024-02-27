@@ -37,6 +37,9 @@ class ProfitController extends Controller
             $Users = User::where('role_id', 2)->filter($filter)->get();
             $Salary = Salary::where('status', 1)->orderByDesc('date')->get();
             $User_list = User::where('role_id', 2)->get();
+
+            // dd($Users[13]->driverRefilling);
+
             return view('profit.profit', [
                 'Users' => $Users, 'User_list' => $User_list,
                 'isService' => $isService, 'dateProfit' => $dateProfit, 'Salary' => $Salary
