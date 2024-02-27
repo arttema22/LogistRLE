@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\MonopolyService;
 use Illuminate\Console\Command;
 
-class MonopolyParse extends Command
+class MonopolyPayment extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'monopoly:contract';
+    protected $signature = 'monopoly:payment';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command to start get data for contracts';
+    protected $description = 'Command to start get data payments';
 
     /**
      * Execute the console command.
@@ -28,6 +28,6 @@ class MonopolyParse extends Command
      */
     public function handle()
     {
-        (new MonopolyService)->callContracts();
+        (new MonopolyService)->callPayment();
     }
 }

@@ -31,7 +31,7 @@ return [
     ],
 
     'monopoly' => [
-        'url' => env('MONOPOLY_URL', 'https://monopoly.online/fuel.api/'),
+        'url' => env('MONOPOLY_URL', 'https://monopoly.online/fuel.api'),
         'user_name' => env('MONOPOLY_USER_NAME'),
         'password' => env('MONOPOLY_PASSWORD'),
         'access_token' => env('MONOPOLY_ACCESS_TOKEN'),
