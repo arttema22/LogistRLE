@@ -160,11 +160,11 @@ class RoutesController extends Controller
             } elseif ($Route->route_length <= 30) {
                 $Route->price_route = $Distance->up_30_km; // стоимость всего маршрута
             } else {
-                if ($Route->dir_type_trucks_id == 2) {
-                    $Route->price_route = $Distance->up_60_km * $Route->route_length; //стоимость за 1 км * расстояние
-                } else {
+              //  if ($Route->dir_type_trucks_id == 2) {
+              //      $Route->price_route = $Distance->up_60_km * $Route->route_length; //стоимость за 1 км * расстояние
+              //  } else {
                     $Route->price_route = $Distance->up_60_km; // стоимость всего маршрута
-                }
+              //  }
             }
         }
 
